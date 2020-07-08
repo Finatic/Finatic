@@ -1,4 +1,4 @@
-"""portfunio URL Configuration
+"""web URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -14,14 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 
-from home.views import home_view, team_view, about_view
-from result.views import result_view
 urlpatterns = [
-    path('', home_view, name='home'),
-    path('result/', result_view, name='result'),
-    path('team/', team_view, name='team'),
-    path('about/', about_view, name='about'),
     path('admin/', admin.site.urls),
+    path('',include("home.urls")),
+    path('result/',include("result.urls")),
 ]

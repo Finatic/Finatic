@@ -8,5 +8,3 @@ from .models import Portfolio
 admin.site.register(Home)
 admin.site.register(Asset)
 admin.site.register(Portfolio)
-
-

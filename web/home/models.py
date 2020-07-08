@@ -23,5 +23,3 @@ class Asset(models.Model):
 
 class Portfolio(models.Model):
 	asset1 = models.ForeignKey(Asset, on_delete = models.CASCADE)
-
-

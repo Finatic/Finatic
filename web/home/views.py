@@ -13,3 +13,8 @@ def team_view(request, *args, **kwargs):
 def about_view(request, *args, **kwargs):
 	print(request.user)
 	return render(request, "about.html", {})
+
+	
+def base(request):
+	return render(request,'base.html')
+

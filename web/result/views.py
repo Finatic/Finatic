@@ -6,4 +6,3 @@ def result_view(request, *args, **kwargs):
 		'a':'Heloo'
 	}
 	return render(request, "result.html", context)
-
