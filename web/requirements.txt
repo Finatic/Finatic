@@ -1,11 +1,5 @@
-<<<<<<< HEAD
+
 asgiref==3.2.10
 Django==3.0.8
 pytz==2020.1
 sqlparse==0.3.1
-=======
-asgiref==3.2.10
-Django==3.0.8
-pytz==2020.1
-sqlparse==0.3.1
->>>>>>> 545ad69c3711870465139423f7d0de220940e7df
