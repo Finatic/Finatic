@@ -9,9 +9,8 @@ def team_view(request, *args, **kwargs):
 	context = {}
 	return render(request, "team.html", context)
 
-def about_view(request, *args, **kwargs):
-	print(request.user)
-	return render(request, "about.html", {})
+def about_view(request):
+	return render(request, "about.html")
 
 	
 def base(request):

@@ -1,0 +1,62 @@
+{% block content %}
+<style>
+    a {
+        color: black;
+    }
+</style>
+<!-- Footer -->
+<footer class="page-footer font-small bg-info pt-4">
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left">
+        <!-- Grid row -->
+        <div class="row">
+            <!-- Grid column -->
+            <div class="col-md-6 mt-md-0 mt-3">
+                <h5 class="text-uppercase text-center">
+                    <a href="{%url 'about'%}">Finatic</a>
+                </h5>
+                <p>
+                    Finatic is an online software platform for portfolio and investment analytics. Our product agnostic
+                    platform and
+                    quantitative tools help you make informed decisions when comparing and analyzing investment products
+                    and portfolios.
+                </p>
+            </div>
+            <hr class="clearfix w-100 d-md-none pb-3" />
+
+            <div class="col-md-2 mb-md-0 mb-2 ml-auto">
+                <!-- Links -->
+                <h5>Recipes</h5>
+
+                <ul class="list-unstyled" style="text-decoration: none;">
+                    <li class="">
+                        <a href="#">Breakfast</a>
+                    </li>
+                    <li>
+                        <a href="#">Lunch</a>
+                    </li>
+                    <li>
+                        <a href="#">Quickbite</a>
+                    </li>
+                    <li>
+                        <a href="#">Dinner</a>
+                    </li>
+                    <li>
+                        <a href="#">Dessert</a>
+                    </li>
+                    <li>
+                        <a href="#">Beverage</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr class="clearfix w-100 d-md-none pb-3" />
+
+    <div class="footer-copyright text-center py-3">
+        © 2020 Copyright Email:
+        <a href="mailto:foodblogteam@gmail.com">foodblogteam@gmail.com</a>
+        <p><a href="#top">back to top</a></p>
+    </div>
+</footer>
+{% endblock %}
