@@ -1,679 +1,282 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+{%extends 'base.html'%}
+{%block title %}
+Home
+{%endblock%}
+{%block content %}
+{%load static%}
+<style>
+    * {
 
-<head>
+        box-sizing: border-box;
+    }
 
-    <title>Portfolio Analyzer</title>
+    .content-box {
+        border-style: solid;
+        border-width: 1px 1px 3px;
+        border-color: #ccc;
+        border-bottom-color: #5bc0de;
+        padding: 0 7% 10px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        margin-top: 50px;
+        color: #444;
+        background: #fff;
+    }
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
 
+    h2 {
+        padding-top: 3px;
+        text-align: center;
+    }
 
-</head>
+    .icon-position {
+        margin: -70px auto 35px;
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 80px;
+        height: 80px;
+    }
 
-<body>
+    .fa-stack {
+        position: relative;
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        line-height: 2em;
+        vertical-align: middle;
+    }
 
-    <div class='container-fluid'>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid" id="navbar">
-                <ul class="nav navbar-nav">
-                    <li><a id="len1" class="hoverable" href="#">Home</a></li>
-                    <li><a id="len2" class="hoverable" href="about">About</a></li>
-                    <li><a id="len3" class="hoverable" href="result">Portfolio</a></li>
-                    <li><a id="len4" class="hoverable" href="team">Contact</a></li>
-                </ul>
+    .fa-4x {
+        font-size: 4em;
+    }
+
+    .fa-stack-2x {
+        font-size: 1.5em;
+    }
+
+
+
+    .fa {
+        display: inline-block;
+
+        line-height: 1.35;
+    }
+
+    .icon-background {
+        color: #5bc0de;
+    }
+
+    .links {
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .links a {
+        display: block;
+        text-align: center;
+    }
+
+    a {
+        color: #5bc0de;
+        text-decoration: none;
+    }
+
+    a {
+        background-color: transparent;
+    }
+</style>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Fluid jumbotron</h1>
+        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    </div>
+</div>
+
+<!-- try  -->
+<div class="row">
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card  card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-chart-pie fa-stack-1x icon-color "></i>
+                    </span>
+                </div>
+                <h2>Backtest Portfolio</h2>
+                <p>
+                    Backtest a portfolio asset allocation and compare historical and realized returns and risk
+                    characteristics against various lazy portfolios.
+                </p>
+                <p class="links">
+                    <a href="backtest-asset-class-allocation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Backtest
+                        Asset Allocation&nbsp;»</a>
+                    <a href="backtest-portfolio" class="btn btn-sm btn-outline-info my-1" role="button"
+                        aria-pressed="true">Backtest Portfolio&nbsp;»</a>
+                    <a href="backtest-dynamic-allocation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Backtest Dynamic Allocation&nbsp;»</a>
+                </p>
             </div>
-        </nav>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6  py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-cubes fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Factor Analysis</h2>
+                <p>Run regression analysis using Fama-French and Carhart factor models for individual assets or a
+                    portfolio
+                    to analyze returns against market, size, value and momentum factors.</p>
+                <p class="links">
+                    <a href="factor-analysis" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Factor Regression&nbsp;»</a>
+                    <a href="risk-factor-allocation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Risk Factor Allocation&nbsp;»</a>
+                    <a href="match-factor-exposure" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Match Factor Exposures&nbsp;»</a>
+                    <a href="principal-component-analysis" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Principal Component Analysis&nbsp;»</a>
+                    <a href="factor-statistics" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Factor Statistics&nbsp;»</a>
+                    <a href="etf-and-mutual-fund-factor-regressions" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Fund Factor Regressions&nbsp;»</a>
+                    <a href="factor-performance-attribution" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Fund Performance Attribution&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6  py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-random fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Asset Analytics</h2>
+                <p>Find funds based on asset class, style and risk adjusted performance, and analyze asset correlations.
+                </p>
+                <p class="links">
+                    <a href="fund-screener" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Fund Screener&nbsp;»</a>
+                    <a href="fund-performance" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Fund Performance&nbsp;»</a>
+                    <a href="asset-correlations" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Correlations&nbsp;»</a>
+                    <a href="asset-class-correlations" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Class Correlations&nbsp;»</a>
+                    <a href="asset-autocorrelation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Autocorrelation&nbsp;»</a>
+                    <a href="asset-cointegration" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Cointegration&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-chart-area fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Monte Carlo Simulation</h2>
+                <p>Run Monte Carlo simulations for the specified portfolio based on historical or forecasted returns to
+                    test
+                    long term expected portfolio growth and survival, and the capability to meet financial goals and
+                    liabilities.</p>
+                <p class="links">
+                    <a href="monte-carlo-simulation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Monte Carlo Simulation&nbsp;»</a>
+                    <a href="financial-goals" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Financial Goals&nbsp;»</a>
+                    <a href="asset-liability-modeling" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Liability Modeling&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-crosshairs fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Portfolio Optimization</h2>
+                <p>Chart the efficient frontier to explore risk vs. return trade-offs based on historical or forecasted
+                    returns. Optimize portfolios based on mean-variance, conditional value-at-risk (CVaR), risk-return
+                    ratios, or drawdowns. Apply the Black-Litterman model to find the optimal portfolio based on market
+                    views.</p>
+                <p class="links">
+                    <a href="efficient-frontier" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Historical Efficient Frontier&nbsp;»</a>
+                    <a href="efficient-frontier-forecast" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Forecasted Efficient Frontier&nbsp;»</a>
+                    <a href="optimize-portfolio" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Portfolio Optimization&nbsp;»</a>
+                    <a href="black-litterman-model" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Black-Litterman Model&nbsp;»</a>
+                    <a href="rolling-optimization" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Rolling Optimization&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card  card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-history fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Timing Models</h2>
+                <p>Compare and test market timing models based on moving averages, momentum, the Shiller PE ratio
+                    valuation,
+                    and target volatility.</p>
+                <p class="links">
+                    <a href="test-market-timing-model?timingModel=2" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Market Valuation&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=5" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Moving Averages&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=4" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Momentum Rotation&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=6" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Dual Momentum&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=9&amp;windowSize=6&amp;volatilityWindowSize=3&amp;assetsToHold=2"
+                        class="btn btn-sm btn-outline-info my-1 " role="button" aria-pressed="true">Adaptive
+                        Allocation&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=7&amp;windowSize=1"
+                        class="btn btn-sm btn-outline-info my-1 " role="button" aria-pressed="true">Target
+                        Volatility&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=4&amp;coreSatellite=true"
+                        class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Core-Satellite&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
     </div>
 
-    <br>
-    <br>
+</div>
 
-    <div class="container-fluid">
-        <h1>Portfolio Analyzer</h1>
-
-
-
-        <form action="/result/" autocomplete="off" method="post" class="form-horizontal" enctype="multipart/form-data"
-            novalidate>
-            {% csrf_token %}
-
-            <input type="hidden" id="submitType" name="submitType" value="">
-
-
-
-            <div class="form-group">
-                <label for="timePeriod" class="control-label col-sm-3">Time Period <span
-                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                        data-original-title="Specify time period in years or in months"></span>
-                </label>
-                <div class="col-sm-3">
-                    <select id="timePeriod" name="timePeriod" class="form-control" onchange="toggleTimeframe()">
-                        <option value="2" selected>Month-to-Month</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="startYear" class="control-label col-sm-3">Start Year <span
-                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                        data-original-title="Start year for portfolio optimization period"></span>
-                </label>
-                <div class="col-sm-2">
-                    <select id="startYear" name="startYear" class="form-control">
-                        <option value="1985" selected>1985</option>
-                        <option value="1986">1986</option>
-                        <option value="1987">1987</option>
-                        <option value="1988">1988</option>
-                        <option value="1989">1989</option>
-                        <option value="1990">1990</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                        <option value="1994">1994</option>
-                        <option value="1995">1995</option>
-                        <option value="1996">1996</option>
-                        <option value="1997">1997</option>
-                        <option value="1998">1998</option>
-                        <option value="1999">1999</option>
-                        <option value="2000">2000</option>
-                        <option value="2001">2001</option>
-                        <option value="2002">2002</option>
-                        <option value="2003">2003</option>
-                        <option value="2004">2004</option>
-                        <option value="2005">2005</option>
-                        <option value="2006">2006</option>
-                        <option value="2007">2007</option>
-                        <option value="2008">2008</option>
-                        <option value="2009">2009</option>
-                        <option value="2010">2010</option>
-                        <option value="2011">2011</option>
-                        <option value="2012">2012</option>
-                        <option value="2013">2013</option>
-                        <option value="2014">2014</option>
-                        <option value="2015">2015</option>
-                        <option value="2016">2016</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                        <option value="2020">2020</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="firstMonth" class="control-label col-sm-3">First Month <span
-                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                        data-original-title="Start month for portfolio optimization period"></span>
-                </label>
-                <div class="col-sm-2">
-                    <select id="firstMonth" name="firstMonth" class="form-control">
-                        <option value="1" selected>Jan</option>
-                        <option value="2">Feb</option>
-                        <option value="3">Mar</option>
-                        <option value="4">Apr</option>
-                        <option value="5">May</option>
-                        <option value="6">Jun</option>
-                        <option value="7">Jul</option>
-                        <option value="8">Aug</option>
-                        <option value="9">Sep</option>
-                        <option value="10">Oct</option>
-                        <option value="11">Nov</option>
-                        <option value="12">Dec</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="endYear" class="control-label col-sm-3">End Year <span class="glyphicon glyphicon-info-sign"
-                        data-toggle="tooltip" data-original-title="End year for portfolio optimization period"></span>
-                </label>
-                <div class="col-sm-2">
-                    <select id="endYear" name="endYear" class="form-control">
-                        <option value="1985">1985</option>
-                        <option value="1986">1986</option>
-                        <option value="1987">1987</option>
-                        <option value="1988">1988</option>
-                        <option value="1989">1989</option>
-                        <option value="1990">1990</option>
-                        <option value="1991">1991</option>
-                        <option value="1992">1992</option>
-                        <option value="1993">1993</option>
-                        <option value="1994">1994</option>
-                        <option value="1995">1995</option>
-                        <option value="1996">1996</option>
-                        <option value="1997">1997</option>
-                        <option value="1998">1998</option>
-                        <option value="1999">1999</option>
-                        <option value="2000">2000</option>
-                        <option value="2001">2001</option>
-                        <option value="2002">2002</option>
-                        <option value="2003">2003</option>
-                        <option value="2004">2004</option>
-                        <option value="2005">2005</option>
-                        <option value="2006">2006</option>
-                        <option value="2007">2007</option>
-                        <option value="2008">2008</option>
-                        <option value="2009">2009</option>
-                        <option value="2010">2010</option>
-                        <option value="2011">2011</option>
-                        <option value="2012">2012</option>
-                        <option value="2013">2013</option>
-                        <option value="2014">2014</option>
-                        <option value="2015">2015</option>
-                        <option value="2016">2016</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                        <option value="2020" selected>2020</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="lastMonth" class="control-label col-sm-3">Last Month <span
-                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                        data-original-title="End month for portfolio optimization period"></span>
-                </label>
-                <div class="col-sm-2">
-                    <select id="lastMonth" name="lastMonth" class="form-control">
-                        <option value="1">Jan</option>
-                        <option value="2">Feb</option>
-                        <option value="3">Mar</option>
-                        <option value="4">Apr</option>
-                        <option value="5">May</option>
-                        <option value="6">Jun</option>
-                        <option value="7">Jul</option>
-                        <option value="8">Aug</option>
-                        <option value="9">Sep</option>
-                        <option value="10">Oct</option>
-                        <option value="11">Nov</option>
-                        <option value="12" selected>Dec</option>
-                    </select>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label for="benchmark" class="control-label col-sm-3">Benchmark <span
-                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                        data-original-title="Select benchmark index or an imported benchmark series"></span>
-                </label>
-                <div class="col-sm-4">
-                    <select id="benchmark" name="benchmark" class="form-control">
-                        <option value="" selected>None</option>
-                        <optgroup label="Benchmark Portfolio">
-                            <option value="NIFTY50.NS">NIFTY 50</option>
-                            <option value="NIFTY500.NS">NIFTY 500</option>
-                        </optgroup>
-                    </select>
-                </div>
-            </div>
-
-
-
-            <div id="pfSection" class="portfolio-section pv-allow-expansion" data-count="1" data-maxrows="150"
-                data-advanced="false">
-                <div class="row bottomBorder">
-
-                    <div class="col-sm-2 separateTop weight-column"><b>No. of Assets</b></div>
-                    <div class="col-sm-2 separateTop weight-column"><b>Assets of the Portfolio</b></div>
-                    <div class="col-sm-2 separateTop weight-column"><b>Quantity</b></div>
-                    <div class="col-sm-2 separateTop text-nowrap asset-statistics asset-mean"><b>Buy Price</b></div>
-                </div>
-
-                <div class="row highlightRow asset-row">
-                    <div class="col-sm-1 separateTop">1</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol1">Select asset 1</label></span>
-                            <input type="text" id="symbol1" name="symbol1" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation1_1">Quantity</label></span>
-                            <input type="number" id="allocation1_1" name="allocation1_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean1">Buy Price</label></span>
-                            <input type="number" id="buyprice1" name="buyprice1" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row asset-row">
-                    <div class="col-sm-1 separateTop">2</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol2">Select asset 2</label></span>
-                            <input type="text" id="symbol2" name="symbol2" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation2_1">Quantity</label></span>
-                            <input type="number" id="allocation2_1" name="allocation2_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean2">Buy Price</label></span>
-                            <input type="number" id="buyprice2" name="buyprice2" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row highlightRow asset-row">
-                    <div class="col-sm-1 separateTop">3</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol3">Select asset 3</label></span>
-                            <input type="text" id="symbol3" name="symbol3" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation3_1">Quantity</label></span>
-                            <input type="number" id="allocation3_1" name="allocation3_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean3">Buy Price</label></span>
-                            <input type="number" id="buyprice3" name="buyprice3" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row asset-row">
-                    <div class="col-sm-1 separateTop">4</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol4">Select asset 4</label></span>
-                            <input type="text" id="symbol4" name="symbol4" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation4_1">Quantity</label></span>
-                            <input type="number" id="allocation4_1" name="allocation4_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean4">Buy Price</label></span>
-                            <input type="number" id="buyprice4" name="buyprice4" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row highlightRow asset-row">
-                    <div class="col-sm-1 separateTop">5</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol5">Select asset 5</label></span>
-                            <input type="text" id="symbol5" name="symbol5" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation5_1">Quantity</label></span>
-                            <input type="number" id="allocation5_1" name="allocation5_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean5">Buy Price</label></span>
-                            <input type="number" id="buyprice5" name="buyprice5" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row asset-row">
-                    <div class="col-sm-1 separateTop">6</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol6">Select asset 6</label></span>
-                            <input type="text" id="symbol6" name="symbol6" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation6_1">Quantity</label></span>
-                            <input type="number" id="allocation6_1" name="allocation6_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean6">Buy Price</label></span>
-                            <input type="number" id="buyprice6" name="buyprice6" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row highlightRow asset-row">
-                    <div class="col-sm-1 separateTop">7</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol7">Select asset 7</label></span>
-                            <input type="text" id="symbol7" name="symbol7" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation7_1">Quantity</label></span>
-                            <input type="number" id="allocation7_1" name="allocation7_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean7">Buy Price</label></span>
-                            <input type="number" id="buyprice7" name="buyprice7" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row asset-row">
-                    <div class="col-sm-1 separateTop">8</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol8">Select asset 8</label></span>
-                            <input type="text" id="symbol8" name="symbol8" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation8_1">Quantity</label></span>
-                            <input type="number" id="allocation8_1" name="allocation8_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean8">Buy Price</label></span>
-                            <input type="number" id="buyprice8" name="buyprice8" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row highlightRow asset-row">
-                    <div class="col-sm-1 separateTop">9</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol9">Select asset 9</label></span>
-                            <input type="text" id="symbol9" name="symbol9" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation9_1">Quantity</label></span>
-                            <input type="number" id="allocation9_1" name="allocation9_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean9">Buy Price</label></span>
-                            <input type="number" id="buyprice9" name="buyprice9" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row asset-row">
-                    <div class="col-sm-1 separateTop">10</div>
-                    <div class="col-sm-3 asset-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="symbol10">Select asset 10</label></span>
-                            <input type="text" id="symbol10" name="symbol10" class="form-control fmt-ticker"
-                                placeholder="Ticker symbol">
-                            <span class="input-group-addon glyphicon glyphicon-search"
-                                title="Find ticker symbol"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2 weight-column">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="allocation10_1">Quantity</label></span>
-                            <input type="number" id="allocation10_1" name="allocation10_1"
-                                class="form-control fmt-pospct asset-weight">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2 asset-statistics asset-mean">
-                        <div class="input-group smallMargin">
-                            <span class="hidden_jaws"><label for="mean10">Buy Price</label></span>
-                            <input type="number" id="buyprice10" name="buyprice10" class="form-control fmt-pct">
-                            <span class="input-group-addon">Rs</span>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-
-
-            <div class="form-group form-buttons">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <input type="submit" id="submitButton" value="Analyze" class="btn btn-primary">
-                    <input type="button" id="cancelButton" value="Cancel" class="btn btn-default"
-                        onclick="document.location.href='/'">
-                </div>
-            </div>
-
-
-        </form>
-
-    </div>
-
-
-
-    {% block content %}
-    replaced
-    {% endblock %}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
-        crossorigin="anonymous"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
-        crossorigin="anonymous"></script>
-
-
-    <script src="{% static 'merged-2e1163abf34c5dc0f2a033da4e5dbff7.min.js' %}"></script>
-
-    <script>
-        $(function () {
-            $.each(q, function (index, f) {
-                f.call(document);
-            });
-            postPageInit();
-        });
-    </script>
-
-
-    <script> //autocomplete ticker symbols
-        function autocomplete(inp, arr) {
-            /*the autocomplete function takes two arguments,
-            the text field element and an array of possible autocompleted values:*/
-            var currentFocus;
-            /*execute a function when someone writes in the text field:*/
-            inp.addEventListener("input", function (e) {
-                var a, b, i, val = this.value;
-                /*close any already open lists of autocompleted values*/
-                closeAllLists();
-                if (!val) { return false; }
-                currentFocus = -1;
-                /*create a DIV element that will contain the items (values):*/
-                a = document.createElement("DIV");
-                a.setAttribute("id", this.id + "autocomplete-list");
-                a.setAttribute("class", "autocomplete-items");
-                /*append the DIV element as a child of the autocomplete container:*/
-                this.parentNode.appendChild(a);
-                /*for each item in the array...*/
-                for (i = 0; i < arr.length; i++) {
-                    /*check if the item starts with the same letters as the text field value:*/
-                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                        /*create a DIV element for each matching element:*/
-                        b = document.createElement("DIV");
-                        /*make the matching letters bold:*/
-                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += arr[i].substr(val.length);
-                        /*insert a input field that will hold the current array item's value:*/
-                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                        /*execute a function when someone clicks on the item value (DIV element):*/
-                        b.addEventListener("click", function (e) {
-                            /*insert the value for the autocomplete text field:*/
-                            inp.value = this.getElementsByTagName("input")[0].value;
-                            /*close the list of autocompleted values,
-                            (or any other open lists of autocompleted values:*/
-                            closeAllLists();
-                        });
-                        a.appendChild(b);
-                    }
-                }
-            });
-            /*execute a function presses a key on the keyboard:*/
-            inp.addEventListener("keydown", function (e) {
-                var x = document.getElementById(this.id + "autocomplete-list");
-                if (x) x = x.getElementsByTagName("div");
-                if (e.keyCode == 40) {
-                    /*If the arrow DOWN key is pressed,
-                    increase the currentFocus variable:*/
-                    currentFocus++;
-                    /*and and make the current item more visible:*/
-                    addActive(x);
-                } else if (e.keyCode == 38) { //up
-                    /*If the arrow UP key is pressed,
-                    decrease the currentFocus variable:*/
-                    currentFocus--;
-                    /*and and make the current item more visible:*/
-                    addActive(x);
-                } else if (e.keyCode == 13) {
-                    /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        /*and simulate a click on the "active" item:*/
-                        if (x) x[currentFocus].click();
-                    }
-                }
-            });
-            function addActive(x) {
-                /*a function to classify an item as "active":*/
-                if (!x) return false;
-                /*start by removing the "active" class on all items:*/
-                removeActive(x);
-                if (currentFocus >= x.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = (x.length - 1);
-                /*add class "autocomplete-active":*/
-                x[currentFocus].classList.add("autocomplete-active");
-            }
-            function removeActive(x) {
-                /*a function to remove the "active" class from all autocomplete items:*/
-                for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("autocomplete-active");
-                }
-            }
-            function closeAllLists(elmnt) {
-                /*close all autocomplete lists in the document,
-                except the one passed as an argument:*/
-                var x = document.getElementsByClassName("autocomplete-items");
-                for (var i = 0; i < x.length; i++) {
-                    if (elmnt != x[i] && elmnt != inp) {
-                        x[i].parentNode.removeChild(x[i]);
-                    }
-                }
-            }
-            /*execute a function when someone clicks in the document:*/
-            document.addEventListener("click", function (e) {
-                closeAllLists(e.target);
-            });
-        }
-
-        /*An array containing all :*/
-        var countries = ["ATULAUTO", "TVSMOTOR", "ATLASCYCLE", "EICHERMOT", "MAJESAUT", "KINETICENG", "JRELTD", "HEROMOTOCO", "BAJAJ-AUTO", "SCOOTER", "THINKINK", "PRESSMN", "DNAMEDIA", "SMEL", "ESHAMEDIA", "NETWORK18", "AFFLE", "PRAVEG", "VISIONCINE", "TANAA", "HAL", "INSECTICID", "SHARDACROP", "SHIVALIK", "JUBLINDS", "ADARSHPL", "BHASKAGR", "NACLIND", "BAYERCROP", "BHARATRAS", "AIMCOPEST", "PHYTO", "PIIND", "MODIPON", "RALLIS", "KILPEST", "BHAGCHEM", "NATURAL", "UPL", "ASTEC", "DHANUKA", "SUMICHEM", "PUNJABCHEM", "SUCROSA", "JETAIRWAYS", "INDIGO", "TAALENT", "SPICEJET", "GLOBALVECT", "GMRINFRA", "HINDALUMI", "SUDAI", "SACHEMT", "CENTEXT", "NATIONALUM", "UNIVPRIM", "ARFIN", "MNKALCOLTD", "SYNTHFO", "HINDALCO", "ALICON", "BMAL", "GOLKONDA", "PALCO", "PGFOILQ", "MAITRI", "VEDL", "NAM-INDIA", "SRAMSET", "HDFCAMC", "IVC", "ISTLTD", "JAYBARMARU", "SIBARAUT", "PRICOLLTD", "MOTHERSUMI", "SIMMOND", "JAMNAAUTO", "IPRINGLTD", "AMFORG", "PPAP", "JAINEX", "PRADPME", "PANKAJPIYUS", "FRONTSP", "JAGANLAM", "TALBROSENG", "GSAUTO", "GABRIEL", "TALBROAUTO", "AMARAJABAT", "GAJRA", "PRECAM", "KRANTI", "FIEMIND", "JMTAUTOLTD", "FMGOETZE", "KIRLOSENG", "ASAHIINDIA", "KALYANIFRG", "SUPRAJIT", "UCALFUEL", "UNIAUTO", "SSWL", "RACLGEAR", "STERTOOLS", "SUBROS", "SUNDRMFAST", "AUTOPINS", "AUTOIND", "AUTOLITIND", "ACGL", "AUTOAXLES", "ASAL", "SUNCLAYLTD", "SUNDRMBRAK", "DUNCANENG", "JAYUSH", "MENONBE", "RAJGLOWIR", "VELJAN", "TIINDIA", "EXIDEIND", "JBMA", "RASANDIK", "MINDAIND", "RANEHOLDIN", "MINDACORP", "RANEENGINE", "ENKEIWHEL", "VARROC", "ENDURANCE", "SHIVAMAUTO", "RML", "SWARAJENG", "BANCOINDIA", "JTEKTINDIA", "SPECTRA", "OMAXAUTO", "MENNPIS", "RBL", "GNA", "PORWAL", "WABCOINDIA", "BGWTATO", "HINDCOMPOS", "SHANTIGEAR", "BOSCHLTD", "INDNIPPON", "LUMAXIND", "HARITASEAT", "BHARATSE", "PARTIND", "RICOAUTO", "SAPL", "IGARASHI", "SETCO", "BHARATGEAR", "WHEELS", "MUNJALAU", "MUNJALSHOW", "SAMKRG", "ZFSTEERING", "LUMAXTECH", "HINDHARD", "LGBBROSLTD", "SALAUTO", "YUKEN", "BIMETAL", "HIMTEK", "TRITONV", "SANDHAR", "SHARDA", "HITECHGEAR", "REMSONSIND", "MULTIBASE", "BALKRISIND", "GOVINDRU", "TVSSRICHAK", "HARRMALAYA", "GRPLTD", "MODIRUBBER", "GOODYEAR", "COCHMAL", "MMRUBBR-B", "EASTRED", "VRWODAR", "TTIL", "BIRLATYRES", "DOLFIN", "INDAG", "VAMSHIRU", "CEATLTD", "JKTYRE", "MRF", "APOLLOTYRE", "RUBFILA", "PIXTRANS", "EXCEL", "ALLSEC", "XCHANGING", "CESL", "HOVS", "MOLDTEK", "RIDDHICORP", "FSL", "LEENEE", "AXISCADES", "BNRUDY", "HGS", "ECLERX", "INFORTEC", "SOUTHBANK", "BANKINDIA", "IOB", "BANKBARODA", "BANDHANBNK", "KARURVYSYA", "INDIANB", "MAHABANK", "AUBANK", "SBIN", "DHANBANK", "UCOBANK", "PNB", "CSBBANK", "YESBANK", "CENTRALBK", "KOTAKBANK", "ICICIBANK", "PSB", "UJJIVANSFB", "AXISBANK", "HDFCBANK", "LAKSHVILAS", "CUB", "DCBBANK", "INDUSINDBK", "CANBK", "J&KBANK", "IDBI", "KTKBANK", "IDFCFIRSTB", "FEDERALBNK", "UNIONBANK", "RBLBANK", "PANACEABIO", "VIVOBIOT", "GENESIS", "GVBL", "ALPA", "BIOCON", "SHREEGANES", "EDL", "SILVOAK", "PIONDIST", "TI", "JAGAJITIND", "GMBREW", "ASALCBR", "GLOBUSSPR", "IFBAGRO", "RADICO", "MOUNTSHIQ", "KHODAY", "RKDL", "UNITDSPR", "SDBL", "WINSOMBR", "UBL", "DEN", "TV18BRDCST", "RAJTV", "OCTAVE", "RADIOCITY", "SADHNA", "ENIL", "TVVISION", "COLORCHIPS", "TVTODAY", "ZEEL", "UFO", "SUNTV", "NDTV", "BAGFILMS", "SEATV", "DISHTV", "ZEEMEDIA", "BALAJITELE", "HATHWAYB", "SAHARA", "HATHWAY", "JAINSTUDIO", "NXTDIGITAL", "SITINET", "ORTEL", "PHILIPCARB", "MARUTI", "M&M", "HINDMOTORS", "FORCEMOT", "KEERTHI", "AINFRA", "SAHYADRI", "ULTRACEMCO", "SAGCEM", "SAINIK", "HIL", "DECCANCE", "VARDHMAN", "BURNPUR", "UDAICEMENT", "GRASIM", "APCL", "BVCL", "ANDHRACEMT", "SKCIL", "EVERESTIND", "AMBUJACEM", "VISAKAIND", "CENTURYTEX", "SHREDIGCEM", "SHREECEM", "NCLIND", "SHIVACEM", "JKCEMENT", "INDIANHUME", "DALBHARAT*", "INDIACEM", "STARCEMENT", "KAKATCEM", "PRSMJOHNSN", "SCANPRO", "KCP", "ORIENTCEM", "HEIDELBERG", "SANGHIIND", "RAMCOCEM", "BIRLACORPN", "SAURASHCEM", "MANGLMCEM", "GSCLCEMENT", "JKLAKSHMI", "BIGBLOC", "ACC", "GODFRYPHLP", "ITC", "NTCIND", "GOLDENTOBC", "SINNAR", "VSTIND", "RAGHUNAT", "COALINDIA", "KCL", "FFPL", "GMDCLTD", "AUROCOK", "REPRO", "KIRANPR", "MPSLTD", "INLANPR", "GGPL", "UNICK", "SUNDARAM", "PQIF", "SIPTL", "GLCL", "KUSHAL", "GLEAM", "SHASHANK", "KUSUMEL", "GINISILK", "REMISIN", "TAVERNIER", "CHAMAK", "DANUBE", "CCLINTER", "SRIOMTR", "GANONPRO", "SHGANEL", "GARODCH", "GARWSYN", "KOTHARIPRO", "GMLM", "GEL", "GGL", "TANVI", "SHVSUIT", "CHDCHEM", "CHANDRIMA", "CHANDRAP", "REMIELEK", "CHMBBRW", "CHANDNIMACH", "TEATIME", "LAHOTIOV", "HARDWYN", "SARTHAKGL", "IGCIL", "YSL", "IFL", "SIIL", "PHCAP", "HEMANG", "SALORAINTL", "SAKUMA", "HCLTD", "HINDAPL", "HKG", "SAIBABA", "HEXATRADEX", "CATVISION", "SATINDLTD", "BOMBCYC", "SRD", "ZGOLDINV", "SHAILJA", "RICHIRICH", "SEASONF", "ROCKONENT", "PHTRADING", "RONI", "IBULISL", "IMPAL", "SBECSYS", "GMETCOAL", "INDAGIV", "RRMETAL", "RGIL", "TAIIND", "PRECISION", "CISTRO", "ZKHATAUE", "KANELIND", "STARLITE", "DHOOTIN", "STARLINE", "DWL", "CRAVATEX", "RAIDEEPIND", "KIDUJA", "DGL", "SRUSTEELS", "PRIYALT", "KACL", "PRISMX", "DML", "SVAINDIA", "STARTECK", "STCINDIA", "SUNTECHNO", "SUNRETAIL", "SUMERUIND", "KCDGROUP", "QUASAR", "RTEXPO", "DHANCOT", "DEVHARI", "SUNILTX", "PUNCTRD", "PULSRIN", "RADHEY", "KANSAFB", "PTL", "DEVINE", "REGENTRP", "CFEL", "KABSON", "SITAENT", "SIROHIA", "SWASTIVI", "SINTEXPLAST", "SICAGEN", "RCIIND", "JIKIND", "FORINTL", "CLASELE", "FRANKLININD", "FRASER", "FRUTION", "REDINGTON", "GAGANPO", "SWORDEDGE", "DIVINUS", "ENTRINT", "RAMGOPOLY", "DRHABEEB", "DUCON", "JEL", "SVPHOUSING", "COMPEAU", "SPSINT", "EMMSONS", "SPACEAGE", "RAMASIGNS", "EML", "SWAGTAM", "ELEMARB", "ELITECON", "ELLORATRAD", "RAMAVISION", "LWSKNIT", "HIRAUTO", "TINNATFL", "ARAVALIS", "APOLLOTRI", "MITSHI", "MAHANIN", "MMTC", "MODWOOL", "VERITAS", "OPCHAINS", "MODERN", "NYSSACORP", "PARKERAC", "NUWAY", "VIJAYTX", "ARL", "PANACHE", "VIKSHEN", "ZVINADTR", "AMRAPLIN", "NOUVEAU", "TTFL", "VIPCLOTHNG", "PARSHVA", "AIHL", "NSL", "NORRIS", "AMANITRA", "ALNATRD", "VARIMAN", "NMSRESRC", "MIHIKA", "ARHNTTO", "BALGOPAL", "BAJGLOB", "TTLEL", "AYOME", "PAEL", "AVIVA", "APIL", "UNIPHOS", "AUSOMENT", "OSWAYRN", "UNITINT", "ASUTENT", "ASIANTNE", "UNIOFFICE", "MAXIMUS", "BNL", "MAHSHRE", "BEEYU", "TRIVIKRAMA", "URJAGLOBA", "ASHNI", "USHDI", "MEHAI", "VADILENT", "MERMETL", "MAHACORP", "OMANSH", "TRIVENIENT", "VITESSE", "VIKASMCORP", "MYSTICELE", "AGRIMONY", "NIRAVCOM", "MUKTA", "NEWLIGHT", "WEPSOLN", "MULLER", "MACINTR", "WESTLEIRES", "NIKHILAD", "ADANIENT", "ADARSH", "WWALUM", "WILLAMAGOR", "ADVITIYA", "AVL", "YASHMGM", "ABANSENT", "YARNSYN", "MSTC", "NEERAJ", "ALCHEM", "BINNYMILLS", "PDSMFL", "WEIZMANIND", "AAL", "WHBRADY", "NEPTEXP", "ADORFO", "PAZEL", "ASWTR", "MRCEXIM", "BIJHANS", "NIVAKA", "BEML", "HMT", "TWL", "ESCORTS", "GUJAPOLLO", "BRADYM", "CRANEX", "SMLISUZU", "SKYLMILAR", "ASHOKLEY", "VSTTILLERS", "CEBBCO", "GRSE", "LPNAVAL", "TATAMTRDVR", "TATAMOTORS", "IGPL", "SHREYASI", "ORIENTCQ", "UNIVSTAR", "NATPEROX", "GANESHBE", "ASINPET", "GODREJIND", "SEL", "DEEPAKNI", "DEEPAKFERT", "DECOMIC", "IVP", "KANORICHEM", "SHHARICH", "JAYCH", "VINYOFL", "SVCIND", "HOCL", "GHCL", "COSMOFILMS", "GAYATRIBI", "ALCHCORP", "MANORG", "KESARPE", "VISHNU", "SUNSHIEL", "GARWARPOLY", "PADMAIND", "PACL", "AVONLIFE", "ALUFLUOR", "NAVINFLUOR", "KANCHI", "AMNPLST", "VENLONENT", "ZSOUTGAS", "GUJCMDS", "GENUSPRIME", "EMMESSA", "JINDALPOLY", "MYSORPETRO", "GULPOLY", "INDIAGLYCO", "FISCHER", "ESTER", "INDOAMIN", "RITESHIN", "GUJALKALI", "ADVPETR-B", "NUTRA", "ELANTAS", "INDOBORAX", "ANDHRSUGAR", "REFNOL", "ASHOKALC", "VINATIORGA", "RIDDHI", "XPROINDIA", "STDSFAC", "SIL", "GRAUWEIL", "SRECR", "FOSECOIND", "SRHHYPOLTD", "SFPIL", "ANDHRAPET", "OMKARPH", "HARLETH", "SADHNANIQ", "VIVIDIND", "SONALAD", "TGVSL", "LORDSCHLO", "BPTEX", "PREMIERPOL", "LINKPH", "LIMECHM", "TNPETRO", "TANFACIND", "TRANSPEK", "CHEMFABALKA", "TATACHEM", "TIRUMALCHM", "PNTKYOR", "POEL", "TUTIALKA", "POLYPLEX*", "CAPRO", "KUWERIN", "TCMLMTD", "BHAGIL", "POLYCHEM", "BHAGWOX", "LAFFANSQ", "CAMEXLTD", "TULASEEBIOE", "CEREBRAINT", "HCL-INSYS", "VINTRON", "PCS", "TEXRAIL", "PATELENG", "WELENT", "BCPL", "WELCORP", "HGINFRA", "MAINFRA", "OMMETALS", "MHEL", "CANDC", "ELECTCAST", "KAUSHALYA", "ATLANTA", "JMCPROJECT", "INNOVATORS", "KNRCON", "TARMAT", "ATVPR", "IL&FSENGG", "RAMKY", "JINDALSAW", "KCLINFRA", "VSFPROJ", "NILA", "RICHAIND", "MUKANDENGG", "ARSSINFRA", "MANINFRA", "BRAHMINFRA", "NIRAJ", "RVNL", "AML", "MBLINFRA", "DHRUV", "PRAJIND", "ARENTERP", "MAHSEAMLES", "RPPINFRA", "KRRAIL", "PRAKASHSTL", "POWERMECH", "DUGARHOU", "BITL", "TANTIACONS", "RITES", "GPTINFRA", "SETUINFRA", "UNITY", "SPMLINFRA", "COROENGG", "KRIINFRA", "MANINDS", "MADHAVIPL", "POPULARES", "GISOLUTION", "GARNET", "SHASHIJIT", "IRCON", "NBCC", "SIMPLEXINF", "CONART", "IISL", "YURANUS", "TECHNOE", "MODULEX", "SALASAR", "SHRISTI", "PSPPROJECT", "GAMMNINFRA", "ITDCEM", "JPASSOCIAT", "JKIL", "ANANDPROJ", "SHRIRAMEPC", "JAIHINDPRO", "SUPREMEINF", "NCC", "SHREESHAY", "RAUNAQEPC", "RIIL", "HCC", "TECHNOFAB", "PVVINFRA", "RANJEET", "LT", "SIPL", "PARAMONE", "GENCON", "ANUBHAV", "RATNAMANI", "SKIPPER", "SKIL", "MAANALU", "MBECL", "GBLIL", "VIVANTA", "SADBHAV", "CAPACITE", "PUNJLLOYD", "GAYAPROJ", "GAYAHWS", "RAWEDGE", "TRIVENIGQ", "DIVSHKT", "GLITTEKG", "JAINMARMO", "SOLIDSTON", "AROGRANITE", "MILESTONE", "RALEGRA", "LERTHAI", "SEZAL", "SHIVAEXPO", "POKARNA", "RAMCOIND", "CEETAIN", "MIDWEST", "NEELKAN", "PACIFICI", "MADHAV", "NIDHGRN", "SASHWAT", "MAYURFL", "HIMGRANI", "NILACHAL", "INANI", "PGINDST", "ORIENTALTL", "ARTEFACT", "ICSL", "ABHIFIN", "LEX", "OTCO", "DRA", "ENGINERSIN", "IMEC", "FSSPL", "PROVESTSER", "NIDL", "IDM", "LIKHAMI", "JONJUA", "ZODIACVEN", "BRANDREAL", "WALCHPF", "RIDINGS", "GENSOL", "TARINI", "OIVL", "CRPRISK", "VOLTAS", "SYMPHONY", "BLUESTARCO", "VIDEOIND", "DIXON", "PGEL", "MIRCELECTR", "ORIENTELEC", "CALCOM", "AMBER", "VXLINSTR", "JCHAC", "SHARP", "WHIRLPOOL", "BPL", "QUANTDIA", "PANKAJPO", "PEARLPOLY", "EMMBI", "HITECHCORP", "PITHP", "STANPACK", "POLYSPIN", "SHETR", "HINDNATGLS", "SHRJAGP", "VINAYAKPOL", "MOLDTKPAC", "SWADEIN", "PROMACT", "COMSYN", "POLYCON", "SHREERAMA", "MAHIP", "PAPERPROD", "BALKRISHNA", "OCEAGRO", "KGPETRO", "JAUSPOL", "UFLEX", "HINDTIN", "ZPPOLYSA", "YASHRAJC", "KEMP", "WAAREE", "ANUROOP", "CONTROLPR", "MITSU", "UNQTYMI", "ESSELPRO", "SALGUTI", "DECPO", "HSIL", "MPL", "GUJRAFIA", "JUMBO", "RMCL", "GOPALA", "KANPRPLA", "VALLABH", "RISHITECH", "BEARDSELL", "ORIENTLTD", "MANAKSIA", "BKMINDST", "GKP", "TINPLATE", "INNOVTEC", "KAIRA", "ASYL", "HALDYNGL", "ROLLT", "RAJPACK", "RCCL", "GUJCRAFT", "BRIGHTBR", "MAHAVIRIND", "BAROEXT", "CUBEXTUB", "HINDCOPPER", "BHAGYNAGAR", "MSCTC", "ABCGAS", "ARCOTECH", "SHALIWIR", "SIKA", "APOLLO", "BEL", "ASTRAMICRO", "BDL", "RNAVAL", "SHOPERSTOP", "TAAZAINT", "V2RETAIL", "FEL", "FELDVR", "DMART", "FMNL", "FRETAIL", "FLFL", "ABFRL", "VMART", "SPENCER", "ANMOL", "MAYUKH", "ACML", "ALSTONE", "SCTL", "ANISHAIMPEX", "UDAYJEW", "ASRL", "RCL", "KDML", "AARCOM", "ACEMEN", "MAHAANIMP", "KEL", "NAVKETAN", "SORILINFRA", "QUESS", "MRSS", "CIMMCO", "3MINDIA", "SRF", "WALCHANNAG", "SVARTCORP", "JANUSCORP", "DCMSHRIRAM", "BALMLAWRIE", "SAYAJIIND", "EMPIND", "ALEXANDER", "COSCO", "RAJABAH", "SURYAROSNI", "PANTH", "GILLANDERS", "HCKKVENTURE", "KESORAMIND", "KRYPTONQ", "INDINFRA", "SHVFL", "WAGEND", "PEOPLIN", "RUCHINFRA", "MUNCAPM", "TCIIND", "SHRENTI", "NESCO", "ZENLABS", "NNTL", "ZMULTIPU", "ZSANMCOM", "ZNILKENG", "GOLECHA", "NIRLON", "TERRASCOPE", "NITINCAST", "GEMSI", "HRMNYCP", "HEALINV", "ZLEENCON", "INDSOYA", "SAWABUSI", "VISVEN", "ZNIVITRD", "ZSARVAMA", "AMALGAM", "PHOTON", "ALANKIT", "SAICAPI", "INERTIAST", "MULTIIN", "SAMYAKINT", "GREENCREST", "TRANOCE", "GANECOS", "NORTHPR", "TERRAREAL", "GANHOLD", "SELLWIN", "REMITR", "SW1", "ARISE", "MILLENNIUM", "SPECMKT", "MERCANTILE", "ZMANSOON", "KKFIN", "SINDHUTRAD", "VARUNME", "SHYAM", "SUNSHINE", "ERPSOFT", "JAYATMA", "JUMBFNL", "OSWALEA", "RAPIDIN", "RRSECUR", "SOBME", "DRL", "EXPLICITFIN", "OSEASPR", "DELTACORP*", "KCSL", "ZKOVALIN", "EVANS", "MPFSL", "MEGFI", "CENTUM", "BARTRONICS", "SKRABUL", "EKAMLEA", "BANASFN", "TWIROST", "BAJRFIN", "ELCIDIN", "KRL", "SHKALYN", "PROFINC", "FRONTCAP", "PROAIMENT", "SICAPIT", "SPCAPIT", "MAHAN", "PRECTRA", "VIKALPS", "MERCTRD", "PARLEIND", "AROMAENT", "TASHIND", "MAGANTR", "BENTCOM", "ZMILGFIN", "ENBETRD", "KRITINUT", "JVLAGRO", "GOKULAGRO", "ASHAI", "PIONAGR", "PAOS", "CIANAGRO", "POONADAL", "INTEGFD", "GOKUL", "JRFOODS", "RUCHISOYA", "CORAGRO", "SURJIND", "KAVITIND", "AMBARPIL", "MADHUDIN", "BCLIL", "VEGETABLE", "VIJSOLX", "PRIMAIN", "AJANTSOY", "PRIMIND", "NATRAJPR", "NKIND", "SIEL", "SRDAPRT", "MTEDUCARE", "ZEELEARN", "CLEDUCATE", "HBEL", "SESL", "GREYCELLS", "ARIHANTINS", "SEIL", "CAREERP", "EDUCOMP", "VJTFEDU", "GOLDENCREST", "TREEHOUSE", "JSWENERGY", "NBVENTURES", "SURYACHAKRA", "GIPCL", "PTC", "GREENPOWER", "KARMAENG", "GVKPIL", "IEX", "SRMENERGY", "AMTL", "ADANITRANS", "ADANIPOWER", "KPIGLOBAL", "KPEL", "POWERGRID", "TORNTPOWER", "SEPOWER", "NHPC", "SAREL", "INDOWIND", "INDRENEW", "TATAPOWER", "CESC", "BFUTILITIE", "GET&D", "NTPC", "JPPOWER", "RPOWER", "VEERENRGY", "SJVN", "RELINFRA", "KSK", "GITARENEW", "ENERGYDEV", "RTNINFRA", "NLCINDIA", "RTNPOWER", "BCCFUBA", "HUIL", "RIR", "NETWORK", "PERVASIVE", "THAKRAL", "SWITCHTE", "HIRECT", "INTECH", "LINAKS", "PANELEC", "SURANASOL", "SHBCLQ", "SPELS", "PRECISIO", "DYNAVSN", "TECHCON", "METSL", "ECORECO", "ZICOM", "OIL", "ONGC", "HINDOILEXP", "SELAN", "GNRL", "JINDRILL", "ABAN", "FACT", "RAMAPHO", "KHAICHEM", "SHIVAAGRO", "CHAMBLFERT", "RCF", "GNFC", "SPIC", "BHARATAGRI", "GSFC", "INDRAIND", "ZUARIGLOB", "COROMANDEL", "MADRASFERT", "BASANTGL", "MANGCHEFER", "ARIES", "NFL", "MPAGI", "NAGARFERT", "PHOSPHATE", "ZUARI", "GUJPETR", "JBFIND", "DVL", "PASUPTAC", "POLYLINK", "VINYLINDIA", "AMCOIND", "INDIANACRY", "HINFLUR", "ISLCONSUL", "MANSIFIN", "RECLTD", "JAYBHCR", "ISFL", "PANAFIC", "JAGSONFI", "PARSHINV", "REGAL", "KINETRU", "IDFC", "PRISMMEDI", "MMLF", "PIFL", "LADDERUP", "PRISMFN", "MTPL", "NSIL", "PURSHOTTAM", "SAGARSYST", "NEIL", "ISHWATR", "KJMCFIN", "MONGIPA", "KEYCORP", "KEYFINSER", "NALINLEA", "RELCAPITAL", "MNPLFIN", "PFS", "NORTHLINK", "MANGIND", "MANCREDIT", "KLGCAP", "PAISALO", "PALSOFT", "MANAPPURAM", "PML", "KIFS", "SAGARPROD", "REGTRUS", "JJFINCOR", "MAHAPEXLTD", "NAYSAA", "MICROSE", "MARUTISE", "NIKKIGL", "RAJPUTANA", "KREONFIN", "MENAMANI", "PFC", "NIYOGIN", "RAJKOTINV", "INDOCRED", "INDOASIAF", "KZLFIN", "MEGLON", "INDIANVSH", "MINOLTAF", "RAJATH", "INTRGLB", "MINDAFIN", "ODYCORP", "JPTRLES", "IFSL", "MRUTR", "IITL", "INDUSFINL", "LEADFIN", "RGF", "RICHUNV", "MIDINFRA", "RAMSONS", "RANDER", "INTCAPM", "INDOSTAR", "PARAGONF", "LATENT", "RAMAPETRO", "KRISHNACAP", "RAP", "MOTOGENFIN", "PARIKSHA", "IFINSER", "KARNAVATI", "POLYTEX", "RLFL", "MORGAN", "M&MFIN", "IMCAP", "JAYKAY", "OASISEC", "KUBERJI", "MORARKFI", "QGO", "PYXISFIN", "MARGOFIN", "SRGSFL", "PMCFIN", "MASFIN", "PNBGILTS", "MASTERTR", "INDERGR", "LIBORDFIN", "MEGACOR", "MEFCOMCAP", "MEL", "MUTHTFN", "OPTIFIN", "ORACLECR", "INDLEASE", "MADHUSE", "MOTILALOFS*", "IFINSEC", "MATHEWE", "MUTHOOTFIN", "INDCEMCAP", "KAPILRAJ", "RRFIN", "MEHIF", "MAGMA", "CITIPOR", "BAMPSL", "SHREMETAL", "CUBIFIN", "TULIPSTA", "BAZELINTER", "BCLENTERPR", "TTIENT", "SHREESEC", "BENGALASM", "SHWL", "GALADAFIN", "TRISHAKT", "GKCONS", "GARBIFIN", "BERYLSE", "TRIJAL", "SHRINIWAS", "BFLAFL", "SHRICON", "SHRIRAMCIT", "FRANKLIN", "TRCFIN", "TFL", "SRTRANSFIN", "1STCUS", "SIDDHA", "FINKURVE", "SILVERO", "FUTURSEC", "FGP", "BLIL", "TFSL", "UTIQUE", "USHAKIRA", "ASHIKACR", "SAHLIBHFI", "GBFL", "UPSURGE", "UPASAFN", "ASIACAP", "ASSAMENT", "GLOBALCA", "ATHARVENT", "SHARPINV", "UNITDCR", "SHRGLTR", "GLANCE", "UNISTRMU", "AIIL", "SHIKHARLETR", "AVONMORE", "UJJIVAN", "UGROCAP", "GDLLEAS", "BPCAP", "BALFC", "BAJFINANCE", "SHIVKAMAL", "SICLTD", "UYFINCORP", "GILADAFINS", "ARYAMAN", "TRANSFIN", "FMEC", "CILSEC", "STDBAT", "STANCAP", "CINDRELL", "DHRUVCA", "DHENUBUILD", "DHARFIN", "SWRNASE", "COMFINCAP", "COMFINTE", "CONTILI", "SURYAINDIA", "DEVKI", "CHOLAFIN", "CSL", "CKFSL", "SUPRAP", "SUPERIOR", "SUCHITRA", "CREDITACC", "SUGALDAM", "CREST", "SUJALA", "SULABEN", "DCMFINSERV", "SCL", "SUNDARMFIN", "CSLFINANCE", "STRLGUA", "TOKYOFIN", "AMARNATH", "SREINFRA", "SKPSEC", "SMARTFIN", "TITANSEC", "TIMESGTY", "ESCORTSFIN", "THIRDFIN", "TPROJECT", "SODFC", "EPIC", "SONAL", "THEINVEST", "BLFL", "BRIJLEAS", "CHOICEIN", "BRIPORT", "CTL", "CAPITALT", "CGCL", "TCIFINANCE", "ETIL", "CEEJAY", "SPANDANA", "EASUN", "SIFL", "DYNAMICP", "SPS", "DAL", "SPVGLOBAL", "CIFL", "VAARAD", "SUNGOLD", "GOLDCORP", "SATIN", "ABIRAFN", "SAUMYA", "AMRAFIN", "SAVFI", "AMARSEC", "ADVIKCA", "APMFINVEST", "HELPAGE", "ACFL", "GSBFIN", "GSLSEC", "HASTIFIN", "ANUPAM", "ADCON", "ANNAINFRA", "ADMANUM", "WILLIMFI", "ACFSL", "AMITSEC", "VFL", "ANERI", "HBSTOCK", "SALEM", "HBLEAS", "ADHARSHILA", "ANJANIFIN", "GUJINV", "VGCL", "SARVOTTAM", "VINTAGES", "ZSARACOM", "VHL", "ACME", "VARDHANCFL", "AKASHDEEP", "SAINDUS", "AKCAPIT", "WSFIN", "ARNOLD", "WEIZFIN", "AARSHYAM", "ARMANFIN", "VISTARAMAR", "VOLLF", "ALFAVIO", "ABHICAP", "ALFL", "SAKTHIFIN", "SBICARD", "VANICOM", "SEVENHILL", "ALFREDHE", "GOWRALE", "HIMALFD", "HINDSECR", "GUJSTATFIN", "IFCI", "TFCILTD", "WORL", "TRIMURTHI", "LEHAR", "NBFOOT", "RELAXO", "BATAINDIA", "ANKIN", "SREEL", "SUPERHOUSE", "LIBERTSHOE", "MIRZAINT", "WELTI", "KHADIM", "CENTURYPLY", "PRATIK", "STYLAMIND", "DUROPLY", "ARCHIDPLY", "NATPLY", "UNIPLY", "UDL", "GREENPLY", "IWP", "ECOBOAR", "MANGTIMBER", "RUSHIL", "GREENPANEL", "AKZOINDIA", "TIRUFOAM", "NITCO", "MURUDCERA", "EUROCERA", "SOMANYCERA", "SHRIBCL", "GOLCA", "ORIENTBELL", "SHALPAINTS", "RESTILE", "ASIANTILES", "RESPONIND", "SAINTGOBAIN", "ASIANPAINT", "KANSAINER", "CERA", "MILEFUR", "GRNLAMIND", "SFL", "BERGEPAINT", "SCHABLON", "ROYALCU", "KAJARIACER", "ICICIGI", "NIACL", "GICRE", "ARCHIES", "OLPCL", "OKPLA", "LOOKS", "LEHIL", "SHALBY", "INDRAMEDCO", "SML", "INDOGLOBAL", "HCG", "FORTIS", "APOLLOHOSP", "TEJNAKSH", "NH", "DLCL", "DOLPHMED", "ZDHJERK", "CHOKSILA", "LASA", "LALPATHLAB", "DRAGARWQ", "KMCSHIL", "KOVAI", "NGIND", "DECCAN", "CMMHOSP", "THYROCARE", "VIMTALABS", "TRABI", "SASTASUNDR", "ARTEMISMED", "ANG", "MEDINOV", "ASPIRA", "SCANDENT", "METROPOLIS", "ASTERDM", "ASHRAM", "FORTISMLR", "GIANLIFE", "GKB", "SHREEPAC", "KRETTOSYS", "KMSMEDI", "BI", "SWELECTES", "BGRENERGY", "STARDELTA", "CGPOWER", "SCHNEIDER", "INOXWIND", "JYOTI", "GEPIL", "GGENG", "HPL", "ADANIGREEN", "KALPATPOWR*", "SUZLON", "TRITURBINE", "UJAAS", "INDOTECH", "UVDRHOR", "SWSOLAR", "ABB", "THERMAX", "INDLMETER", "EMCO", "KEC", "VOLTAMP", "AARTECH", "NTL", "POWERINDIA", "SIEMENS", "TRIL", "TDPOWERSYS", "BHEL", "EQUITAS", "BFINVEST", "MAXVIL", "CHOLAHLDNG", "STEL", "JMFINANCIL", "BAJAJFINSV", "BAJAJHLDNG", "PILANIINVS", "INOVSYNTH", "JSWHL", "L&TFH", "TATAINVEST", "KAMAHOLD", "ABCAPITAL", "KHYATI", "ARUNAHTEL", "AHLWEST", "HLVLTD", "GRAVISSHO", "DHANADACO", "AHLEAST", "ASIANHOTNR", "CCHHL", "HOTELRUGBY", "HOWARHO", "ORIENTHOT", "STRGRENWO", "LORDSHOTL", "TAJGVK", "FOMEHOT", "ADVANIHOTR", "EIHAHOTELS", "EIHOTEL", "SAVERA", "SINCLAIR", "TGBHOTELS", "LEMONTREE", "MACH", "MCCHRLS-B", "THEBYKE", "RASRESOR", "PHOENIXTN", "HOTLSILV", "BLUECOAST", "KAMATHOTEL", "SAYAJIHOTL", "INDHOTEL", "RAYALEMA", "CINDHO", "ROOPSHRI", "VELHO", "SBRANDS", "WOODSVILA", "RELIABVEN", "GUJHOTE", "MHRIL", "JINDHOT", "CHLLTD", "VICEROY", "BENARAS", "ROHLTD", "ITDC", "BESTEAST", "CHALET", "SINGER", "CROMPTON", "BAJAJELEC", "IFBIND", "BUTTERFLY", "JAIPAN", "YUVRAAJHPL", "PCCOSMA", "HIPOLIN", "JYOTHYLAB", "HAWKINCOOK", "VIAANINDUS", "GOTHIPL", "GORANIN", "MSRINDIA", "TTKPRESTIG", "INFLAME", "LAOPALA", "BORORENEW", "RELHOME", "MANRAJH", "REPCOHOME", "LICHSGFIN", "MEHTAHG", "SRGHFL", "CANFINHOME", "DHFL", "PNBHOUSING", "CORALFINAC", "IBULHSGFIN", "INDIAHOME", "INDBNK", "ASHFL", "GICHSGFIN", "AAVAS", "SAHARAHOUS", "HUDCO", "HDFC", "ZHINDHSG", "BODHTREE", "EMPOWER", "PERSISTENT", "BSOFT", "AJEL", "EXPLEOSOL", "FCSSOFT", "SINDUVA", "TREJHARA", "MCLOUD", "SOFTBPO", "SOFCOM", "NETRIPPLES", "SOUTHERNIN", "RAMCOSYS", "TERASOFT", "JOINTECAED", "ZENSARTECH", "LTI", "63MOONS", "SPACEINCUBA", "TECHM", "3IINFOTECH", "CEINSYSTECH", "SPARCSYS", "CESCVENTURE", "SONATSOFTW", "TRIGYN", "MINFY", "SASKEN", "MPHASIS", "ADSL", "AGCNET", "ADROITINFO", "HCLTECH", "NINSYS", "GSS", "WIPRO", "OONE", "MINDTREE", "NIITTECH", "SENINFO", "ARISINT", "IZMO", "HEXAWARE", "VAMA", "GOLDTECH", "NEWGEN", "DSSL", "OFSS", "ACCELYA", "INFY", "ASMTEC", "INSPIRISYS", "GSTL", "INTELSOFT", "SAGARSOFT", "MJCO", "HYPERSOFT", "ONWARDTEC", "CYIENT", "QUEST", "TCS", "KPITTECH", "RSYSTEMINT", "STARCOM", "CIGNITI", "SMARTLINK", "NELCO", "VCU", "DLINKINDIA", "TATAELXSI", "SSLFINANCE", "ODYSSEY", "MINDTECK", "CONTCHM", "SOFTSOL", "PANINDIAC", "NUCLEUS", "VIRINCHI", "VIRTUALS", "7TEC", "MOSCHIP", "COSYN", "RAMINFO", "INDINFO", "INDOCITY", "OMNIAX", "PROSEED", "IRIS", "PALRED", "B2BSOFT", "AXONVL", "GENESYS", "AVANCE", "INTENTECH", "INTELLECT", "AURIONPRO", "ATISHAY", "ATHENAGLO", "CLIOINFO", "MASTEK", "RESPONSINF", "USGTECH", "UMESLTD", "TSPIRITUAL", "4THGEN", "MEGASOFT", "FIRSTOBJ", "MELSTAR", "SVAMSOF", "ELNET", "BLUECLOUDS", "NEWMKTADV", "TELECANOR", "TANLA", "QUICKHEAL", "NIHARINF", "XTGLOBAL", "CRESSAN", "BCG", "ACESOFT", "ABMKNO", "SAKSOFT", "HINDBIO", "DATAMATICS", "NETTLINX", "DANLAW", "NETLINK", "KELLTONTEC", "ZENTEC", "CYBERMAT", "HITKITGLO", "CYBERTECH", "CGVAK", "CTE", "CALSOFT", "TWINSTAR", "CRANESSOFT", "SANKHYAIN", "ADVENT", "RSSOFTWARE", "SUBEX", "COMPUSOFT", "JETKINGQ", "NIITLTD", "APTECHT", "NOL", "REFEX", "LINDEINDIA", "BOMOXY-B1", "GFLLIMITED", "CMIFPE", "MASL", "GMM", "HLEGLAS", "SHANTAI", "AAIL", "NITINFIRE", "HITTCO", "INTEGRAEN", "ROTO", "REMIPRO", "INGERRAND", "STOVACQ", "MANUGRAPH", "AMFL", "AXTEL", "SHILGRAVQ", "SHIVAGR", "HARISH", "WENDT", "IOSYSTEM", "IONEXCHANG", "DHPIND", "KENNAMET", "AUSTENG", "CUMMINSIND", "COSPOWER", "HONDAPOWER", "SABOOBR", "VJLAXMIE", "HERCULES", "MISQUITA", "SCHAEFFLER", "MIRCH", "NRBBEARING", "WPIL", "GREAVESCOT", "WINDMACHIN", "SERVOTEACH", "RISHILASE", "AMAZEENT", "OLECTRA", "KIRLOSBROS", "ARTSONEN", "VISHALBL", "HAWAENG", "DECANBRG", "KIRLOSIND", "SHAKTIPUMP", "INCON", "KLBRENG-B", "WSIND", "REXNORD", "REVATHI", "MEERA", "GTV", "KIRLPNU", "KSB", "AFFORDABLE", "MAZDALTD", "INTLCOMBQ", "GGDANDE", "TRL", "REDEXPR", "RAJOOENG", "LXMIATO", "LAXMIMACH", "TRF", "FORBESCO", "JOSTS", "EIMCOELECO", "PATELSAI", "TMTIND-B1", "LYNMC", "TIMKEN", "GALAGEX", "KPT", "BIRLAPREC", "DISAQ", "RAPICUT", "BAJAJST", "KABRAEXTRU", "LOYAL", "SOLIMAC", "ENVAIREL", "ELGIEQUIP", "ANUP", "EMAINDIA", "SOMICONV", "LOKESHMACH", "LLOYDSTEEL", "ELECON", "TIGLOB", "LIPPISYS", "CENLUB", "CHEMTECH", "ITL", "POLYCHMP", "BATLIBOI", "ISGEC", "PREMIER", "DYNAMATECH", "GUJGAS", "ADANIGAS", "RELIANCE", "DEEPIND", "GAGAN", "OLYMPTX", "JSHL", "ISFT", "JUPITERIN", "NAUKRI", "JSTL", "JATALIA", "MEGRISOFT", "LTTS", "SYLPH", "OCTAWARE", "INFIBEAM", "XELPMOC", "ROLTA", "CENTERAC", "SCANPGEOM", "UNITEDINT", "CNIRESLTD", "MATRIMONY", "VEDAVAAG", "VALLEY", "RSDFIN", "ARMAN", "TAMBOLI", "DOLAT", "CITL", "GANGESSEC", "KICL", "KIRANVYPAR", "JLL", "NAGREEKCAP", "TFLL", "APOORVA", "MCX", "HARYNACAP", "STANROS", "LESHAIND", "ADIEXRE", "PALASHSEC", "BINDALAGRO", "WORTH", "OSWALAGRO", "NAHARCAP", "MCDHOLDING", "SUMMITSEC", "GOLDLINE", "DSINVEST", "INDPRUD", "DHUNINV", "ONELIFECAP", "YAMNINV", "JTAPARIA", "MAHSCOOTER", "SRESTHA", "PREMPIPES", "MAHASTEEL", "MAHALXSE", "ANUPMAL", "ACROW", "BEDMUTHA", "SHANKARA", "REMIEDEL", "ELECTHERM", "UNISON", "JTLINFRA", "KANSHST", "APLAPOLLO", "GUJCONT", "SURAJLTD", "MUKATPIP", "SSWRL", "BMW", "RAJTUBE", "AIML", "SRIPIPES", "MSPL", "SMLT", "BOMBWIR", "JSLHISAR", "CRIMSON", "MIDHANI", "TNSTLTU", "NILE", "LAKPRE", "SPSL", "RSTL", "TIIL", "UMIYA", "TRANSFRE", "GRANDFONRY", "RAMASTEEL", "GOPAIST", "BHARATWIRE", "METALCO", "GOODLUCK", "UNIABEXAL", "VALLABHSQ", "GANDHITUBE", "RATHIBAR", "SHBAJRG", "USHAMART", "NATFIT", "VSSL", "BRPL", "SUPERSHAKT", "TAPARIA", "WMINIMT", "AHMDSTE", "TATAMETALI", "AANCHALISP", "JSWSTEEL", "WELSPLSOL", "ADHUNIKIND", "KAJARIR", "ELANGO", "ADITYA", "SALSTEEL", "NARAYANI", "TATASTEEL", "HEERAISP", "TATASTLBSL", "HARME", "RUDRA", "TATASTLLP", "SARDAEN", "TATAYODOGA", "CHENFERRO", "NATNLSTEEL", "NAGPI", "ECSTSTL", "MUKANDLTD", "NATGENI", "BALASORE", "JSL", "INDCTST", "KAMDHENU", "ASHIS", "HISARMET", "SCFL", "UTTAMSTL", "UTTAMVALUE", "REALSTR", "ARYAVAN", "JAYNECOIND", "KIRLFER", "KSL", "JINDALSTEL", "METKORE", "FACORALL", "RISHDIGA", "INDSILHYD", "BIHSPONG", "ASHSI", "STEELXIND", "MNKCMILTD", "GARGFUR", "MANAKSTELTD", "ISMTLTD", "MAITHANALL", "SUNFLAG", "PANCHMAHQ", "JAICORPLTD", "GALLANTT", "GALLISPAT", "BEEKAY", "BENGALS", "SHRDAIS", "GPIL", "SAIL", "JAIBALAJI", "PMTELELIN", "MESCON", "SHAHALLOYS", "IMFA", "MONNETISPA", "VISASTEEL", "SUPREMEX", "COSMOFE", "NOVIS", "STRIPMT", "ISWL", "SURAJ", "SCANSTL", "LLOYDSME", "IBRIGST", "MDRNSTL", "ANKITMETAL", "PRADHIN", "SATHAISPAT", "STEELCO", "IMPEXFERRO", "VASWANI", "VBCFERROQ", "KIOCL", "GAL", "PRAKASH", "ROHITFERRO", "PENIND", "OISL", "BLOIN", "MONNETIN", "CHEVIOT", "BFFL", "LUDLOWJUT", "GLOSTERLTD", "BUDGE BUDGE", "AICHAMP", "SBILIFE", "MFSL", "HDFCLIFE", "ICICIPRULI", "GPPL", "VMS", "STARLOG", "ADANIPORTS", "POLYMED", "CSURGSU", "OPTOCIRCUI", "RAAJMEDI", "INVICTA", "ORISSAMINE", "SANDUMA", "NMDC", "SOUTHMG", "20MICRONS", "DECNGOLD", "ASHAPURMIN", "KACHCHH", "ASIIL", "MOIL", "MMWL", "MUKTAARTS", "SHEMAROO", "UNIVARTS", "CINEVISTA", "PICTUREHS", "SABTN", "RADAAN", "BABA", "SPICY", "KOCL", "PANORAMA", "ALAN SCOTT", "CINERAD", "EROSMEDIA", "PFOCUS", "PENTAGRAPH", "ENCASH", "PURPLE", "GVFILM", "SDC", "KSERASERA", "HAZOOR", "SAREGAMA", "DIKSAT", "PADMALAYAT", "TIPSINDLTD", "DQE", "POOJAENT", "PNC", "VISIONCO", "ORIENTTR", "CREATIVEYE", "HIGHENE", "EVEREADY", "NIPPOBATRY", "KOKUYOCMLN", "ARTEMISELC", "SHERVANI", "LINCPENQ", "PANAENERG", "VBL", "ANSINDUS", "ORIBEVER", "DUKEOFS", "ASIANOI", "OILCOUNTUB", "ALPHAGEO", "AEGISLOG", "GOCLCORP", "GULFOILLUB", "REALECO", "CONTPTR", "IOC", "TIDEWATER", "CASTROLIND", "PETRONET", "GULFPETRO", "HAVISHA", "CONFIPET", "OZONEWORLD", "FLEXFO", "VIKASPROP", "ANIKINDS", "MODCL", "MODINATUR", "MSL", "KOHINOOR", "MISHTANN", "INDRANIB", "TARAI", "GODREJAGRO", "MADHURIND", "KSCL", "RJBIOTECH", "HFIL", "OLYOI", "GRMOVER", "GAEL", "AGRITECH", "ATFL", "SUKHJITS", "JK AGRI", "FRSHTRP", "ASHOKRE", "GPL", "IBINFO", "NATHBIOGEN", "PRIMEFRESH", "ELEFLOR", "NAPL", "SPTRSHI", "UNIQUEO", "RAFL", "AVTNPL", "HALDER", "ZKHANDEN", "NATHUEC", "KGL", "NAGTECH", "SIPIND", "WHITEORG", "INDOUS", "ADVENZYMES", "CHAMANSEQ", "PRIMAGR", "VAL", "SANBLUE", "AJIL", "MALLCOM", "SKIEL", "CANTABIL", "VAIBHAVGBL", "SKYGOLD", "PALMJEWELS", "KANANIIND", "UNIMOVR", "SJCORP", "PAGEIND", "GOBLIN", "SOVERDIA", "PJL", "SAMTEX", "THANGAMAYL", "ARVINDFASN", "CITYMAN", "LADIAMO", "GOLDIAM", "JINAAM", "LUXIND", "PARMSILK", "UHZAVERI", "GOKEX", "AGOL", "THOMASCOTT", "SPENTA", "SPICEISL", "LOVABLE", "VIPIND", "LAL", "CELEBRITY", "TCNSBRANDS", "VSL", "GOLKUNDIA", "CEENIK", "KARANWO", "PGIL", "LYPSAGEMS", "TATIAGLOB", "GOENKA", "PHOENXINTL", "ANSHNCO", "ASTAR", "PCJEWELLER", "SPLIL", "RAJESHEXPO", "BANARBEADS", "AMINTAN", "SAGAR", "ROYALIND", "KITEX", "BINDALEXPO", "DARSHANORNA", "INDTERRAIN", "ADITRI", "ROJL", "SBC", "SHUKJEW", "RPIL", "MONTECARLO", "SUNRAJDI", "SARUPINDUS", "HARIAEXPO", "SKL", "SUPTANERY", "NUTRICIRCLE", "TIMEX", "KENVI", "MISHKA", "ADDIND", "BGJL", "ZODJRDMKJ", "KKCL", "ZODIACLOTH", "SPAL", "NOGMIND", "SMGOLD", "BIL", "PUNITCO", "TITAN", "RUPA", "YORKEXP", "BHANDHOS", "SAFARIND", "DDIL", "NARBADA", "DITCO", "TBZ", "FRONTBUSS", "ACKNIT", "ACTIVE", "MINID", "RADHIKAJWE", "KDDL", "OSCARGLO", "VIRAT", "OROSMITHS", "SWARNSAR", "BANG", "SHEETAL", "DOLLAR", "AKI", "INTEGRA", "MAYUR", "RGL", "MAL", "SAVINFOCO", "KLKELEC", "VETO", "RTSPOWR", "VGUARD", "UNIVCABLES", "AEL", "KECL", "DELTAMAGNT", "APLAB", "CMI", "FINCABLES", "PITTIENG", "DLTNCBL", "S&SPOWER", "BBL", "GALADA", "BCP", "LAKSELEC", "DIAPOWER", "SHARIKA", "MARSONS", "POLYCAB", "KAYCEEI", "HAVELLS", "TOWASOK", "ULTRACAB", "DYNAMIC", "ELPROINTL", "INDOSOLAR", "CORDSCABLE", "WEBELSOLAR", "CYBELEIND", "PARACABLES", "CONTICON", "DEL", "JIGAR", "APARINDS", "HBLPOWER", "JSLINDL", "WAA", "HONAUT", "KEI", "SHIL", "BIRLACABLE", "EASUNREYRL", "FLUIDOM", "RMC", "SALZER", "RAMRAT", "INCAP", "RELICAB", "SHILCTECH", "GUJARATPOLY", "GENUSPOWER", "MODISNME", "ALFATRAN", "BILENERGY", "BLBLIMITED", "KDLL", "ELIXIR", "KAPASHI", "QNIFTY", "TAHL", "BNKCAP", "BVL", "KBSINDIA", "BRIDGESE", "KARTKIN", "NDASEC", "RELTD", "EDELWEISS", "DBSTOCKBRO", "ROSELABS", "DAULAT", "DARJEELING", "INDICAP", "DHANVARSHA", "IBVENTURES", "SUNRINV", "RIDHISYN", "INDOTHAI", "RFSL", "SUPRATRE", "CMBL", "SSPNFIN", "CRISIL", "INTECCAP", "SUMEDHA", "DEVITRD", "IDINFO", "STELLAR", "STEP2COR", "ZSVTRADI", "STEPHANOTIS", "ISEC", "INDBANK", "STELLANT", "ICICISENSX", "IIFLSEC", "IIFLWAM", "IKAB", "DELTA", "INANISEC", "IIFL", "THACKER", "INTELLADV", "RELICTEC", "EIS", "JOINDRE", "JSGLEASING", "CENTRUM", "HBPOR", "JUMPNET", "CHRTEDCA", "JYOTIN", "CARERATING", "EBIXFOREX", "SPACAPS", "CAPFIN", "CANOPYFIN", "TERRAFORM", "TCFCFINQ", "RELIGARE", "JPOLYINVST", "ZSPEEDCO", "INVENTURE", "CONFINT", "ZSVARAJT", "COMCL", "REGENCY", "HIKLASS", "JINDCAP", "ZSWASTSA", "CLFL", "RTFL", "CCFCL", "SYMBIOX", "SYSTMTXC", "JHACC", "SWASTIKA", "TOYAMIND", "KANUNGO", "TRANSCOR", "VLSFINANCE", "MIL", "ONTIC", "MEHSECU", "ALSL", "AJCON", "WALLFORT", "ZSHERAPR", "SILINV", "MIDEASTP", "FIVEXTRADE", "WELLNESS", "OCTAL", "MODRNSH", "MODEX", "WELINV", "SIELFNS", "SHYMINV", "ALMONDZ", "VISAGAR", "ARYAN", "ARYACAPM", "MBPARIKH", "ABVL", "ARIHCAPM", "ARCFIN", "APOLLOFI", "VISCO", "SAGL", "SHALPRO", "VERTEX", "KHANDSE", "SHARDUL", "SISL", "MKTCREAT", "GEOJITFSL", "GOGIACAP", "NPRFIN", "GCMSECU", "GCMCOMM", "NAM", "FRONTSEC", "YASTF", "NEXUSCOMMO", "YOGISUNG", "GARNETINT", "FUTSOL", "ACTIONFI", "GDTRAGN", "GAJANANSEC", "GALACTICO", "NAVIGANT", "SNTCL", "5PAISA", "NCLRESE", "SALSAIN", "AARNAV", "BANKBEES", "JUNIORBEES", "NIFTYBEES", "GCMCAPI", "MONARCH", "MONEYBOXX", "MOONGIPASEC", "M50", "BIRLAMONEY", "MPILCORPL", "WINROC", "SHIVA", "MUDRA", "MUKESHB", "NFIL", "MCLTD", "MUNOTHFI", "MYMONEY", "SHARIABEES", "PSUBNKBEES", "VBDESAI", "SMIFS", "ICRA", "KJMCCORP", "BNRSEC", "ESSARSEC", "LIBORD", "TRINITYLEA", "KRISHNA", "TRIOMERC", "ZSATYASL", "KRATOSENER", "LLFICL", "BERVINL", "PRESOFI", "KTKSENSEX", "GUJCRED", "EMERALD", "EMKAY", "21STCENMGM", "KOTAKPSUBK", "ASITCFIN", "ESCORP", "PIONRINV", "AVAILFC", "BESTAGRO", "ASHARI", "ASHCAP", "PRIMESECU", "LOHIASEC", "TRESCON", "BHARAT", "PRITHVIEXCH", "LKPFIN", "UNIJOLL", "LKPSEC", "AVTIL", "GOYALASS", "LACTOSE", "KLRFM", "SABOOSOD", "MEGASTAR", "AVANTI", "OCEANIC", "OBIL", "KFBL", "OVOBELE", "MANORAMA", "NHCFOODS", "KORE", "SKMEGGPROD", "CHORDIA", "ACEWIN", "ABHIJIT", "TIRUSTA", "FOODSIN", "APIS", "ZEAL", "SPECFOOD", "INDXTRA", "WATERBASE", "IFGLEXPOR", "GALXBRG", "INSILCO", "MIVENMACH", "TRIDETOOL", "HRYNSHP", "AIAENG", "NIBL", "GEE", "DENORA", "BENARA", "BEMHY", "TULIVE", "ADORWELD", "MORGANITE", "DHINDIA", "HINDEVER", "RPEL", "PERMAGN", "LATIMMETAL", "SMAUTO", "HEG", "APCOTEXIND", "RASIELEC", "SKFINDIA", "PANCARBON", "VESUVIUS", "CTCL", "GRAPHITE", "AMDIND", "UNIDT", "SNL", "ORIENTREF", "SAMINDUS", "IYKOTHITE", "ESABINDIA", "SGIL", "GUJINTRX", "EKC", "INLCM", "METALFORGE", "STEELCAS", "CARNATIN", "DCM", "RJKMRFR", "PRECWIRE", "CARBORUNIV", "MAGNAELQ", "SARTHAKIND", "ORIENTABRA", "MAHINDCIE", "LGBFORGE", "MHLXMIRU", "SPRAYKING", "ZWELCAST", "ROLCOEN", "POOJA", "PTCIL", "NELCAST", "MMFL", "BHARATFORG", "PRITIKAUTO", "RISHIROOP", "EXPOGAS", "SIMPLEXCAS", "GRINDWELL", "ORVENPR", "MUL", "SMFIL", "SANGHVIFOR", "INVPRECQ", "HILTON", "CREATIVE", "RKFORGE*", "SAENTER", "HANMAN", "NICCOPAR", "IMAGICAA", "AJWAFUN", "TALWGYM", "TALWALKARS", "WONDERLA", "EMERALL", "STARLIT", "SHIRPUR-G", "GRAVITA", "PONDYOXIDE", "INFRATEL", "GTPL", "STRTECH*", "SUYOG", "TEJASNET", "ONMOBILE*", "SHINDL", "SCAGRO", "SCPL", "DFM", "SHAHFOOD", "GOLDCOINHF", "SEAGOLD", "HNDFDS", "SANWARIA", "GCKL", "FCONSUMER", "HATSUN", "SIMRAN", "HERITGFOOD", "ZYDUSWELL", "VENKYS", "VADILALIND", "UMANGDAIR", "SURFI", "KWALITY", "UNRYLMA", "VIRATCRA", "AMRITCORP", "COASTCORP", "MODAIRY", "ANJANIFOODS", "PARAGMILK", "APEX", "MAHAANF", "TDSL", "CHOTHANI", "JFL", "TASTYBIT", "VAGHANI", "LOTUSCHO", "ICLORGANIC", "MLKFOOD", "BRITANNIA", "KMGMILK", "NCCBLUE", "NESTLEIND", "DIAMONDYD", "BAMBINO", "AAYUSH", "PRABHAT", "SUNILAGR", "DAAWAT", "KRBL", "NGIL", "KSE", "SUPERBAK", "ADFFOODS", "SESHAPAPER", "SOLIDCO", "BALLARPUR", "ASTRON", "PERFEPA", "KUANTUM", "KONNDOR", "EMAMIPAP", "STRAEXPO", "GRATEXI", "ASHUTPM", "BAPACK", "MAGNUM", "RAMANEWS", "3PLAND", "GANGAPA", "SKPMIL", "SHKARTP", "SHREYANIND", "NATHIND", "YASHPAKKA", "SHBHAWPA", "SAPPL", "NRAGRINDQ", "WSTCSTPAPR", "AGIOPAPER", "MOHITPPR", "METROGLOBL", "GENUSPAPER", "SIMPLXPAP", "ORIENTPPR", "AMBITION", "ANDHRAPAP", "VICTORYPP", "MALUPAPER", "SATIA", "VAPIPPR", "STHINPA", "SRPML", "COSBOARD", "SUPRBPA", "SARDAPPR", "HITECHWIND", "RAMAPPR-B", "CELLA", "CHADPAP", "JKPAPER*", "CORNE", "TCPLPACK", "BGPL", "KAYPOWR", "PURITY", "RUCHIRA", "SAFFRON", "PDMJEPAPER", "STARPAPER", "SANPA", "TNPL", "PARMCOS-B", "JHS", "GODREJCP", "GILLETTE", "COLPAL", "LYKISLTD", "ADORMUL", "MARICO", "JLMORI", "NOVATEOR", "PGHH", "BAJAJCON", "CUPID", "DABUR", "SHK", "EMAMILTD*", "HINDUNILVR", "RADIXIND", "DCW", "SUPPETRO*", "MANALIPETC", "AGARIND", "RAIN", "AMBALALSA", "ALEMBICLTD", "SUVEN", "DENISCHEM", "SUVENPHAR", "APLLTD", "ZENOTECH", "COLINZ", "ALKEM", "ZIMLAB", "VIVANZA", "ALBERTDA", "CONCORD", "VISTAPH", "VIVIMEDLAB", "WOCKPHARMA", "ZENITHHE", "DIVISLAB", "FREDUN", "WINTAC", "SUNLOC", "ABBOTINDIA", "SHUKRAPHAR", "SUNPHARMA*", "SHYAMAINFO", "WANBURY", "AARTIDRUGS", "AREYDRG", "DECIPHER", "DCAL*", "WELCURE", "CORALAB", "AJANTPHARM", "STAR", "SPARC", "FERVENTSYN", "SYNGENE", "FDC", "SOLARA", "UNICHEMLAB", "CAPPL", "CADILAHC", "BROOKS", "ERIS", "BRAWN", "EPSOMPRO", "THEMISMED", "BACPHAR", "BAJAJHCARE", "TYCHE", "BALPHARMA", "BLISSGVS", "BIOFILCHEM", "TTKHEALTH", "BDH", "TORNTPHARM", "BERLDRG", "SOURCENTRL", "TRIPR", "TRANSCHEM", "BIBCL", "AUROPHARMA", "AUROLAB", "SMSPHARMA", "SMSLIFE", "AMRUTANJAN", "VIKRAMTH", "DRREDDY", "SYNCOMF", "SYNCOM", "BPLPHARMA", "VENUSREM", "SYSCHEM", "EVERESTO", "ANUHPHR", "VEERHEALTH", "FERMENTA", "CIPLA", "CHCL", "VRL", "VANTABIO", "VALIANTORG", "EARUM", "CHEMOPH", "CBPL", "UNJHAFOR", "SMRUTHIORG", "ASTRAZEN", "SDL", "TAKE", "DESHRAK", "NECLIFE", "INDOCO", "PEL", "RPGLIFE", "ROOPAIND", "KPL", "SEQUENT", "GRANULES", "MEDICAMEQ", "MEDICAPQ", "MEDICO", "KREBSBIO", "KOPRAN", "HIKAL", "INDSWFTLAB", "GODAVARI", "INDSWFTLTD", "RESONANCE", "MERCURYLAB", "MESPHAR-B", "GLENMARK", "GLAXO", "KIMIABL", "LAURUSLABS", "PGHL", "MAXIMAA", "LINCOPH", "SANDUPHQ", "SAMRATPH", "MAKERSL", "MANGALAM", "HESTERBIO", "PARABDRUGS", "PARMAX", "SANJIVIN", "PARNAXLAB", "SANOFI", "MADHUVEER", "JUBILANT", "LYKALABS", "LUPIN", "MARKSANS", "GUJTHEM", "GUJTERC", "PFIZER", "PHRMASI", "ORTINLAABS", "GUFICBIO", "RUBRAME", "NOVARTIND", "PANCHSHEEL", "NGLFINE", "KERALAYUR", "KAMRLAB", "GANGAPHARM", "NATCAPSUQ", "GENNEX", "JBCHEPHARM", "JENBURPH", "SGRL", "RAJNISH", "JAGSNPHARM", "NEULANDLAB", "MOREPENLAB", "NATCOPHARM", "KILITCH", "IPCALAB", "IOLCP", "ISHITADR", "SHILPAMED", "PHOTOQUP", "CHOKSI", "UNIVPHOTO", "JINDALPHOT", "DUTRON", "BLOOM", "NARMP", "STURDY", "MAVIIND", "TAINWALCHM", "ASHISHPO", "RUNGTAIR", "DUROPACK", "MAHEPC", "NATPLAS", "TEXELIN", "ARCEEIN", "AMARDEE", "CDG", "NATPLASTI", "JMGCORP", "CPL", "HINDADH", "MACPLASQ", "CAPPIPES", "ARROWGREEN", "ECOPLAST", "CAPRIHANS", "SRIKPRIND", "APOLLOPIPES", "DHABRIYA", "FIBERWEB", "TIJARIA", "SHAILY", "SHISHIND", "FINOLEXIND", "KKPLASTICK", "SUPREMEIND", "KKALPANAIND", "PRIMAPLA", "INFRAIND", "PPL", "WIMPLAST", "PRINCEPIPE", "TOKYOPLAST", "INTELLCAP", "KISAN", "KINGFA", "FENOPLAS", "TPLPLAST", "INTLCONV", "SIGNETIND", "PILITA", "KRITIIND", "POLYMAC", "TIMETECHNO", "ASTRAL", "RDBRL", "BIOPAC", "JISLDVREQS", "JISLJALEQS", "KUNSTOFF", "AXELPOLY", "TEXMOPIPES", "FLEXITUFF", "ALFAICA", "NILKAMAL", "ACRYSIL", "GOVNOW", "HTMEDIA", "DBCORP", "SCHAND", "SAMBHAAV", "INDIAMART", "CIL", "JAGRAN", "DGCONTENT", "HMVL", "JUSTDIAL", "NAVNETEDUL", "SANDESH", "NOVAPUB", "NEXTMEDIA", "GROVY", "HILIKS", "ANSALAPI", "OMAXE", "PRIMEPRO", "PRIMEURB", "WARDINMOBI", "WELLESLEY", "OBEROIRLTY", "KINGSINFR", "BHAGYAPROP", "AHLUCONT", "SIMPLXREA", "AGIIL", "SICL", "PROZONINTU", "MOUNT", "BHANDERI", "AJMERA", "PRESTIGE", "COUNCODOS", "LAHL", "VIVIDM", "DBREALTY", "SKILVEN", "BLKASHYAP", "SHAHCON", "AREALTY", "PRAENG", "SUNTECK", "WWTECHHOL", "MAHLIFE", "KOLTEPATIL", "KMFBLDR", "PRERINFRA", "CRANEINFRA", "GODREJPROP", "TVOLCON", "SUPREME", "MPDL", "TIRSARJ", "REGALIAA", "RATNABHUMI", "BSELINFRA", "TEXINFRA", "JETINFRA", "NATIONSTD", "NAVBLDR", "SKIFL", "RAINBOWF", "KAMANWALA", "TECHIN", "NEOINFRA", "GANESHHOUC", "RAJINFRA", "NEH", "TCIDEVELOP", "GALLOPENT", "JOYREALTY", "RAGHUTOB", "SWAGRUHA", "THAKDEV", "SHRIKRISH", "RODIUM", "PURVA", "GEECEE", "NILASPACES", "PUROHITCON", "ABHIINFRA", "KEDIACN", "NARPROP", "RDBRIL", "GYTRIPA", "QUANTBUILD", "RJSHAH", "KARDA", "CITADEL", "PHOENIXLTD", "BOMBPOT", "RADHEDE", "BRIGADE", "PODDAR", "ARVSMART", "STLSTRINF", "GYANDEV", "ARIHANT", "ALPINEHOU", "ASL", "ANANTRAJ", "MARBU", "HBESD", "PATIDAR", "ELDEHSG", "IITLPROJ", "EMAMIREAL", "SVGLOBAL", "DHRUVES", "ASHIANA", "VIPUL", "MARATHON", "SATRAPROP", "SAB", "PENINLAND", "HUBTOWN", "DCL", "MARG", "LUHARUKA", "UTLINDS", "AMJLAND", "SANINFRA", "SSPDL", "MAXHEIGHTS", "IBREALEST", "ANTARIKSH", "UNISHIRE", "ANSALHSG", "SOBHA", "ANSALBU", "MANAS", "MAHESH", "EASTBUILD", "DLF", "UNITECH", "IGRL", "ETT", "HDIL", "PARSHWANA", "SKC", "MANJEERA", "LANCORHOL", "LPDC", "VASINFRA", "VASCONEQ", "PARSVNATH", "ATHCON", "MRPL", "PANAMAPET", "CHENNPETRO", "SOTL", "GOACARBON", "BPCL", "HINDPETRO", "JUBLFOOD", "VIDLI", "SPECIALITY", "ARAMBHAN", "PECOS", "WESTLIFE", "JPINFRATEC", "DBL", "PNCINFRA", "IL&FSTRANS", "ASHOKA", "NOIDATOLL", "MEP", "SADBHIN", "IRB", "BRNL", "MERCATOR", "ESSARSHPNG", "DREDGECORP", "SCI", "SHREYAS", "DATIWARE", "GESHIP", "CHOWGULSTM", "SEAMECLTD", "COCHINSHIP", "GLOBOFFS", "SIS", "TEAMLEASE", "INNOVATIVE", "SHANGAR", "RITHWIKFMS", "KAYA", "KAARYAFSL", "CJGEL", "PRATIKSH", "BALAMINES", "ATUL", "CAMLINFINE", "ALKALI", "NEOGEN", "AARTIIND", "ULTRAMAR", "ORGCOAT", "PLASTIBLEN", "POLSON", "JYOTIRES", "AVI", "PODARPIGQ", "MEGH", "ALKYLAMINE", "OAL", "PREMEXPLQ", "ORICON", "TITANBIO", "NITTAGELA", "KEMISTAR", "KELENRG", "ASAHISONG", "VIKASWSP", "YASHCHEM", "BEPL", "KIRIINDUS", "TINNARUBR", "VIPULORG", "PAUSHAKLTD", "SHAWGELTIN", "BLACKROSE", "YASHO", "AMS", "VIKASECO", "YUG", "BODALCHEM", "OMKARCHEM", "AMAL", "NOCIL", "PIDILITIND", "AKSCHEM", "VIDHIING", "BASF", "SHREEPUSHK", "GALAXYSURF", "FINEORG", "CHEMIESYNT", "SOLARINDS", "FCL", "DYNAMIND", "FUNDVISER", "JDORGOCHEM", "CHROMATIC", "IGLFXPL-B", "CLNINDIA", "JAYSYN", "SEYAIND", "DICIND", "STDSHOE", "DYNPRO", "SUDARSCHEM", "INDOEURO", "JAYAGROGN", "DIAMINESQ", "CHEMCRUX", "INDTONER", "DAICHI", "CRSTCHM", "ISHANCH", "HARDCAS", "FLUOROCHEM", "DEEP", "INDGELA", "EXCELINDUS", "DHARAMSI", "INDOKEM", "DAIKAFFI", "GENPHARMA", "COCHINM", "CHEMBOND", "HSCL", "FAIRCHEM", "INEOSSTYRO", "INOXLEISUR", "PVR", "CPML", "PRAXIS", "BHATIA", "VAKRANGEE", "VRFILMS", "PTIL", "TRENT", "TMRVL", "7NR", "CINELINE", "GFIL", "ACCEL", "ACIIN", "COMPUAGE", "TVSELECT", "EUROMULTI", "BANARISUG", "SIMBHALS", "DALMIASUG", "MAGADHSUGAR", "VISHWARAJ", "INDSUCR", "KESARENT", "RAVALSUGAR", "RANASUG", "SBECSUG", "RENUKA", "TRIVENI", "KMSUGAR", "UTTAMSUGAR", "DHAMPURE", "DHAMPURSUG", "AVADHSUGAR", "MAWANASUG", "DCMSRMIND", "RAJSREESUG", "BAJAJHIND", "PARVATI", "PONNIERODE", "BALRAMCHIN", "THIRUSUGAR", "UGARSUGAR", "PICCASUG", "KCPSUGIND", "OSWALOR", "RIGASUG", "SSLEL", "EIDPARRY", "GAYATRI", "SAKHTISUG", "PICCADIL", "DWARKESH", "TCI", "INTSTOIL", "COARO", "ABCINDQ", "BALTE", "FRONTCORP", "MHSGRMS", "PATINTLOG", "CHLOGIST", "RGRL", "MCLEODRUSS", "LONTE", "GOODRICKE", "ROSSELLIND", "BANSTEA", "TYROON", "LEDOTEA", "BNALTD", "ANDREWYU", "WARRENTEA", "DHUNTEAIND", "DIANATEA", "JAYSHREETEA", "BBTC", "KANCOTEA", "TATACOFFEE", "TATACONSUM", "TERAI", "CCL", "JOONKTOLL", "NEAGI", "JAMESWARREN", "OCTAVIUSPL", "TATACOMM", "TNTELE", "AKSHOPTFBR", "HFCL", "SURANAT&P", "VINDHYATEL", "VALIANT", "DIGISPICE", "AVANTEL", "SHYAMTEL", "SUICH", "MRO-TEK", "GTLINFRA", "ADCINDIA", "PUNJCOMMU", "OPTIEMUS", "ITI", "AISHWARYA", "BHARTIARTL", "MTNL", "RCOM", "CITYONLINE", "QUADRANT", "IDEA", "TTML", "HARIAAPL", "HIGHSTREE", "SREEJAYA", "SAMBANDAM", "DONEAR", "GUJHYSPIN", "MASCH", "ELAND", "HARIGOV", "SANTOSHF", "MARIS", "SARLAPOLY", "OBRSESY", "SPORTKING", "AMITINT", "AMBIKCO", "MANOMAY", "ANJANI", "PADAMCO", "SOUTLAT", "HPCOTTON", "SANGAMIND", "SOURCEIND", "VIPPYSP", "EASTSILK", "ANGEL", "SPENTEX", "OSIAJEE", "MARALOVER", "VENTURA", "AMRAAGRI", "VICTMILL", "SANTETX", "AMARJOTHI", "OMNITEX", "VIVIDHA", "NAHARPOLY", "NAHARINDUS", "NAGREEKEXP", "SHIVAMILLS", "WIREFABR", "NITINSPIN", "WINSOMTX", "ADINATH", "GEMSPIN", "ADITYASP", "FILATEX", "MORARJEE", "FILATFASH", "SIMPLXMIL", "SHESHAINDS", "SHIVTEX", "MOHOTAIND", "NAHARSPING", "GBGLOBAL", "SHRMFGC", "AKSPINTEX", "ZENIFIB", "ZENITHEXPO", "GARDENSILK", "ZGAEKWAR", "GARMNTMNTR", "SHRIDINE", "AARVINFRA", "AARVEEDEN", "GARWAMAR", "GARFIBRES", "SBFL", "SHUBHAM", "FLORATX", "NDL", "GUJCOTEX", "MOHITE", "NUTECGLOB", "EUROTEXIND", "VOITHPAPR", "ORBTEXP", "ALKA", "EUREKAI", "SELMCL", "SEASONST", "GRAVITY", "MAYURUNIQ", "ALOKTEXT", "GTNINDS", "GTNTEX", "VISHAL", "ALPSINDUS", "SOMATEX", "SKYIND", "MOHITIND", "SHAHLON", "GOKAKTEX", "WELSPUNIND", "GINNIFILA", "FAZE3Q", "SINTEX", "MINAXI", "MIDINDIA", "FAZE3AUTO", "GLOBUSCON", "OMKAR", "SIYSIL", "SHARDFI", "AKM", "EVERLON", "AKSHAR", "EVERTEX", "VTMLTD", "SALONACOT", "CENTENKA", "APMIN", "SURYAAMBA", "KIRANSY-B", "SURYALAXMI", "SURYALA", "SURYVANSP", "SUTLEJTEX", "SURATEX", "KHOOBSURAT", "KGDENIM", "SVPGLOB", "BHILSPIN", "BTTL", "SWADPOL", "SWANENERGY", "RELCHEMQ", "TRIDENT", "BETXIND", "SUPERTEX", "INDORAMA", "PWASML", "PRANAVSP", "PRSNTIN", "SUPER", "KONARKSY", "TUNITEX", "BASML", "BANSWRAS", "SUPERSPIN", "PREMCO", "BELLACASA", "BENGALT", "PREMSYN", "RIBATEX", "TITAANIUM", "ZBINTXPP", "BINNY", "JAGJANANI", "SHRAJSYNQ", "JCTLTD", "BSL", "CHITRTX", "RAINBOWDQ", "JINDWORLD", "TEJASSVI", "KAMADGIRI", "KALLAM", "RAJPALAYAM", "KAKTEX", "RAJSPTR", "KPRMILL", "RAJKSYN", "CHANDNI", "RAGHUSYN", "PRAGBOS", "CNOVAPETRO", "JAYIND", "JAIHINDS", "SYBLY", "CFL", "JAMSHRI", "RAYMOND", "JASCH", "KFL", "RNBDENIMS", "JATTAINDUS", "BLUECHIPT", "KATRSPG", "TTL", "BOMDYEING", "BRFL", "KAPILCO", "KANDAGIRI", "PRADIP", "HISARSP", "ASHNOOR", "UNTTEMI", "PASARI", "PIONEEREMB", "PBMPOLY", "UNITEDTE", "SUDTIND-B", "RSCINT", "VANDANA", "RSWM", "ASIAPAK", "SUBSM", "UNIWSEC", "DEEPAKSP", "SUERYAAKNI", "RUBYMILLS", "ICIL", "STINDIA", "ASHIMASYN", "STCORP", "SRIND", "LOYALTEX", "DHANROTO", "VALSONQ", "ASAHIIND", "DHANFAB", "PEETISEC", "PATSPINLTD", "MKEXIM", "SGL", "HINDMILL", "DIGJAMLTD", "RRIL", "HIMFIBP", "ICL", "AYMSYNTEX", "SLSTLQ", "AXITA", "KUSHIND", "RLF", "SRINACHA", "DAMOINDUS", "SUNCITYSY", "LAKHOTIA", "LAKSHMIMIL", "UNIROYAL", "SRMCL", "DCMNVL", "AREXMIS", "SUMEETINDS", "VARDMNPOLY", "LAMBODHARA", "VTL", "MAFATIND", "ARVIND", "INDIANCARD", "HIMATSEIDE", "KERNEX", "ACE", "SANGHVIMOV", "NAVKARCORP", "JITFINFRA", "TIL", "SANCTRN", "CONCOR", "STL", "GDL", "MAHLOG", "FSC", "TCIEXP", "EASTWEST", "GATI", "ARSHIYA", "RITCO", "OBCL", "VRLLOG", "ALLCARGO", "DJML", "LANCER", "CORPOCO", "BLUEDART", "CONTAINER", "SURYAKR", "SNOWMAN", "MFLINDIA", "KTIL", "NECCLTD", "SICAL", "TIGERLOGS", "AUTOINT", "TRADWIN", "IRCTC", "VMV", "CROWNTOURS", "COX&KINGS", "THOMASCOOK", "BLS", "ITHL", "MGL", "WABAG", "GAIL", "JIYAECO", "GSPL", "FILTRA", "A2ZINFRA", "IGL", "MEWATZI", "HINDZINC"];
-
-        /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-        autocomplete(document.getElementById("symbol1"), countries);
-        autocomplete(document.getElementById("symbol2"), countries);
-        autocomplete(document.getElementById("symbol3"), countries);
-        autocomplete(document.getElementById("symbol4"), countries);
-        autocomplete(document.getElementById("symbol5"), countries);
-        autocomplete(document.getElementById("symbol6"), countries);
-        autocomplete(document.getElementById("symbol7"), countries);
-        autocomplete(document.getElementById("symbol8"), countries);
-        autocomplete(document.getElementById("symbol9"), countries);
-        autocomplete(document.getElementById("symbol10"), countries);
-    </script>
-
-
-
-</body>
-
-
-</html>
+{%endblock%}
