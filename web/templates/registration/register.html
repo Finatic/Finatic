@@ -1,0 +1,83 @@
+{% extends 'base.html'%}
+{% block title %} Register {%endblock%}
+{%block content%}
+
+<div class="containter">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <header class="card-header">
+          <a href="{%url 'login'%}" class="float-right btn btn-outline-info mt-1">Login</a>
+          <h4 class="card-title mt-2">Sign Up</h4>
+        </header>
+        <article class="card-body">
+          <form method="POST">
+            {%csrf_token%}
+            <div class="form-group">
+              <label for="id_username">Username</label>
+              <input type="text" class="form-control"
+                placeholder="150 characters or fewer. Letters, digits and @/./+/-/_ only." name="username"
+                maxlength="150" autofocus="" required="" id="id_username" />
+            </div>
+            <!-- form-group end./username/ -->
+            <div class="form-row">
+              <div class="col form-group">
+                <label for="id_first_name">First Name </label>
+                <input type="text" name="first_name" class="form-control" maxlength="100" required="" id="id_first_name"
+                  placeholder="" />
+              </div>
+              <!-- form-group end.// -->
+              <div class="col form-group">
+                <label for="id_last_name">Last Name</label>
+                <input type="text" name="last_name" class="form-control" maxlength="100" required="" id="id_last_name"
+                  placeholder="" />
+              </div>
+              <!-- form-group end.// -->
+            </div>
+            <!-- form-row end./first and last name/ -->
+            <div class="form-group">
+              <label for="id_email">Email address</label>
+              <input type="email" name="email" class="form-control" required="" id="id_email" placeholder="" />
+              <small class="form-text text-muted">Your email and personal information is not shared with any
+                third parties, and we only use your email for communications
+                related to our service, such as password resets.</small>
+            </div>
+            <!-- form-group end./emailid/ -->
+            <div class="form-group">
+              <label for="id_password1">Create Password</label>
+              <input class="form-control" type="password" name="password1" autocomplete="new-password" required=""
+                id="id_password1" />
+            </div>
+            <!-- form-group end./password/ -->
+            <div class="form-group">
+              <label for="id_password2">Confirm Password</label>
+              <input type="password" name="password2" autocomplete="new-password" class="form-control" required=""
+                id="id_password2" />
+            </div>
+            <!-- form-group end./confirm password/ -->
+            <div class="form-group">
+              <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept
+                our Terms of use and Privacy Policy.</small>
+            </div>
+            <!-- form-group/warning message/ -->
+            <div class="form-group">
+              <button type="submit" class="btn btn-info btn-block">
+                Sign Up
+              </button>
+            </div>
+            <!-- form-group/button / -->
+          </form>
+        </article>
+        <!-- card-body end .// -->
+        <div class="border-top card-body text-center">
+          Have an account? <a href="{%url 'login'%}">Login</a>
+        </div>
+      </div>
+      <!-- card.// -->
+    </div>
+    <!-- col.//-->
+  </div>
+  <!-- row.//-->
+</div>
+
+{% endblock %}
