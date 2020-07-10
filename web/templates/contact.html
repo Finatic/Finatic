@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+{% block title %}
+Contact Us
+{%endblock%}
+{%block content %}
+<div class="containter">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <header class="card-header">
+          <h4 class="card-title mt-2">Contact Us</h4>
+        </header>
+        <article class="card-body">
+          <form method="POST">
+            {%csrf_token%}
+            <p><label for="id_name">Name</label> <input type="text" name="name" maxlength="100" required id="id_name"
+                class="form-control">
+            </p>
+            <p><label for="id_email">Email</label> <input type="email" name="email" required id="id_email"
+                class="form-control"></p>
+            <p><label for="id_message">Message</label> <textarea name="message" cols="40" rows="10" required
+                id="id_message" class="form-control">
+            </textarea></p>
+            <div class="form-group">
+              <button class="btn btn-info btn-block ">Submit</button>
+            </div>
+
+
+          </form>
+        </article> <!-- card-body end .// -->
+        <div class="border-top card-body text-center">You can email us directly at <a
+            href="mailto:teamfinatic3@gmail.com">teamfinatic3@gmail.com</a>
+        </div>
+      </div> <!-- card.// -->
+    </div> <!-- col.//-->
+
+  </div> <!-- row.//-->
+
+</div>
+
+{% endblock %}

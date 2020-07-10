@@ -13,6 +13,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'contact' %}"><i
+                        class='<i class="fas fa-user-headset"></i>'></i>Contact Us</a>
+            </li>
 
             {% if user.is_authenticated %}
             <li class="nav-item">
