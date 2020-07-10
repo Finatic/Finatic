@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+{% block title %}
+result
+{%endblock%}
+{%block content %}
+<div class="containter">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title mt-2">Enter new password</h4>
+                </header>
+                <article class="card-body">
+                    <form method="POST">
+                        {%csrf_token%}
+                        <div class="form-group">
+                            <label for="id_old_password">Old password</label>
+                            <input type="password" name="old_password" class="form-control" maxlength="100" required=""
+                                id="id_old_password">
+
+                        </div> <!-- form-group end./username/ -->
+                        <div class="form-group">
+                            <label for="id_new_password1">New password</label>
+                            <input type="password" name="new_password1" class="form-control" maxlength="100" required=""
+                                id="id_new_password1">
+                        </div> <!-- form-group end./password/ -->
+                        <div class="form-group">
+                            <label for="id_new_password2"> Confirm new password </label>
+                            <input type="password" name="new_password2" class="form-control" maxlength="100" required=""
+                                id="id_new_password2">
+                        </div> <!-- form-group end./password/ -->
+                        <div class="form-group">
+                            <div class="row">
+                                <button class="btn btn-info mx-3">Confirm</button>
+
+                            </div>
+                        </div>
+
+
+                    </form>
+                </article> <!-- card-body end .// -->
+
+            </div> <!-- card.// -->
+        </div> <!-- col.//-->
+
+    </div> <!-- row.//-->
+
+</div>
+{%endblock%}

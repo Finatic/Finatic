@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% block title %}
+Login
+{%endblock%}
+{%block content %}
+<div class="containter">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <header class="card-header">
+                    <a href="{%url 'register'%}" class="float-right btn btn-outline-info mt-1">Sign Up</a>
+                    <h4 class="card-title mt-2">Login</h4>
+                </header>
+                <article class="card-body">
+                    <form method="POST">
+                        {%csrf_token%}
+                        <div class="form-group">
+                            <label for="id_username">Username</label>
+                            <input type="text" class="form-control" name="username" autofocus="" autocapitalize="none"
+                                autocomplete="username" maxlength="150" required="" id="id_username">
+                        </div> <!-- form-group end./username/ -->
+                        <div class="form-group">
+                            <label for="id_password1">Password</label>
+                            <input class="form-control" type="password" name="password" autocomplete="current-password"
+                                required="" id="id_password">
+                        </div> <!-- form-group end./password/ -->
+
+                        <div class="form-group">
+                            <div class="row">
+                                <button class="btn btn-info mx-3">Login</button>
+
+
+                                <a href="{% url 'reset_password' %}" class="btn btn-outline-info" role="button"
+                                    aria-pressed="true"><i class="fas fa-exclamation-circle"></i> Forget Password</a>
+
+                            </div>
+                        </div>
+
+
+                    </form>
+                </article> <!-- card-body end .// -->
+                <div class="border-top card-body text-center">Don't have an account? <a
+                        href="{%url 'register'%}">Register</a></div>
+            </div> <!-- card.// -->
+        </div> <!-- col.//-->
+
+    </div> <!-- row.//-->
+
+</div>
+
+{% endblock %}
