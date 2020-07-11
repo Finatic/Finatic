@@ -1,49 +1,1798 @@
-{% extends 'base.html'%}
-{% block title %}
-result
-{%endblock%}
-{%block content %}
-<div class="containter">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <header class="card-header">
-                    <h4 class="card-title mt-2">Enter new password</h4>
-                </header>
-                <article class="card-body">
-                    <form method="POST">
-                        {%csrf_token%}
-                        <div class="form-group">
-                            <label for="id_old_password">Old password</label>
-                            <input type="password" name="old_password" class="form-control" maxlength="100" required=""
-                                id="id_old_password">
+<!DOCTYPE html>
+<html lang="en">
 
-                        </div> <!-- form-group end./username/ -->
-                        <div class="form-group">
-                            <label for="id_new_password1">New password</label>
-                            <input type="password" name="new_password1" class="form-control" maxlength="100" required=""
-                                id="id_new_password1">
-                        </div> <!-- form-group end./password/ -->
-                        <div class="form-group">
-                            <label for="id_new_password2"> Confirm new password </label>
-                            <input type="password" name="new_password2" class="form-control" maxlength="100" required=""
-                                id="id_new_password2">
-                        </div> <!-- form-group end./password/ -->
-                        <div class="form-group">
-                            <div class="row">
-                                <button class="btn btn-info mx-3">Confirm</button>
+<head>
+    <title>Portfolio Optimization</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description"
+        content="Portfolio optimizer supporting mean variance optimization to find the optimal risk adjusted portfolio that lies on the efficient frontier, and optimization based on minimizing cvar, diversification or maximum drawdown.">
+    <meta name="keywords"
+        content="portfolio optimization, mean variance optimization, cvar optimization, drawdown optimization, diversification optimization, efficient frontier">
+    <link rel="canonical" href="https://www.portfoliovisualizer.com/optimize-portfolio">
 
+
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="css/merged-60e9947ee84e69cf3aeed9748d6f9729.min.css">
+
+
+
+    <script>
+        var autoCompleteTickers = true;
+        var showFullName = false;
+        var enableExport = false;
+        var expiredAccount = false;
+        var enablePDF = false;
+        var bookmarkURL = "https://www.portfoliovisualizer.com/optimize-portfolio?s=y";
+        var showBookmarkLink = true;
+        var showExportLinks = true;
+        window.q = []; window.$ = function (f) { q.push(f) }
+    </script>
+
+
+    <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-43200681-1', 'portfoliovisualizer.com');
+        ga('send', 'pageview');
+    </script>
+
+
+
+
+    <script>
+        var addRowsLinkText = "More";
+        $(function () {
+            updateFormState();
+            toggleTimeframe();
+            $('#benchmark').on('change', function (e) {
+                $("#benchmarkSymbol").closest('.form-group').toggle($('#benchmark').val() == -1);
+            });
+
+        });
+
+        function switchType() {
+            var field = $('#submitType');
+            if (field.val() != 'Refresh') {
+                clearPortfolios();
+                field.val('Refresh');
+                field.prop('form').submit();
+            }
+        }
+
+        function adjustColumns() {
+            var expectedMean = $("#historicalReturns").val() == 'false';
+            var expectedVolatility = expectedMean && $("#historicalVolatility").val() == 'false';
+            var assetConstraints = $("#constrained").val() == 'true';
+            var groupConstraints = $("#groupConstraints").val() == 'true';
+
+            var indexWidth = 1;
+            var assetWidth = 3;
+            var weightWidth = 2;
+            var meanWidth = 2;
+            var volatilityWidth = 2;
+            var assetConstraintWidth = 2;
+            var groupConstraintWidth = 2;
+            var visibleColumns = indexWidth + assetWidth + weightWidth + (expectedMean ? meanWidth : 0) + (expectedVolatility ? volatilityWidth : 0) + (assetConstraints ? 2 * assetConstraintWidth : 0) + (groupConstraints ? groupConstraintWidth : 0);
+            if (visibleColumns > 12 && groupConstraints) {
+                groupConstraintWidth--;
+                visibleColumns--;
+            }
+            if (visibleColumns > 12) {
+                assetWidth--;
+                visibleColumns--;
+            }
+            if (visibleColumns > 12) {
+                weightWidth--;
+                visibleColumns--;
+            }
+            if (visibleColumns > 12) {
+                assetConstraintWidth--;
+                visibleColumns -= 2;
+            }
+            if (visibleColumns > 12 && expectedVolatility) {
+                volatilityWidth--;
+                visibleColumns--;
+            }
+            $('.groupConstraint').not('#groupConstraintsSection').removeClass("col-sm-1 col-sm-2").addClass("col-sm-" + groupConstraintWidth);
+            $('.weight-column').removeClass("col-sm-1 col-sm-2").addClass("col-sm-" + weightWidth);
+            $('.asset-volatility').removeClass("col-sm-1 col-sm-2").addClass("col-sm-" + volatilityWidth);
+            $('.asset-header').removeClass("col-sm-3 col-sm-4").addClass("col-sm-" + (indexWidth + assetWidth));
+            $('.asset-column').removeClass("col-sm-2 col-sm-3").addClass("col-sm-" + assetWidth);
+            $('.totals-column').removeClass("col-sm-1 col-sm-2 col-sm-offset-2 col-sm-offset-3").addClass("col-sm-offset-" + assetWidth).addClass("col-sm-" + weightWidth);
+            $('.constraint').removeClass("col-sm-2 col-sm-3").addClass("col-sm-" + assetConstraintWidth);
+        }
+
+        function updateFormState() {
+            var goal = $("#goal").val();
+            var meanVariance = (goal == 3 || goal == 1 || goal == 2 || goal == 4);
+            var forecastSupported = meanVariance || goal == 9;
+            $("#groupConstraints").closest('.form-group').toggle(meanVariance);
+            $("#robustOptimization").closest('.form-group').toggle(meanVariance);
+            $("#historicalReturns").closest('.form-group').toggle(forecastSupported);
+            var groupConstraints = meanVariance && $("#groupConstraints").val() == 'true';
+            if (!meanVariance) {
+                $("#groupConstraints").val('false').trigger("chosen:updated");
+            }
+            if (!forecastSupported) {
+                $("#historicalReturns").val('true').trigger("chosen:updated");
+            }
+            var historicalReturns = $("#historicalReturns").val() == 'true';
+            $('#historicalCorrelations').closest('.form-group').toggle(!historicalReturns);
+            $('#historicalVolatility').closest('.form-group').toggle(!historicalReturns);
+            if (historicalReturns || !forecastSupported) {
+                $("#historicalVolatility").val('true').trigger("chosen:updated");
+                $("#historicalCorrelations").val('true').trigger("chosen:updated");
+            }
+            var historicalVolatility = $("#historicalVolatility").val() == 'true';
+            var historicalCorrelations = $("#historicalCorrelations").val() == 'true';
+            var constraints = $("#constrained").val() == 'true';
+
+            adjustColumns();
+            $("#correlationsFile").closest('.form-group').toggle(!historicalCorrelations);
+            $("#riskFreeRate").closest('.form-group').toggle(!historicalReturns);
+            $("#benchmark").closest('.form-group').toggle(historicalReturns);
+            $("#benchmarkSymbol").closest('.form-group').toggle(historicalReturns && $('#benchmark').val() == -1);
+            $(".asset-statistics").toggle(!historicalReturns);
+            $(".constraint").toggle(constraints);
+            $(".groupConstraint").toggle(groupConstraints);
+            $(".asset-volatility").toggle(!historicalVolatility);
+            $("#targetAnnualReturn").closest('.form-group').toggle(goal == 3 || goal == 8 || goal == 7 || goal == 6);
+            $("#targetAnnualVolatility").closest('.form-group').toggle(goal == 1);
+        }
+        function toggleTimeframe() {
+            var showMonths = $("#timePeriod").val() == 2;
+            $("#firstMonth").closest('.form-group').toggle(showMonths);
+            $("#lastMonth").closest('.form-group').toggle(showMonths);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>Portfolio Optimization</h1>
+        <p>
+            This portfolio optimizer tool supports the following portfolio optimization strategies:
+        </p>
+        <ul>
+            <li>
+                Mean Variance Optimization &ndash; Find the optimal risk adjusted portfolio that lies on the efficient
+                frontier
+            </li>
+            <li>
+                Minimize Conditional Value-at-Risk &ndash; Optimize the portfolio to minimize the expected tail loss
+            </li>
+            <li>
+                Risk Parity &ndash; Find the portfolio that equalizes the risk contribution of portfolio assets
+            </li>
+            <li>
+                Minimize Tracking Error &ndash; Find the portfolio that minimizes the tracking error against the
+                selected benchmark
+            </li>
+            <li>
+                Maximize Information Ratio &ndash; Find the portfolio that maximizes the information ratio against the
+                selected benchmark
+            </li>
+
+            <li>
+                Maximize Kelly Criterion &ndash; Finds the portfolio with the maximum expected geometric growth rate
+            </li>
+            <li>
+                Maximize Sortino Ratio &ndash; Find the portfolio that maximizes the Sortino ratio for the given minimum
+                acceptable return
+            </li>
+            <li>
+                Maximize Omega Ratio &ndash; Find the portfolio that maximizes the Omega ratio for the given minimum
+                acceptable return
+            </li>
+            <li>
+                Minimize Maximum Drawdown &ndash; Find the portfolio with the minimum worst case drawdown with optional
+                minimum acceptable return
+            </li>
+        </ul>
+        <p>
+            The optimization is based on the monthly return statistics of the selected portfolio assets for the given
+            time period.
+            The optimization result does not predict what allocation would perform best outside the given time period,
+            and the actual performance
+            of portfolios constructed using the optimized asset weights may vary from the given performance goal.
+        </p>
+        <p>
+            The required inputs for the optimization include the time range and the portfolio assets. Portfolio asset
+            weights and constraints are optional.
+            You can also use the <a href="black-litterman-model">Black-Litterman model</a> based portfolio optimization,
+            which allows the benchmark portfolio asset weights to be optimized based on investor's views.
+        </p>
+
+
+        <form action="optimize-portfolio#analysisResults" method="post" class="form-horizontal"
+            enctype="multipart/form-data" novalidate>
+
+            <input type="hidden" id="submitType" name="submitType" value="">
+
+
+            <div class="form-group">
+                <label for="mode" class="control-label col-sm-3">Portfolio Type</label>
+                <div class="col-sm-4">
+                    <select id="mode" name="mode" class="form-control" onchange="switchType()">
+                        <option value="1">Asset Classes</option>
+                        <option value="2" selected>Tickers</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="timePeriod" class="control-label col-sm-3">Time Period <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Specify time period in years or in months"></span>
+                </label>
+                <div class="col-sm-3">
+                    <select id="timePeriod" name="timePeriod" class="form-control" onchange="toggleTimeframe()">
+                        <option value="2">Month-to-Month</option>
+                        <option value="4" selected>Year-to-Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="startYear" class="control-label col-sm-3">Start Year <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Start year for portfolio optimization period"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="startYear" name="startYear" class="form-control">
+                        <option value="1985" selected>1985</option>
+                        <option value="1986">1986</option>
+                        <option value="1987">1987</option>
+                        <option value="1988">1988</option>
+                        <option value="1989">1989</option>
+                        <option value="1990">1990</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                        <option value="1994">1994</option>
+                        <option value="1995">1995</option>
+                        <option value="1996">1996</option>
+                        <option value="1997">1997</option>
+                        <option value="1998">1998</option>
+                        <option value="1999">1999</option>
+                        <option value="2000">2000</option>
+                        <option value="2001">2001</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group norender">
+                <label for="firstMonth" class="control-label col-sm-3">First Month <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Start month for portfolio optimization period"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="firstMonth" name="firstMonth" class="form-control">
+                        <option value="1" selected>Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">Mar</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">Jun</option>
+                        <option value="7">Jul</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="endYear" class="control-label col-sm-3">End Year <span class="glyphicon glyphicon-info-sign"
+                        data-toggle="tooltip" data-original-title="End year for portfolio optimization period"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="endYear" name="endYear" class="form-control">
+                        <option value="1985">1985</option>
+                        <option value="1986">1986</option>
+                        <option value="1987">1987</option>
+                        <option value="1988">1988</option>
+                        <option value="1989">1989</option>
+                        <option value="1990">1990</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                        <option value="1994">1994</option>
+                        <option value="1995">1995</option>
+                        <option value="1996">1996</option>
+                        <option value="1997">1997</option>
+                        <option value="1998">1998</option>
+                        <option value="1999">1999</option>
+                        <option value="2000">2000</option>
+                        <option value="2001">2001</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020" selected>2020</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group norender">
+                <label for="lastMonth" class="control-label col-sm-3">Last Month <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="End month for portfolio optimization period"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="lastMonth" name="lastMonth" class="form-control">
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">Mar</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">Jun</option>
+                        <option value="7">Jul</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12" selected>Dec</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="goal" class="control-label col-sm-3">Optimization Goal <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Select performance goal for optimization"></span>
+                </label>
+                <div class="col-sm-4">
+                    <select id="goal" name="goal" class="form-control" onchange="updateFormState()">
+                        <option value="2" selected>Maximize Sharpe Ratio</option>
+                        <option value="3">Minimize Volatility subject to...</option>
+                        <option value="1">Maximize Return subject to...</option>
+                        <option value="4">Minimize Variance</option>
+                        <option value="5">Minimize Conditional Value-at-Risk</option>
+                        <option value="9">Risk Parity</option>
+                        <option value="13">Minimize Tracking Error</option>
+                        <option value="11">Maximize Information Ratio</option>
+                        <option value="12">Maximize Kelly Criterion</option>
+                        <option value="6">Minimize Maximum Drawdown subject to...</option>
+                        <option value="8">Maximize Omega Ratio subject to...</option>
+                        <option value="7">Maximize Sortino Ratio subject to...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="targetAnnualReturn" class="control-label col-sm-3">Targeted Annual Return <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Targeted annual return"></span>
+                </label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="number" id="targetAnnualReturn" name="targetAnnualReturn"
+                            class="form-control fmt-pct">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="targetAnnualVolatility" class="control-label col-sm-3">Targeted Annual Volatility <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Targeted annual volatility"></span>
+                </label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="number" id="targetAnnualVolatility" name="targetAnnualVolatility"
+                            class="form-control fmt-pct">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="robustOptimization" class="control-label col-sm-3">Robust Optimization <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Use Monte Carlo method to resample the efficient frontier inputs"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="robustOptimization" name="robustOptimization" class="form-control">
+                        <option value="false" selected>No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="historicalReturns" class="control-label col-sm-3">Use Historical Returns <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Use historical returns for assets or specify forward looking capital market expectations"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="historicalReturns" name="historicalReturns" class="form-control"
+                        onchange="updateFormState()">
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group norender">
+                <label for="historicalVolatility" class="control-label col-sm-3">Use Historical Volatility <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Use historical volatility or specify expected volatility of assets"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="historicalVolatility" name="historicalVolatility" class="form-control"
+                        onchange="updateFormState()">
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group norender">
+                <label for="historicalCorrelations" class="control-label col-sm-3">Use Historical Correlations <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Use historical correlations or import custom correlation matrix for assets"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="historicalCorrelations" name="historicalCorrelations" class="form-control"
+                        onchange="updateFormState()">
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group norender">
+                <label for="correlationsFile" class="control-label col-sm-3">Correlation Matrix <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Excel or text file with the correlation matrix for portfolio assets"></span>
+                </label>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly name="correlationsFile_info"
+                            id="correlationsFile_info">
+                        <span class="input-group-btn">
+                            <span class="btn btn-default btn-file">
+                                Browse&hellip;
+                                <input type="file" id="correlationsFile" name="correlationsFile"
+                                    accept=".csv,.xls,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv,text/plain">
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="constrained" class="control-label col-sm-3">Asset Constraints <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Specify allocation constraints for assets"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="constrained" name="constrained" class="form-control" onchange="updateFormState()">
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="groupConstraints" class="control-label col-sm-3">Group Constraints <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Specify asset class level allocation constraints"></span>
+                </label>
+                <div class="col-sm-2">
+                    <select id="groupConstraints" name="groupConstraints" class="form-control"
+                        onchange="updateFormState()">
+                        <option value="false" selected>No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comparedAllocation" class="control-label col-sm-3">Compared Allocation <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Select allocation for comparison"></span>
+                </label>
+                <div class="col-sm-4">
+                    <select id="comparedAllocation" name="comparedAllocation" class="form-control">
+                        <option value="-1" selected>None</option>
+                        <option value="1">Equal Weighted</option>
+                        <option value="2">Maximum Sharpe Ratio Weights</option>
+                        <option value="3">Inverse Volatility Weighted</option>
+                        <option value="4">Risk Parity Weighted</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="benchmark" class="control-label col-sm-3">Benchmark <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Select benchmark index or an imported benchmark series"></span>
+                </label>
+                <div class="col-sm-4">
+                    <select id="benchmark" name="benchmark" class="form-control">
+                        <option value="" selected>None</option>
+                        <option value="-1">Specify Ticker...</option>
+                        <option value="-2">Import Benchmark...</option>
+                        <optgroup label="Benchmark Portfolio">
+                            <option value="VFINX">Vanguard 500 Index Investor</option>
+                            <option value="VBINX">Vanguard Balanced Index Inv</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group norender">
+                <label for="benchmarkSymbol" class="control-label col-sm-3">Benchmark Ticker <span
+                        class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                        data-original-title="Ticker symbol for the benchmark asset"></span>
+                </label>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <input type="text" id="benchmarkSymbol" name="benchmarkSymbol" class="form-control fmt-ticker"
+                            placeholder="Ticker symbol">
+                        <span class="input-group-addon glyphicon glyphicon-search" title="Find ticker symbol"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="pfSection" class="portfolio-section pv-allow-expansion" data-count="1" data-maxrows="150"
+                data-advanced="false">
+                <div class="row bottomBorder">
+                    <div class="col-sm-4 separateTop asset-header text-nowrap"><b>Portfolio Assets</b>
+                        <div class="btn-group btn-group-sm left-margin hidden-print" role="group"
+                            aria-label="Portfolio allocation options"><button type="button"
+                                class="btn btn-default clearAllocation" title="Clear assets and allocations"><i
+                                    class="glyphicon glyphicon-trash"></i></button>
+                            <div id="allocation-menu-1" class="btn-group btn-group-sm allocation-menu hidden-print"
+                                role="group"><button id="allocationOptionsButton1" type="button"
+                                    class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false"><i class="glyphicon glyphicon-cog"></i> <span
+                                        class="caret"></span></button>
+                                <ul class="dropdown-menu scrollable-menu">
+                                    <li class="dropdown-header">Allocation Weights</li>
+                                    <li><a href="#" onclick="equalWeightAllocations(1,'');return false;">Equal
+                                            Weight</a></li>
+                                    <li><a href="#" onclick="normalizeAllocations(1,'');return false;">Normalize</a>
+                                    </li>
+                                    <li><a href="#" onclick="clearAllocations(1,'');return false;">Clear</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Import Portfolio</li>
+                                    <li><a href="#" onclick="importPortfolio(1,'');return false;">Upload Portfolio</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Lazy Portfolios</li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Growth Portfolio',1,false,true,true,null,'');return false;">Growth
+                                            Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Moderate Portfolio',1,false,true,true,null,'');return false;">Moderate
+                                            Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Conservative Portfolio',1,false,true,true,null,'');return false;">Conservative
+                                            Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Income Portfolio',1,false,true,true,null,'');return false;">Income
+                                            Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Bill Bernstein No Brainer',1,false,true,true,null,'');return false;">Bill
+                                            Bernstein No Brainer</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Bill Schultheis Coffee House',1,false,true,true,null,'');return false;">Bill
+                                            Schultheis Coffee House</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Bogleheads Three Funds',1,false,true,true,null,'');return false;">Bogleheads
+                                            Three Funds</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Bogleheads Four Funds',1,false,true,true,null,'');return false;">Bogleheads
+                                            Four Funds</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('David Swensen Lazy Portfolio',1,false,true,true,null,'');return false;">David
+                                            Swensen Lazy Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('David Swensen Yale Endowment',1,false,true,true,null,'');return false;">David
+                                            Swensen Yale Endowment</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('FundAdvice Ultimate Buy & Hold Portfolio',1,false,true,true,null,'');return false;">FundAdvice
+                                            Ultimate Buy &amp; Hold Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Harry Browne Permanent Portfolio',1,false,true,true,null,'');return false;">Harry
+                                            Browne Permanent Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Larry Swedroe Simple Portfolio',1,false,true,true,null,'');return false;">Larry
+                                            Swedroe Simple Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Larry Swedroe Minimize FatTails Portfolio',1,false,true,true,null,'');return false;">Larry
+                                            Swedroe Minimize FatTails Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Mebane Faber Ivy Portfolio',1,false,true,true,null,'');return false;">Mebane
+                                            Faber Ivy Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Ray Dalio All Weather',1,false,true,true,null,'');return false;">Ray
+                                            Dalio All Weather</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Rick Ferri Core Four',1,false,true,true,null,'');return false;">Rick
+                                            Ferri Core Four</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Scott Burns Couch Portfolio',1,false,true,true,null,'');return false;">Scott
+                                            Burns Couch Portfolio</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Stocks/Bonds (60/40)',1,false,true,true,null,'');return false;">Stocks/Bonds
+                                            (60/40)</a></li>
+                                    <li><a href="#"
+                                            onclick="populatePortfolio('Stocks/Bonds (40/60)',1,false,true,true,null,'');return false;">Stocks/Bonds
+                                            (40/60)</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 separateTop weight-column"><b>Allocation</b></div>
+                    <div class="col-sm-2 separateTop text-nowrap asset-statistics asset-mean"><b>Expected Return</b>
+                    </div>
+                    <div class="col-sm-2 separateTop text-nowrap asset-statistics asset-volatility"><b>Volatility</b>
+                    </div>
+                    <div class="col-sm-2 separateTop text-nowrap constraint"><b>Min. Weight</b></div>
+                    <div class="col-sm-2 separateTop text-nowrap constraint"><b>Max. Weight</b></div>
+                    <div class="col-sm-2 separateTop text-nowrap groupConstraint"><b>Group</b></div>
+                </div>
+                <div class="row highlightRow asset-row">
+                    <div class="col-sm-1 separateTop">1</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol1">Select asset 1</label></span>
+                            <input type="text" id="symbol1" name="symbol1" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation1_1">Enter percentage allocation for asset
+                                    1</label></span>
+                            <input type="number" id="allocation1_1" name="allocation1_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean1">Expected return for asset 1</label></span>
+                            <input type="number" id="mean1" name="mean1" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility1">Expected volatility for asset
+                                    1</label></span>
+                            <input type="number" id="volatility1" name="volatility1" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight1">Minimum allocation for asset
+                                    1</label></span>
+                            <input type="number" id="minWeight1" name="minWeight1" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight1">Maximum allocation for asset
+                                    1</label></span>
+                            <input type="number" id="maxWeight1" name="maxWeight1" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup1">Group
+                                assignment for asset 1</label></span>
+                        <select id="assetGroup1" name="assetGroup1" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row asset-row">
+                    <div class="col-sm-1 separateTop">2</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol2">Select asset 2</label></span>
+                            <input type="text" id="symbol2" name="symbol2" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation2_1">Enter percentage allocation for asset
+                                    2</label></span>
+                            <input type="number" id="allocation2_1" name="allocation2_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean2">Expected return for asset 2</label></span>
+                            <input type="number" id="mean2" name="mean2" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility2">Expected volatility for asset
+                                    2</label></span>
+                            <input type="number" id="volatility2" name="volatility2" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight2">Minimum allocation for asset
+                                    2</label></span>
+                            <input type="number" id="minWeight2" name="minWeight2" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight2">Maximum allocation for asset
+                                    2</label></span>
+                            <input type="number" id="maxWeight2" name="maxWeight2" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup2">Group
+                                assignment for asset 2</label></span>
+                        <select id="assetGroup2" name="assetGroup2" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row highlightRow asset-row">
+                    <div class="col-sm-1 separateTop">3</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol3">Select asset 3</label></span>
+                            <input type="text" id="symbol3" name="symbol3" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation3_1">Enter percentage allocation for asset
+                                    3</label></span>
+                            <input type="number" id="allocation3_1" name="allocation3_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean3">Expected return for asset 3</label></span>
+                            <input type="number" id="mean3" name="mean3" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility3">Expected volatility for asset
+                                    3</label></span>
+                            <input type="number" id="volatility3" name="volatility3" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight3">Minimum allocation for asset
+                                    3</label></span>
+                            <input type="number" id="minWeight3" name="minWeight3" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight3">Maximum allocation for asset
+                                    3</label></span>
+                            <input type="number" id="maxWeight3" name="maxWeight3" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup3">Group
+                                assignment for asset 3</label></span>
+                        <select id="assetGroup3" name="assetGroup3" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row asset-row">
+                    <div class="col-sm-1 separateTop">4</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol4">Select asset 4</label></span>
+                            <input type="text" id="symbol4" name="symbol4" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation4_1">Enter percentage allocation for asset
+                                    4</label></span>
+                            <input type="number" id="allocation4_1" name="allocation4_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean4">Expected return for asset 4</label></span>
+                            <input type="number" id="mean4" name="mean4" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility4">Expected volatility for asset
+                                    4</label></span>
+                            <input type="number" id="volatility4" name="volatility4" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight4">Minimum allocation for asset
+                                    4</label></span>
+                            <input type="number" id="minWeight4" name="minWeight4" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight4">Maximum allocation for asset
+                                    4</label></span>
+                            <input type="number" id="maxWeight4" name="maxWeight4" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup4">Group
+                                assignment for asset 4</label></span>
+                        <select id="assetGroup4" name="assetGroup4" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row highlightRow asset-row">
+                    <div class="col-sm-1 separateTop">5</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol5">Select asset 5</label></span>
+                            <input type="text" id="symbol5" name="symbol5" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation5_1">Enter percentage allocation for asset
+                                    5</label></span>
+                            <input type="number" id="allocation5_1" name="allocation5_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean5">Expected return for asset 5</label></span>
+                            <input type="number" id="mean5" name="mean5" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility5">Expected volatility for asset
+                                    5</label></span>
+                            <input type="number" id="volatility5" name="volatility5" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight5">Minimum allocation for asset
+                                    5</label></span>
+                            <input type="number" id="minWeight5" name="minWeight5" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight5">Maximum allocation for asset
+                                    5</label></span>
+                            <input type="number" id="maxWeight5" name="maxWeight5" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup5">Group
+                                assignment for asset 5</label></span>
+                        <select id="assetGroup5" name="assetGroup5" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row asset-row">
+                    <div class="col-sm-1 separateTop">6</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol6">Select asset 6</label></span>
+                            <input type="text" id="symbol6" name="symbol6" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation6_1">Enter percentage allocation for asset
+                                    6</label></span>
+                            <input type="number" id="allocation6_1" name="allocation6_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean6">Expected return for asset 6</label></span>
+                            <input type="number" id="mean6" name="mean6" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility6">Expected volatility for asset
+                                    6</label></span>
+                            <input type="number" id="volatility6" name="volatility6" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight6">Minimum allocation for asset
+                                    6</label></span>
+                            <input type="number" id="minWeight6" name="minWeight6" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight6">Maximum allocation for asset
+                                    6</label></span>
+                            <input type="number" id="maxWeight6" name="maxWeight6" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup6">Group
+                                assignment for asset 6</label></span>
+                        <select id="assetGroup6" name="assetGroup6" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row highlightRow asset-row">
+                    <div class="col-sm-1 separateTop">7</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol7">Select asset 7</label></span>
+                            <input type="text" id="symbol7" name="symbol7" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation7_1">Enter percentage allocation for asset
+                                    7</label></span>
+                            <input type="number" id="allocation7_1" name="allocation7_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean7">Expected return for asset 7</label></span>
+                            <input type="number" id="mean7" name="mean7" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility7">Expected volatility for asset
+                                    7</label></span>
+                            <input type="number" id="volatility7" name="volatility7" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight7">Minimum allocation for asset
+                                    7</label></span>
+                            <input type="number" id="minWeight7" name="minWeight7" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight7">Maximum allocation for asset
+                                    7</label></span>
+                            <input type="number" id="maxWeight7" name="maxWeight7" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup7">Group
+                                assignment for asset 7</label></span>
+                        <select id="assetGroup7" name="assetGroup7" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row asset-row">
+                    <div class="col-sm-1 separateTop">8</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol8">Select asset 8</label></span>
+                            <input type="text" id="symbol8" name="symbol8" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation8_1">Enter percentage allocation for asset
+                                    8</label></span>
+                            <input type="number" id="allocation8_1" name="allocation8_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean8">Expected return for asset 8</label></span>
+                            <input type="number" id="mean8" name="mean8" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility8">Expected volatility for asset
+                                    8</label></span>
+                            <input type="number" id="volatility8" name="volatility8" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight8">Minimum allocation for asset
+                                    8</label></span>
+                            <input type="number" id="minWeight8" name="minWeight8" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight8">Maximum allocation for asset
+                                    8</label></span>
+                            <input type="number" id="maxWeight8" name="maxWeight8" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup8">Group
+                                assignment for asset 8</label></span>
+                        <select id="assetGroup8" name="assetGroup8" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row highlightRow asset-row">
+                    <div class="col-sm-1 separateTop">9</div>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol9">Select asset 9</label></span>
+                            <input type="text" id="symbol9" name="symbol9" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation9_1">Enter percentage allocation for asset
+                                    9</label></span>
+                            <input type="number" id="allocation9_1" name="allocation9_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean9">Expected return for asset 9</label></span>
+                            <input type="number" id="mean9" name="mean9" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility9">Expected volatility for asset
+                                    9</label></span>
+                            <input type="number" id="volatility9" name="volatility9" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight9">Minimum allocation for asset
+                                    9</label></span>
+                            <input type="number" id="minWeight9" name="minWeight9" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight9">Maximum allocation for asset
+                                    9</label></span>
+                            <input type="number" id="maxWeight9" name="maxWeight9" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup9">Group
+                                assignment for asset 9</label></span>
+                        <select id="assetGroup9" name="assetGroup9" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row asset-row">
+                    <div class="col-sm-1 separateTop">10</div>
+                    <span class="add-rows hidden-print">(<a href="javascript:void(0);"
+                            onclick="return addAssetRows(10, getParentPortfolio(this));">More</a>)</span>
+                    <div class="col-sm-3 asset-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="symbol10">Select asset 10</label></span>
+                            <input type="text" id="symbol10" name="symbol10" class="form-control fmt-ticker"
+                                placeholder="Ticker symbol">
+                            <span class="input-group-addon glyphicon glyphicon-search"
+                                title="Find ticker symbol"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 weight-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="allocation10_1">Enter percentage allocation for asset
+                                    10</label></span>
+                            <input type="number" id="allocation10_1" name="allocation10_1"
+                                class="form-control fmt-pospct asset-weight">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-mean">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="mean10">Expected return for asset 10</label></span>
+                            <input type="number" id="mean10" name="mean10" class="form-control fmt-pct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 asset-statistics asset-volatility">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="volatility10">Expected volatility for asset
+                                    10</label></span>
+                            <input type="number" id="volatility10" name="volatility10" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="minWeight10">Minimum allocation for asset
+                                    10</label></span>
+                            <input type="number" id="minWeight10" name="minWeight10" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 constraint">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="maxWeight10">Maximum allocation for asset
+                                    10</label></span>
+                            <input type="number" id="maxWeight10" name="maxWeight10" class="form-control fmt-pospct">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 groupConstraint"><span class="hidden_jaws"><label for="assetGroup10">Group
+                                assignment for asset 10</label></span>
+                        <select id="assetGroup10" name="assetGroup10" class="form-control">
+                            <option value="">None</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row topBorder totals-row">
+                    <div class="col-sm-1 separateTop"><b>Total</b></div>
+                    <div class="col-sm-2 col-sm-offset-3 totals-column">
+                        <div class="input-group smallMargin">
+                            <span class="hidden_jaws"><label for="total1">Total allocation for portfolio</label></span>
+                            <input type="number" id="total1" name="total1" class="form-control" readonly>
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="groupConstraintsSection" class="groupConstraint">
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4 separateTop text-nowrap">
+                            <b>Asset Groups</b>
+                            <button type="button" class="btn btn-default btn-sm left-margin hidden-print"
+                                id="resetGroups" title="Reset group constraints"><i
+                                    class="glyphicon glyphicon-trash"></i></button>
+                        </div>
+                        <div class="col-sm-2 separateTop text-nowrap"><b>Min. Weight</b></div>
+                        <div class="col-sm-2 separateTop text-nowrap"><b>Max. Weight</b></div>
+                    </div>
+                    <div class="row highlightRow">
+                        <div class="col-sm-1 separateTop">A</div>
+                        <div class="col-sm-3">
+                            <div class="smallMargin">
+                                <span class="hidden_jaws"><label for="assetGroupName1">Full name for group A at index
+                                        1</label></span>
+                                <input type="text" id="assetGroupName1" name="assetGroupName1" class="form-control"
+                                    placeholder="Name (optional)">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="minGroupWeight1">Minimum allocation for group A at
+                                        index 1</label></span>
+                                <input type="number" id="minGroupWeight1" name="minGroupWeight1"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="maxGroupWeight1">Maximum allocation for group A at
+                                        index 1</label></span>
+                                <input type="number" id="maxGroupWeight1" name="maxGroupWeight1"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1 separateTop">B</div>
+                        <div class="col-sm-3">
+                            <div class="smallMargin">
+                                <span class="hidden_jaws"><label for="assetGroupName2">Full name for group B at index
+                                        2</label></span>
+                                <input type="text" id="assetGroupName2" name="assetGroupName2" class="form-control"
+                                    placeholder="Name (optional)">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="minGroupWeight2">Minimum allocation for group B at
+                                        index 2</label></span>
+                                <input type="number" id="minGroupWeight2" name="minGroupWeight2"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="maxGroupWeight2">Maximum allocation for group B at
+                                        index 2</label></span>
+                                <input type="number" id="maxGroupWeight2" name="maxGroupWeight2"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row highlightRow">
+                        <div class="col-sm-1 separateTop">C</div>
+                        <div class="col-sm-3">
+                            <div class="smallMargin">
+                                <span class="hidden_jaws"><label for="assetGroupName3">Full name for group C at index
+                                        3</label></span>
+                                <input type="text" id="assetGroupName3" name="assetGroupName3" class="form-control"
+                                    placeholder="Name (optional)">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="minGroupWeight3">Minimum allocation for group C at
+                                        index 3</label></span>
+                                <input type="number" id="minGroupWeight3" name="minGroupWeight3"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="maxGroupWeight3">Maximum allocation for group C at
+                                        index 3</label></span>
+                                <input type="number" id="maxGroupWeight3" name="maxGroupWeight3"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1 separateTop">D</div>
+                        <div class="col-sm-3">
+                            <div class="smallMargin">
+                                <span class="hidden_jaws"><label for="assetGroupName4">Full name for group D at index
+                                        4</label></span>
+                                <input type="text" id="assetGroupName4" name="assetGroupName4" class="form-control"
+                                    placeholder="Name (optional)">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="minGroupWeight4">Minimum allocation for group D at
+                                        index 4</label></span>
+                                <input type="number" id="minGroupWeight4" name="minGroupWeight4"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="maxGroupWeight4">Maximum allocation for group D at
+                                        index 4</label></span>
+                                <input type="number" id="maxGroupWeight4" name="maxGroupWeight4"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row highlightRow">
+                        <div class="col-sm-1 separateTop">E</div>
+                        <div class="col-sm-3">
+                            <div class="smallMargin">
+                                <span class="hidden_jaws"><label for="assetGroupName5">Full name for group E at index
+                                        5</label></span>
+                                <input type="text" id="assetGroupName5" name="assetGroupName5" class="form-control"
+                                    placeholder="Name (optional)">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="minGroupWeight5">Minimum allocation for group E at
+                                        index 5</label></span>
+                                <input type="number" id="minGroupWeight5" name="minGroupWeight5"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="maxGroupWeight5">Maximum allocation for group E at
+                                        index 5</label></span>
+                                <input type="number" id="maxGroupWeight5" name="maxGroupWeight5"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1 separateTop">F</div>
+                        <div class="col-sm-3">
+                            <div class="smallMargin">
+                                <span class="hidden_jaws"><label for="assetGroupName6">Full name for group F at index
+                                        6</label></span>
+                                <input type="text" id="assetGroupName6" name="assetGroupName6" class="form-control"
+                                    placeholder="Name (optional)">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="minGroupWeight6">Minimum allocation for group F at
+                                        index 6</label></span>
+                                <input type="number" id="minGroupWeight6" name="minGroupWeight6"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group smallMargin">
+                                <span class="hidden_jaws"><label for="maxGroupWeight6">Maximum allocation for group F at
+                                        index 6</label></span>
+                                <input type="number" id="maxGroupWeight6" name="maxGroupWeight6"
+                                    class="form-control fmt-pospct">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group form-buttons">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <input type="submit" id="submitButton" value="Optimize" class="btn btn-primary">
+                    <input type="button" id="cancelButton" value="Cancel" class="btn btn-default"
+                        onclick="document.location.href='/'">
+                </div>
+            </div>
+
+
+        </form>
+
+
+
+    </div>
+
+
+
+
+    <div id="symbolPicker" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="symbolPickerTitle"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title" id="symbolPickerTitle">Find ETF, Mutual Fund or Stock Symbol</h2>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="assetType" class="control-label col-sm-2">Type</label>
+                            <div class="col-sm-4">
+                                <select name="assetType" id="assetType" class="form-control">
+                                    <option value="ETF">ETF</option>
+                                    <option value="MF">Mutual Fund</option>
+                                    <option value="CEF">Closed-End Fund</option>
+                                    <option value="Stock">Stock</option>
+                                    <option value="Class">Asset Class</option>
+
+
+                                    <option value="Cash">Cash</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetSearch" class="control-label col-sm-2">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="assetSearch" name="assetSearch" class="form-control typeahead"
+                                    placeholder="Enter partial name (3 or more characters)" autofocus>
+                                <p class="help-block">Example: &quot;vanguard bond&quot;</p>
+                            </div>
+                        </div>
+                        <div class="form-group norender">
+                            <label for="cashAsset" class="control-label col-sm-2">Cash Asset</label>
+                            <div class="col-sm-10">
+                                <select name="cashAsset" id="cashAsset" class="form-control">
+                                    <option value="CASHX">Money Market</option>
+                                </select>
                             </div>
                         </div>
 
+                        <div class="form-group norender">
+                            <label for="assetClassAsset" class="control-label col-sm-2">Asset Class</label>
+                            <div class="col-sm-10">
+                                <select name="assetClassAsset" id="assetClassAsset" class="form-control">
+                                    <optgroup label="US Equity">
+
+                                        <option value="VTSMX">US Stock Market (VTSMX)</option>
+
+                                        <option value="VFINX">US Large Cap (VFINX)</option>
+
+                                        <option value="VIVAX">US Large Cap Value (VIVAX)</option>
+
+                                        <option value="VIGRX">US Large Cap Growth (VIGRX)</option>
+
+                                        <option value="VIMSX">US Mid Cap (VIMSX)</option>
+
+                                        <option value="VMVIX">US Mid Cap Value (VMVIX)</option>
+
+                                        <option value="VMGIX">US Mid Cap Growth (VMGIX)</option>
+
+                                        <option value="NAESX">US Small Cap (NAESX)</option>
+
+                                        <option value="VISVX">US Small Cap Value (VISVX)</option>
+
+                                        <option value="VISGX">US Small Cap Growth (VISGX)</option>
+
+                                        <option value="BRSIX">US Micro Cap (BRSIX)</option>
+                                    </optgroup>
+                                    <optgroup label="International Equity">
+
+                                        <option value="VGTSX">Global ex-US Stock Market (VGTSX)</option>
+
+                                        <option value="VTMGX">Intl Developed ex-US Market (VTMGX)</option>
+
+                                        <option value="VSS">International ex-US Small Cap (VSS)</option>
+
+                                        <option value="EFV">International ex-US Value (EFV)</option>
+
+                                        <option value="VEURX">European Stocks (VEURX)</option>
+
+                                        <option value="VPACX">Pacific Stocks (VPACX)</option>
+
+                                        <option value="VEIEX">Emerging Markets (VEIEX)</option>
+                                    </optgroup>
+                                    <optgroup label="Fixed Income">
+
+                                        <option value="CASHX">Cash (CASHX)</option>
+
+                                        <option value="VFISX">Short Term Treasury (VFISX)</option>
+
+                                        <option value="VFITX">Intermediate Term Treasury (VFITX)</option>
+
+                                        <option value="IEF">10-year Treasury (IEF)</option>
+
+                                        <option value="VUSTX">Long Term Treasury (VUSTX)</option>
+
+                                        <option value="VBMFX">Total US Bond Market (VBMFX)</option>
+
+                                        <option value="VIPSX">TIPS (VIPSX)</option>
+
+                                        <option value="PIGLX">Global Bonds (Unhedged) (PIGLX)</option>
+
+                                        <option value="PGBIX">Global Bonds (USD Hedged) (PGBIX)</option>
+
+                                        <option value="VFSTX">Short-Term Investment Grade (VFSTX)</option>
+
+                                        <option value="LQD">Corporate Bonds (LQD)</option>
+
+                                        <option value="VWESX">Long-Term Corporate Bonds (VWESX)</option>
+
+                                        <option value="VWEHX">High Yield Corporate Bonds (VWEHX)</option>
+
+                                        <option value="VWSTX">Short-Term Tax-Exempt (VWSTX)</option>
+
+                                        <option value="VWITX">Intermediate-Term Tax-Exempt (VWITX)</option>
+
+                                        <option value="VWLTX">Long-Term Tax-Exempt (VWLTX)</option>
+                                    </optgroup>
+                                    <optgroup label="Alternatives">
+
+                                        <option value="VGSIX">REIT (VGSIX)</option>
+
+                                        <option value="GLD">Gold (GLD)</option>
+
+                                        <option value="GDX">Precious Metals (GDX)</option>
+
+                                        <option value="GSG">Commodities (GSG)</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
 
                     </form>
-                </article> <!-- card-body end .// -->
+                </div>
+                <div class="form-buttons modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="selectTicker">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            </div> <!-- card.// -->
-        </div> <!-- col.//-->
 
-    </div> <!-- row.//-->
 
-</div>
-{%endblock%}
+
+    <div id="importDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importDialogTitle"
+        aria-hidden="true">
+        <form class="form-horizontal" id="importConfigForm" action="import" method="POST"
+            data-messages="#importMessages" enctype="multipart/form-data">
+            <input type="hidden" id="importType" name="importType" value="portfolio">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="importDialogTitle">Import Portfolio</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p id="importPortfolioInfo">
+                            You can upload a portfolio asset allocation by selecting a file below.
+                            The import uses a standard Excel or CSV file format with a ticker symbol followed by asset
+                            balance or weight on each row,
+                            and you can download sample CSV files
+                            (<a href="manage-portfolios?downloadSample=true&sample=4">example #1</a>, <a
+                                href="manage-portfolios?downloadSample=true&sample=5">example #2</a>)
+                            showing the import data format.
+                        </p>
+                        <p id="importListInfo" class="norender">
+                            You can upload a list of tickers by selecting either a text file of an Excel file below.
+                            The tickers in the file can be listed either on separate lines or on the same line.
+                        </p>
+                        <div id="importMessages"></div>
+
+                        <div class="form-group">
+                            <label for="portfolio" class="control-label col-sm-2">File</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <span class="hidden_jaws"><label for="portfolio_info">File</label></span>
+                                    <input class="form-control" type="text" name="portfolio_info" id="portfolio_info"
+                                        readonly>
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-default btn-file">
+                                            Browse...
+                                            <input type="file" id="portfolio" name="portfolio"
+                                                accept=".csv,.xls,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv,text/plain">
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-buttons modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="importConfigButton">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="confirmDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmDialogTitle"
+        aria-hidden="true">
+        <form class="form-horizontal" id="confirmActionForm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="confirmDialogTitle">Confirm Action</h2>
+                    </div>
+                    <div class="modal-body">
+                        <span id="confirmText"></span>
+                    </div>
+                    <div class="form-buttons modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                            id="cancelConfirmButton">Cancel</button>
+                        <button type="button" class="btn" data-dismiss="modal" id="confirmButton">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+
+
+    <script>
+        $(function () {
+            $.each(q, function (index, f) {
+                f.call(document);
+            });
+            postPageInit();
+        });
+    </script>
+
+
+</body>
+
+</html>

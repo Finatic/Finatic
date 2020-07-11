@@ -15,7 +15,9 @@ def contact_us(request):
                 sender_name, form.cleaned_data['message'], sender_email)
             send_mail('New Enquiry', message, sender_email,
                       ['teamfinatic3@gmail.com'])
-            return HttpResponse('Thanks for contacting us!')
+            message = ['Thanks for contacting us!']
+
+            return render(request, 'home.html', {'message': message})
     else:
         form = ContactForm()
 
@@ -40,3 +42,7 @@ def base(request):
 
 def result(request, ):
     return render(request, "result.html")
+
+
+def Portfolio_Optimization(request, ):
+    return render(request, "Portpolio Optimiser/Portfolio Optimization.html")
