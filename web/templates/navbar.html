@@ -19,9 +19,16 @@
 
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-upload"></i> Add post</a>
+                <a class="nav-link" href="#"><i class="fa fa-upload"></i> Analyze Portfolio</a>
             </li>
             {%endif%}
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-upload"></i> Optimize Portfolio</a>
+            </li>
+            {%endif%}
+
         </ul>
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}

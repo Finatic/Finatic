@@ -99,11 +99,12 @@ Home
     .mbr-white {
         color: #ffffff;
     }
-
-    @media (max-width: 768px) .display-1 {
-        font-size: 4.16rem;
-        font-size: calc(2.4699999999999998rem + (5.2 - 2.4699999999999998) * ((100vw - 20rem) / (48 - 20)));
-        line-height: calc(1.4 * (2.4699999999999998rem + (5.2 - 2.4699999999999998) * ((100vw - 20rem) / (48 - 20))));
+    .foo{
+        @media (max-width: 768px) .display-1 {
+            font-size: 4.16rem;
+            font-size: calc(2.4699999999999998rem + (5.2 - 2.4699999999999998) * ((100vw - 20rem) / (48 - 20)));
+            line-height: calc(1.4 * (2.4699999999999998rem + (5.2 - 2.4699999999999998) * ((100vw - 20rem) / (48 - 20))));
+        }
     }
 
     .display-1 {
@@ -119,11 +120,12 @@ Home
     .mbr-bold {
         font-weight: 700;
     }
-
-    @media (max-width: 768px) .display-5 {
-        font-size: 1.28rem;
-        font-size: calc(1.21rem + (1.6 - 1.21) * ((100vw - 20rem) / (48 - 20)));
-        line-height: calc(1.4 * (1.21rem + (1.6 - 1.21) * ((100vw - 20rem) / (48 - 20))));
+    .foo{
+        @media (max-width: 768px) .display-5 {
+            font-size: 1.28rem;
+            font-size: calc(1.21rem + (1.6 - 1.21) * ((100vw - 20rem) / (48 - 20)));
+            line-height: calc(1.4 * (1.21rem + (1.6 - 1.21) * ((100vw - 20rem) / (48 - 20))));
+        }
     }
 
     .display-5 {
@@ -138,7 +140,7 @@ Home
     </button>
 </div>
 {% endfor %}
-<div class="jumbotron jumbotron-fluid" style="background-image: url('{%static 'images/main.png'%}')">
+<div class="jumbotron jumbotron-fluid" style="background-image: url('{%static "images/main.png"%}')">
     <div id='stars'></div>
     <div id='stars2'></div>
     <div id='stars3'></div>
@@ -304,7 +306,7 @@ Home
                         aria-pressed="true">Historical Efficient Frontier&nbsp;»</a>
                     <a href="efficient-frontier-forecast" class="btn btn-sm btn-outline-info my-1 " role="button"
                         aria-pressed="true">Forecasted Efficient Frontier&nbsp;»</a>
-                    <a href="optimize-portfolio" class="btn btn-sm btn-outline-info my-1 " role="button"
+                    <a href="Portfolio_Optimiser/Portfolio_Optimization.html" class="btn btn-sm btn-outline-info my-1 " role="button"
                         aria-pressed="true">Portfolio Optimization&nbsp;»</a>
                     <a href="black-litterman-model" class="btn btn-sm btn-outline-info my-1 " role="button"
                         aria-pressed="true">Black-Litterman Model&nbsp;»</a>
@@ -354,4 +356,4 @@ Home
 
 </div>
 
-{%endblock%}
+{%endblock%})

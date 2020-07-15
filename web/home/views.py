@@ -45,4 +45,4 @@ def result(request, ):
 
 
 def Portfolio_Optimization(request, ):
-    return render(request, "Portpolio Optimiser/Portfolio Optimization.html")
+    return render(request, "Portfolio_Optimiser/Portfolio_Optimization.html")
