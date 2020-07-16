@@ -50,7 +50,7 @@ class port_opti(forms.Form):
         choices=Portfolio_type_choice, required=False)
     start_date = forms.DateField(required=False)
     end_date = forms.DateField()
-    number_of_portfolio = forms.IntegerField()
+    number_of_portfolio = forms.IntegerField(max_value=10, min_value=1)
     ticker_symbol = forms.CharField(required=False)
     quantity = forms.DecimalField()
     buy_price = forms.DecimalField()
