@@ -152,7 +152,7 @@ Portfolio Optimiser
             </div>
         </div>
         {%for i in number%}
-        <div class="form-row">
+        <div class="form-row" id="form_{{i}}">
             <div class="col form-group autocomplete">
                 <!-- <label for="id_ticker_symbol_{{i}}">Ticker Symbol</label> -->
                 <input id="myInput_{{i}}" type="text" name="ticker_symbol_{{i}}" placeholder="Ticker Symbol"
@@ -174,10 +174,10 @@ Portfolio Optimiser
 
         </div>
         {%endfor%}
-        <button class="btn btn-outline-info">Submit</button>
+        <button class="btn btn-block btn-outline-info">Submit</button>
 
 </div>
-
+<!--  ticker logic -->
 <script>
     function add_port() {
         Form = document.forms["index"];
@@ -189,6 +189,7 @@ Portfolio Optimiser
         console.log(i)
 
         for (i; i <= 10; i++) {
+            form = document.getElementById('form_' + i)
             ticker_symbol = document.getElementById('myInput_' + i)
             quantity = document.getElementById('id_quantity_' + i)
             buy = document.getElementById('id_buy_price_' + i)
@@ -198,9 +199,12 @@ Portfolio Optimiser
             ticker_symbol.type = 'hidden'
             quantity.type = 'hidden'
             buy.type = 'hidden'
+            form.style.height = "0px"
+
             number.push(i);
         }
         for (i = 1; i <= nop_val; i++) {
+            form = document.getElementById('form_' + i)
             ticker_symbol = document.getElementById('myInput_' + i)
             quantity = document.getElementById('id_quantity_' + i)
             buy = document.getElementById('id_buy_price_' + i)
@@ -213,6 +217,8 @@ Portfolio Optimiser
             ticker_symbol.required = true
             quantity.required = true
             buy.required = true
+            form.style.height = "54px"
+
             number.push(i);
         }
         console.log(number)
@@ -224,7 +230,7 @@ Portfolio Optimiser
 
 
 </script>
-
+<!-- autocomplete -->
 <script>
     function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,
