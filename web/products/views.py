@@ -15,9 +15,20 @@ def portfolio(request):
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
             nop = form.cleaned_data['number_of_portfolio']
-            ticker_symbol = form.cleaned_data['ticker_symbol']
-            quantity = form.cleaned_data['quantity']
-            buy_price = form.cleaned_data['buy_price']
+            ticker_symbol = []
+            quantity = []
+            buy_price = []
+            for i in range(1, nop+1):
+                a = form.cleaned_data['ticker_symbol_'+str(i)]
+                b = form.data['quantity_'+str(i)]
+                c = form.data['buy_price_'+str(i)]
+                ticker_symbol.append(a)
+                quantity.append(b)
+                buy_price.append(c)
+
+            print(ticker_symbol)
+            print(buy_price)
+            print(quantity)
             data = form.cleaned_data
             return JsonResponse(data)
 
@@ -28,6 +39,6 @@ def portfolio(request):
     else:
         form = port_opti
         data = []
-        for i in range(2):
+        for i in range(1, 11):
             data.append(i)
         return render(request, 'product/portfolio.html', {'form': form, "number": data})

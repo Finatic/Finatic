@@ -51,9 +51,47 @@ class port_opti(forms.Form):
     start_date = forms.DateField(required=False)
     end_date = forms.DateField()
     number_of_portfolio = forms.IntegerField(max_value=10, min_value=1)
-    ticker_symbol = forms.CharField(required=False)
-    quantity = forms.DecimalField()
-    buy_price = forms.DecimalField()
+    # ticker 1
+    ticker_symbol_1 = forms.CharField(required=False)
+    quantity_1 = forms.DecimalField(required=False)
+    buy_price_1 = forms.DecimalField(required=False)
+    # ticker 2
+    ticker_symbol_2 = forms.CharField(required=False)
+    quantity_2 = forms.DecimalField(required=False)
+    buy_price_2 = forms.DecimalField(required=False)
+    # ticker_3
+    ticker_symbol_3 = forms.CharField(required=False)
+    quantity_3 = forms.DecimalField(required=False)
+    buy_price_3 = forms.DecimalField(required=False)
+    # ticker_4
+    ticker_symbol_4 = forms.CharField(required=False)
+    quantity_4 = forms.DecimalField(required=False)
+    buy_price_4 = forms.DecimalField(required=False)
+    # ticker_5
+    ticker_symbol_5 = forms.CharField(required=False)
+    quantity_5 = forms.DecimalField(required=False)
+    buy_price_5 = forms.DecimalField(required=False)
+    # ticker_6
+    ticker_symbol_6 = forms.CharField(required=False)
+    quantity_6 = forms.DecimalField(required=False)
+    buy_price_6 = forms.DecimalField(required=False)
+    # ticker_7
+    ticker_symbol_7 = forms.CharField(required=False)
+    quantity_7 = forms.DecimalField(required=False)
+    buy_price_7 = forms.DecimalField(required=False)
+    # ticker_8
+    ticker_symbol_8 = forms.CharField(required=False)
+    quantity_8 = forms.DecimalField(required=False)
+    buy_price_8 = forms.DecimalField(required=False)
+    # ticker_9
+    ticker_symbol_9 = forms.CharField(required=False)
+    quantity_9 = forms.DecimalField(required=False)
+    buy_price_9 = forms.DecimalField(required=False)
+    # ticker_10
+    ticker_symbol_10 = forms.CharField(required=False)
+    quantity_10 = forms.DecimalField(required=False)
+    buy_price_10 = forms.DecimalField(required=False)
+
     # Time_period = forms.ChoiceField(choices=Time_period_choice, widget=forms.Select(
     #     attrs={'class': 'form-control', 'onchange': 'toggleTimeframe()'}))
     # start_year = forms.ChoiceField(choices=start_year_choice, widget=forms.Select(
