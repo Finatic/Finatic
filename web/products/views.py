@@ -31,9 +31,9 @@ def portfolio(request):
             input_data['quantity'] = quantity
             input_data['buy'] = buy_price
             print(input_data)
-            # print(ticker_symbol)
-            # print(buy_price)
-            # print(quantity)
+            print(ticker_symbol)
+            print(buy_price)
+            print(quantity)
             data = form.cleaned_data
             return JsonResponse(data)
 
