@@ -105,75 +105,114 @@ Portfolio Optimiser
 </div><!-- intro -->
 
 <div class="container">
-    <form action="" method="POST" name='index' autocomplete="off">
+    <form action="" method="POST" name="index" autocomplete="off">
         {%csrf_token%}
-
         <!-- portfolio type -->
         <div class="form-row">
             <div class="col form-group">
-                <label for="id_Portfolio_type">Portfolio type:</label>
+                <label for="id_Portfolio_type">Portfolio Type</label>
                 <select name="Portfolio_type" class="form-control" id="id_Portfolio_type">
                     <option value="Asset Class">Asset Classes</option>
                     <option value="Tickers">Tickers</option>
                 </select>
             </div>
         </div>
+        <!-- start date and end date -->
         <div class="form-row">
             <div class="col form-group">
-                <label for="id_Start_date">Start date:</label>
+                <label for="id_Start_date">Start Date</label>
                 <input type="date" name="start_date" required="" id="id_Start_date" class="form-control">
 
             </div><!-- start date -->
 
             <div class="col form-group">
-                <label for="id_end_date">End date:</label>
+                <label for="id_end_date">End Date</label>
                 <input type="date" name="end_date" required="" id="id_end_date" class="form-control">
             </div><!-- end date -->
 
         </div>
-        <p>
-            <label for="id_number_of_portfolio">Number of portfolio:</label>
-            <input type="number" name="number_of_portfolio" class="form-control" min=1 max=10 required=""
-                placeholder="add upto 10 portfolios" id="id_number_of_portfolio">
-        </p>
-
+        <!-- no of portfolio -->
+        <div class="form-row">
+            <div class="col form-group">
+                <label for="id_number_of_portfolio">Number of Portfolio</label>
+                <input type="number" name="number_of_portfolio" class="form-control" min=1 max=10 required=""
+                    onchange="add_port()" placeholder="add upto 10 portfolios" id="id_number_of_portfolio">
+            </div>
+        </div>
+        <hr>
+        <div class="form-row">
+            <div class="col form-group">
+                <strong>Ticker</strong>
+            </div>
+            <div class="col form-group">
+                <strong>Quantity</strong>
+            </div>
+            <div class="col form-group">
+                <strong>Buy Price</strong>
+            </div>
+        </div>
         {%for i in number%}
         <div class="form-row">
             <div class="col form-group autocomplete">
-                <label for="id_ticker_symbol">Ticker symbol:</label>
-                <input id="myInput_{{i}}" type="text" name="ticker_symbol" placeholder="Ticker Symbol"
+                <!-- <label for="id_ticker_symbol_{{i}}">Ticker Symbol</label> -->
+                <input id="myInput_{{i}}" type="text" name="ticker_symbol_{{i}}" placeholder="Ticker Symbol"
                     class="form-control">
 
             </div><!-- ticker symbol -->
 
             <div class="col form-group">
-                <label for="id_quantity">Quantity:</label>
-                <input type="number" name="quantity" class="form-control" step="any" required="" id="id_quantity"
+                <!-- <label for="id_quantity_{{i}}">Quantity</label> -->
+                <input type="number" name="quantity_{{i}}" class="form-control" step="any" id="id_quantity_{{i}}"
                     placeholder="Quantity">
             </div><!-- quantity -->
 
             <div class="col form-group">
-                <label for="id_buy_price">Buy price:</label>
-                <input type="number" name="buy_price" class="form-control" step="any" required="" id="id_buy_price"
+                <!-- <label for="id_buy_price_{{i}}">Buy Price</label> -->
+                <input type="number" name="buy_price_{{i}}" class="form-control" step="any" id="id_buy_price_{{i}}"
                     placeholder="Buy price">
             </div><!-- buy price -->
 
         </div>
         {%endfor%}
-
-        <button class="btn btn-outline-info">submitted</button>
-
+        <button class="btn btn-outline-info">Submit</button>
 
 </div>
 
 <script>
     function add_port() {
         Form = document.forms["index"];
-        month_change = document.getElementById('id_number_of_portfolio');
-        text_val = month_change.value;
-        console.log(text_val)
+        nop = document.getElementById('id_number_of_portfolio');
+        nop_val = nop.value;
         var number = []
-        for (var i = 0; i < text_val; i++) {
+        var i = nop_val;
+        i++;
+        console.log(i)
+
+        for (i; i <= 10; i++) {
+            ticker_symbol = document.getElementById('myInput_' + i)
+            quantity = document.getElementById('id_quantity_' + i)
+            buy = document.getElementById('id_buy_price_' + i)
+            console.log(ticker_symbol)
+            console.log(buy)
+            console.log(quantity)
+            ticker_symbol.type = 'hidden'
+            quantity.type = 'hidden'
+            buy.type = 'hidden'
+            number.push(i);
+        }
+        for (i = 1; i <= nop_val; i++) {
+            ticker_symbol = document.getElementById('myInput_' + i)
+            quantity = document.getElementById('id_quantity_' + i)
+            buy = document.getElementById('id_buy_price_' + i)
+            console.log(ticker_symbol)
+            console.log(buy)
+            console.log(quantity)
+            ticker_symbol.type = ''
+            quantity.type = ''
+            buy.type = ''
+            ticker_symbol.required = true
+            quantity.required = true
+            buy.required = true
             number.push(i);
         }
         console.log(number)
@@ -292,7 +331,7 @@ Portfolio Optimiser
 
 
     /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-    autocomplete(document.getElementById("myInput_0"), companies);
+    autocomplete(document.getElementById("myInput_10"), companies);
     autocomplete(document.getElementById("myInput_1"), companies);
     autocomplete(document.getElementById("myInput_3"), companies);
     autocomplete(document.getElementById("myInput_4"), companies);
