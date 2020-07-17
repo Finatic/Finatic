@@ -18,19 +18,16 @@ def portfolio(request):
             ticker_symbol = form.cleaned_data['ticker_symbol']
             quantity = form.cleaned_data['quantity']
             buy_price = form.cleaned_data['buy_price']
-            print(portfolio_type, " ", start_date, " ", ticker_symbol)
-            print(form.data)
-            print(form.__dict__)
             data = form.cleaned_data
             return JsonResponse(data)
 
         else:
-            print(form.errors.as_data())
-
-        return render(request, 'home.html', {'message': message})
+            error = form.errors.as_data()
+            message.append(error)
+            return render(request, 'home.html', {'message': message})
     else:
         form = port_opti
         data = []
-        for i in range(1):
+        for i in range(2):
             data.append(i)
         return render(request, 'product/portfolio.html', {'form': form, "number": data})
