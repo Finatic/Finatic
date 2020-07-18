@@ -142,11 +142,47 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     inp2['Opt_quantity'] = (inp2['Opt_value']/inp2['ltp'])
     inp2['Opt_quantity'] = inp2['Opt_quantity'].astype(int)
 
+    #optimized weightage and quantity
     print(inp2)
 
-    
+    #individual asset plot (portfolio1)
+    portfolio1 = portfolio*100/portfolio.iloc[0]
+
+    returns = portfolio.pct_change()
+    returns = returns.iloc[1:]
+
+    cov_matrix_annual = returns.cov() * 252
+
+    #Original & Optimal Weights
+    weight1 = inp1["Weightage"]
+    weight2 = opt_weight
+    #Portfolio Variance
+    port_variance1 = np.dot(weight1.T, np.dot(cov_matrix_annual, weight1))
+    port_variance2 = np.dot(weight2.T, np.dot(cov_matrix_annual, weight2))
+    #Portfolio Volatility
+    port_volatility1 = np.sqrt(port_variance1)
+    port_volatility2 = np.sqrt(port_variance2)
+    #Annual Return (CAGR)(both)
+    portfolioSimpleAnnualReturn1 = np.sum(returns.mean()*weight1) * 252
+    portfolioSimpleAnnualReturn2 = np.sum(returns.mean()*weight2) * 252
+
+    percent_var1 = str(round(port_variance1, 2) * 100) + '%'
+    percent_vols1 = str(round(port_volatility1, 2) * 100) + '%'
+    percent_ret1 = str(round(portfolioSimpleAnnualReturn1, 2)*100)+'%'
+    percent_var2 = str(round(port_variance2, 2) * 100) + '%'
+    percent_vols2 = str(round(port_volatility2, 2) * 100) + '%'
+    percent_ret2 = str(round(portfolioSimpleAnnualReturn2, 2)*100)+'%'
+    print('Original Statistics ->')
+    print("Expected annual return : "+ percent_ret1)
+    print('Annual volatility/standard deviation/risk : '+percent_vols1)
+    print('Annual variance : '+percent_var1)
+    print('Optimized Statistics ->')
+    print("Expected annual return : "+ percent_ret2)
+    print('Annual volatility/standard deviation/risk : '+percent_vols2)
+    print('Annual variance : '+percent_var2)
 
     
+
     #all variables to be added in this dictionary
     context = {
         "Current Value": net_now_value,
