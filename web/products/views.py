@@ -52,6 +52,8 @@ def portfolio(request):
             data.append(i)
         return render(request, 'product/portfolio.html', {'form': form, "number": data})
 
+
+
 def solve(request, data, ticker_symbol, buy_price, quantity):
     Ticks = []
     for i in range(len(ticker_symbol)):
@@ -77,10 +79,11 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
         ticker.append(ticker_list[i]+str('.NS'))
     portfolio = pd.DataFrame()
     now = pd.DataFrame()
+    #importing data from yahoo
     for i in range(n):
         portfolio[ticker[i]] = pdr.DataReader(ticker[i].strip('\n'),data_source='yahoo',start = start_date, end = end_date)['Adj Close']
         now[ticker[i]] = pdr.DataReader(ticker[i].strip('\n'),data_source='yahoo',start = yester, end = today)['Adj Close']
-
+    #scenario grid with values, pnl in inp1
     inp1 = inp
     inp1['ltp'] = np.nan
     for i in range(n):
@@ -98,6 +101,58 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     print('Invested Value : ',net_buy_value)
     print('Profit / Loss : ',total_pnl)
     
+    #Calculating the optimized weights
+    log_ret = np.log(portfolio/portfolio.shift(1))
+
+    np.random.seed(42)
+    num_ports = 6000
+    all_weights = np.zeros((num_ports, len(portfolio.columns)))
+    ret_arr = np.zeros(num_ports)
+    vol_arr = np.zeros(num_ports)
+    sharpe_arr = np.zeros(num_ports)
+
+    for x in range(num_ports):
+        # Weights
+        weights = np.array(np.random.random(n))
+        weights = weights/np.sum(weights)
+        
+        # Save weights
+        all_weights[x,:] = weights
+        
+        # Expected return
+        ret_arr[x] = np.sum( (log_ret.mean() * weights * 252))
+        
+        # Expected volatility
+        vol_arr[x] = np.sqrt(np.dot(weights.T, np.dot(log_ret.cov()*252, weights)))
+        
+        # Sharpe Ratio
+        sharpe_arr[x] = ret_arr[x]/vol_arr[x]
+
+    print('Max Sharpe ratio= {}'.format(sharpe_arr.max()))
+    l = sharpe_arr.argmax()
+
+    opt_weight = all_weights[l]
+
+    max_sr_ret = ret_arr[sharpe_arr.argmax()]
+    max_sr_vol = vol_arr[sharpe_arr.argmax()]
+
+    inp2 = inp1
+    inp2['Opt_weight'] = opt_weight
+    inp2['Opt_value'] = inp2['Opt_weight']*np.sum(inp2['now_value'])
+    inp2['Opt_quantity'] = (inp2['Opt_value']/inp2['ltp'])
+    inp2['Opt_quantity'] = inp2['Opt_quantity'].astype(int)
+
+    print(inp2)
+
     
+
     
-    return render(request, 'product/portfolio.html', {} )
+    #all variables to be added in this dictionary
+    context = {
+        "Current Value": net_now_value,
+        "Invested value": net_buy_value,
+        "Profit/loss": total_pnl,
+
+    }
+    
+    return render(request, 'product/portfolio.html', context )
