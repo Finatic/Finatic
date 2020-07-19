@@ -103,5 +103,96 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     print('Invested Value : ', net_buy_value)
     print('Profit / Loss : ', total_pnl)
 
+    #Calculating the optimized weights
+    log_ret = np.log(portfolio/portfolio.shift(1))
+
+    np.random.seed(42)
+    num_ports = 6000
+    all_weights = np.zeros((num_ports, len(portfolio.columns)))
+    ret_arr = np.zeros(num_ports)
+    vol_arr = np.zeros(num_ports)
+    sharpe_arr = np.zeros(num_ports)
+
+    for x in range(num_ports):
+        # Weights
+        weights = np.array(np.random.random(n))
+        weights = weights/np.sum(weights)
+        
+        # Save weights
+        all_weights[x,:] = weights
+        
+        # Expected return
+        ret_arr[x] = np.sum( (log_ret.mean() * weights * 252))
+        
+        # Expected volatility
+        vol_arr[x] = np.sqrt(np.dot(weights.T, np.dot(log_ret.cov()*252, weights)))
+        
+        # Sharpe Ratio
+        sharpe_arr[x] = ret_arr[x]/vol_arr[x]
+
+    print('Max Sharpe ratio= {}'.format(sharpe_arr.max()))
+    l = sharpe_arr.argmax()
+
+    opt_weight = all_weights[l]
+
+    max_sr_ret = ret_arr[sharpe_arr.argmax()]
+    max_sr_vol = vol_arr[sharpe_arr.argmax()]
+
+    inp2 = inp1
+    inp2['Opt_weight'] = opt_weight
+    inp2['Opt_value'] = inp2['Opt_weight']*np.sum(inp2['now_value'])
+    inp2['Opt_quantity'] = (inp2['Opt_value']/inp2['ltp'])
+    inp2['Opt_quantity'] = inp2['Opt_quantity'].astype(int)
+
+    #optimized weightage and quantity
+    print(inp2)
+
+    #individual asset plot (portfolio1)
+    portfolio1 = portfolio*100/portfolio.iloc[0]
+
+    returns = portfolio.pct_change()
+    returns = returns.iloc[1:]
+
+    cov_matrix_annual = returns.cov() * 252
+
+    #Original & Optimal Weights
+    weight1 = inp1["Weightage"]
+    weight2 = opt_weight
+    #Portfolio Variance
+    port_variance1 = np.dot(weight1.T, np.dot(cov_matrix_annual, weight1))
+    port_variance2 = np.dot(weight2.T, np.dot(cov_matrix_annual, weight2))
+    #Portfolio Volatility
+    port_volatility1 = np.sqrt(port_variance1)
+    port_volatility2 = np.sqrt(port_variance2)
+    #Annual Return (CAGR)(both)
+    portfolioSimpleAnnualReturn1 = np.sum(returns.mean()*weight1) * 252
+    portfolioSimpleAnnualReturn2 = np.sum(returns.mean()*weight2) * 252
+
+    percent_var1 = str(round(port_variance1, 2) * 100) + '%'
+    percent_vols1 = str(round(port_volatility1, 2) * 100) + '%'
+    percent_ret1 = str(round(portfolioSimpleAnnualReturn1, 2)*100)+'%'
+    percent_var2 = str(round(port_variance2, 2) * 100) + '%'
+    percent_vols2 = str(round(port_volatility2, 2) * 100) + '%'
+    percent_ret2 = str(round(portfolioSimpleAnnualReturn2, 2)*100)+'%'
+    print('Original Statistics ->')
+    print("Expected annual return : "+ percent_ret1)
+    print('Annual volatility/standard deviation/risk : '+percent_vols1)
+    print('Annual variance : '+percent_var1)
+    print('Optimized Statistics ->')
+    print("Expected annual return : "+ percent_ret2)
+    print('Annual volatility/standard deviation/risk : '+percent_vols2)
+    print('Annual variance : '+percent_var2)
+
+
+
+    #all variables to be added in this dictionary
+    context = {
+        "Current Value": net_now_value,
+        "Invested value": net_buy_value,
+        "Profit/loss": total_pnl,
+
+    }
+
+
     # return inp1
-    return render(request, 'product/portfolio.html', {})
+    return render(request, 'product/portfolio.html', context)
