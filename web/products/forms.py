@@ -43,14 +43,20 @@ Optimization_goal_choice = (
     ("11", "Maximize Sortino Ratio subject to..."),
 
 )
+benchmark_choice = (
+    ("NIFTY50", "NIFTY50"),
+    ("SENSEX", "SENSEX"),
+)
 
 
 class port_opti(forms.Form):
     Portfolio_type = forms.ChoiceField(
         choices=Portfolio_type_choice, required=False)
+    benchmark = forms.ChoiceField(choices=benchmark_choice)
     start_date = forms.DateField(required=False)
     end_date = forms.DateField()
     number_of_portfolio = forms.IntegerField(max_value=10, min_value=1)
+
     # ticker 1
     ticker_symbol_1 = forms.CharField(required=False)
     quantity_1 = forms.DecimalField(required=False)

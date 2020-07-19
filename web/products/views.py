@@ -22,6 +22,7 @@ def portfolio(request):
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
             nop = form.cleaned_data['number_of_portfolio']
+            benchmark = form.cleaned_data['benchmark']
             ticker_symbol = []
             quantity = []
             buy_price = []
