@@ -3,6 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('your_portpolio', views.portfolio, name="portfolio"),
+    path('your_portfolio', views.portfolio, name="your_portfolio"),
     path('submit', views.solve, name ="res")
 ]

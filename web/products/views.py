@@ -78,6 +78,7 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
         ticker.append(ticker_list[i]+str('.NS'))
     portfolio = pd.DataFrame()
     now = pd.DataFrame()
+    # importing data from yahoo
     for i in range(n):
         portfolio[ticker[i]] = pdr.DataReader(ticker[i].strip(
             '\n'), data_source='yahoo', start=start_date, end=end_date)['Adj Close']
