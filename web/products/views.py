@@ -85,7 +85,7 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
             '\n'), data_source='yahoo', start=start_date, end=end_date)['Adj Close']
         now[ticker[i]] = pdr.DataReader(ticker[i].strip(
             '\n'), data_source='yahoo', start=yester, end=today)['Adj Close']
-
+    benchmark = data['benchmark']
     inp1 = inp
     inp1['ltp'] = np.nan
     for i in range(n):
@@ -156,8 +156,9 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     cov_matrix_annual = returns.cov() * 252
 
     #Original & Optimal Weights
-    weight1 = inp1["Weightage"]
+    weight1 = inp1["Weightage"].values
     weight2 = opt_weight
+    print(weight1)
     #Portfolio Variance
     port_variance1 = np.dot(weight1.T, np.dot(cov_matrix_annual, weight1))
     port_variance2 = np.dot(weight2.T, np.dot(cov_matrix_annual, weight2))
