@@ -85,6 +85,16 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
             '\n'), data_source='yahoo', start=start_date, end=end_date)['Adj Close']
         now[ticker[i]] = pdr.DataReader(ticker[i].strip(
             '\n'), data_source='yahoo', start=yester, end=today)['Adj Close']
+    
+    #initialize benchmark
+    if(data['benchmark']=="NIFTY50"):
+        benchmark = "^NSEI"
+    elif(data['benchmark']=="SENSEX"):
+        benchmark  ="^BSESN"
+    
+    bench = pdr.DataReader(benchmark,'yahoo', start = start_date, end = end_date)['Adj Close']
+    benchm = bench*100/bench[0]
+
 
     inp1 = inp
     inp1['ltp'] = np.nan
@@ -156,8 +166,9 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     cov_matrix_annual = returns.cov() * 252
 
     #Original & Optimal Weights
-    weight1 = inp1["Weightage"]
+    weight1 = inp1["Weightage"].values
     weight2 = opt_weight
+    print(weight1)
     #Portfolio Variance
     port_variance1 = np.dot(weight1.T, np.dot(cov_matrix_annual, weight1))
     port_variance2 = np.dot(weight2.T, np.dot(cov_matrix_annual, weight2))
@@ -183,7 +194,33 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     print('Annual volatility/standard deviation/risk : '+percent_vols2)
     print('Annual variance : '+percent_var2)
 
+    w1 = np.array(weight1)
+    w2 = np.array(weight2)
 
+    #weighted returns
+    weighted_returns1 = (w1 * returns)
+    weighted_returns2 = (w2 * returns)
+
+    #portfolio returns
+    port_ret1 = weighted_returns1.sum(axis=1)
+    port_ret2 = weighted_returns2.sum(axis=1)
+
+    #cumulative portfolio returns
+    cumulative_ret1 = (port_ret1 + 1).cumprod()*100
+    cumulative_ret2 = (port_ret2 + 1).cumprod()*100
+
+    #starting from 100(initial value)(can be converted as a user input)
+    cumulative_ret1 = cumulative_ret1*100/cumulative_ret1[0]
+    cumulative_ret2 = cumulative_ret2*100/cumulative_ret2[0]
+
+    #cumret dataframe contains values to plot the portfolio performance .!.!
+    cumret = pd.DataFrame(columns = ['orig_value','opt_value','benchmark'])
+    cumret['orig_value'] = cumulative_ret1
+    cumret['opt_value'] = cumulative_ret2
+    cumret['benchmark'] = benchm
+    print(cumret)
+
+    
 
     #all variables to be added in this dictionary
     context = {
