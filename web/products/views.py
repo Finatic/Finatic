@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import port_opti
 from django.http import JsonResponse
 
-#import libraries for function
+# import libraries for function
 import numpy as np
 import pandas as pd
 import re
@@ -38,7 +38,7 @@ def portfolio(request):
             print(quantity)
             data = form.cleaned_data
             solve(request, data, ticker_symbol, buy_price, quantity)
-            
+            # inp1 = solve(request, data, ticker_symbol, buy_price, quantity)
             return JsonResponse(data)
 
         else:
@@ -52,6 +52,7 @@ def portfolio(request):
             data.append(i)
         return render(request, 'product/portfolio.html', {'form': form, "number": data})
 
+
 def solve(request, data, ticker_symbol, buy_price, quantity):
     Ticks = []
     for i in range(len(ticker_symbol)):
@@ -59,7 +60,7 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     tick = []
     for i in range(len(Ticks)):
         tick.append(Ticks[i].split('( ', 1)[1].split(' )')[0])
-    inp = pd.DataFrame(index = tick)
+    inp = pd.DataFrame(index=tick)
     inp["Quantity"] = quantity
     inp["Buy Price"] = buy_price
     print(inp)
@@ -78,8 +79,10 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     portfolio = pd.DataFrame()
     now = pd.DataFrame()
     for i in range(n):
-        portfolio[ticker[i]] = pdr.DataReader(ticker[i].strip('\n'),data_source='yahoo',start = start_date, end = end_date)['Adj Close']
-        now[ticker[i]] = pdr.DataReader(ticker[i].strip('\n'),data_source='yahoo',start = yester, end = today)['Adj Close']
+        portfolio[ticker[i]] = pdr.DataReader(ticker[i].strip(
+            '\n'), data_source='yahoo', start=start_date, end=end_date)['Adj Close']
+        now[ticker[i]] = pdr.DataReader(ticker[i].strip(
+            '\n'), data_source='yahoo', start=yester, end=today)['Adj Close']
 
     inp1 = inp
     inp1['ltp'] = np.nan
@@ -94,10 +97,9 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     inp1['Weightage'] = inp1['now_value']/net_now_value
 
     print(inp1)
-    print('Current Value : ',net_now_value)
-    print('Invested Value : ',net_buy_value)
-    print('Profit / Loss : ',total_pnl)
-    
-    
-    
-    return render(request, 'product/portfolio.html', {} )
+    print('Current Value : ', net_now_value)
+    print('Invested Value : ', net_buy_value)
+    print('Profit / Loss : ', total_pnl)
+
+    # return inp1
+    return render(request, 'product/portfolio.html', {})
