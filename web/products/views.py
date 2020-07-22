@@ -55,28 +55,38 @@ def portfolio(request):
 
 
 def solve(request, data, ticker_symbol, buy_price, quantity):
+    #getting ticker
     Ticks = []
     for i in range(len(ticker_symbol)):
         Ticks.append(ticker_symbol[i])
     tick = []
+    
     for i in range(len(Ticks)):
         tick.append(Ticks[i].split('( ', 1)[1].split(' )')[0])
     inp = pd.DataFrame(index=tick)
-    inp["Quantity"] = quantity
-    inp["Buy Price"] = buy_price
-    print(inp)
-    start_date = data['start_date']
-    end_date = data['end_date']
-    today = datetime.date.today()
-    yester = today - datetime.timedelta(days=1)
-    for i in range(len(inp)):
-        inp['Quantity'][i] = float(inp['Quantity'][i])
-        inp['Buy Price'][i] = float(inp['Buy Price'][i])
     ticker_list = inp.index
     n = len(ticker_list)
     ticker = []
     for i in range(n):
         ticker.append(ticker_list[i]+str('.NS'))
+
+    #define other user input
+    inp["Quantity"] = quantity
+    inp["Buy Price"] = buy_price
+    #convert to float
+    for i in range(len(inp)):
+        inp['Quantity'][i] = float(inp['Quantity'][i])
+        inp['Buy Price'][i] = float(inp['Buy Price'][i])
+    print(inp)
+
+    #define time range
+    start_date = data['start_date']
+    end_date = data['end_date']
+    today = datetime.date.today()
+    yester = today - datetime.timedelta(days=1)
+
+    
+    
     portfolio = pd.DataFrame()
     now = pd.DataFrame()
     # importing data from yahoo
@@ -91,11 +101,11 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
         benchmark = "^NSEI"
     elif(data['benchmark']=="SENSEX"):
         benchmark  ="^BSESN"
-    
+    #importing benchmark data
     bench = pdr.DataReader(benchmark,'yahoo', start = start_date, end = end_date)['Adj Close']
     benchm = bench*100/bench[0]
 
-
+    #portfolio data statistics
     inp1 = inp
     inp1['ltp'] = np.nan
     for i in range(n):
@@ -112,6 +122,21 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     print('Current Value : ', net_now_value)
     print('Invested Value : ', net_buy_value)
     print('Profit / Loss : ', total_pnl)
+
+    #Sectorwise/Industrywise Allocation
+    listed = pd.read_csv('products/static_product/fundamentals.csv', index_col='Ticker')
+    inp2 = inp1
+    list_con = pd.concat([inp2,listed], axis=1, sort = False)
+    #dat1 is the dataframe with Sector Allocation by Value
+    dat1 = list_con.groupby(['Sector'])['now_value'].agg('sum')
+    dat1 = dat1.replace(0,np.nan)
+    dat1.dropna(inplace=True)
+    print(dat1)
+    #dat2 is the dataframe with Industry Allocation by Value
+    dat2 = list_con.groupby(['Industry'])['now_value'].agg('sum')
+    dat2 = dat2.replace(0,np.nan)
+    dat2.dropna(inplace=True)
+    print(dat2)
 
     #Calculating the optimized weights
     log_ret = np.log(portfolio/portfolio.shift(1))
@@ -148,14 +173,14 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     max_sr_ret = ret_arr[sharpe_arr.argmax()]
     max_sr_vol = vol_arr[sharpe_arr.argmax()]
 
-    inp2 = inp1
-    inp2['Opt_weight'] = opt_weight
-    inp2['Opt_value'] = inp2['Opt_weight']*np.sum(inp2['now_value'])
-    inp2['Opt_quantity'] = (inp2['Opt_value']/inp2['ltp'])
-    inp2['Opt_quantity'] = inp2['Opt_quantity'].astype(int)
+    inp3 = inp1
+    inp3['Opt_weight'] = opt_weight
+    inp3['Opt_value'] = inp3['Opt_weight']*np.sum(inp3['now_value'])
+    inp3['Opt_quantity'] = (inp3['Opt_value']/inp3['ltp'])
+    inp3['Opt_quantity'] = inp3['Opt_quantity'].astype(int)
 
-    #optimized weightage and quantity
-    print(inp2)
+    #optimized weightage and quantity(Optimization)
+    print(inp3)
 
     #individual asset plot (portfolio1)
     portfolio1 = portfolio*100/portfolio.iloc[0]
@@ -179,6 +204,7 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     portfolioSimpleAnnualReturn1 = np.sum(returns.mean()*weight1) * 252
     portfolioSimpleAnnualReturn2 = np.sum(returns.mean()*weight2) * 252
 
+    #Historical Data Statistics
     percent_var1 = str(round(port_variance1, 2) * 100) + '%'
     percent_vols1 = str(round(port_volatility1, 2) * 100) + '%'
     percent_ret1 = str(round(portfolioSimpleAnnualReturn1, 2)*100)+'%'
@@ -194,6 +220,7 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     print('Annual volatility/standard deviation/risk : '+percent_vols2)
     print('Annual variance : '+percent_var2)
 
+    #Original and Optimized weights
     w1 = np.array(weight1)
     w2 = np.array(weight2)
 
@@ -219,6 +246,8 @@ def solve(request, data, ticker_symbol, buy_price, quantity):
     cumret['opt_value'] = cumulative_ret2
     cumret['benchmark'] = benchm
     print(cumret)
+
+
 
     
 
