@@ -8,6 +8,7 @@ from scipy import stats
 
 #importing render
 from django.shortcuts import render
+from django.http import JsonResponse
 
 
 
@@ -222,18 +223,108 @@ def func1(request, data, ticker_symbol, buy_price, quantity):
 
     #----------------------------------------------------------------
     
+    #Yearly Return Performance
+
+    yearlyr = [cumret['orig_value'][0]]
+    yearlyd = [start_date.year]
+    for i in range(len(cumret)):
+        if(int(cumret.index[i].year) > int(cumret.index[i-1].year)):
+            yearlyr.append(cumret['orig_value'][i])
+            yearlyd.append(cumret.index[i].year)
+    yearlyr.append(cumret['orig_value'][-1])
+
+    yearlyr = pd.DataFrame(yearlyr)
+
+    yr = yearlyr.pct_change()[1:]*100
+    yr.index = yearlyd
+    yr['Yearly Return'] = yr[0]
+
+    yr.drop([0], axis =1)
+    print("Historical Yearly Returns of the Portfolio(BAR)")
+    print(yr['Yearly Return'])
 
 
+
+    #-------------------------------------------------------------------------------
+
+    #Monthly Return Performance
+
+    mnlyr = []
+    mnlyr_m = []
+    mnlyr_y = []
+
+    for i in range(len(cumret)):
+        if(int(cumret.index[i].month) != int(cumret.index[i-1].month)):
+            mnlyr.append(cumret['orig_value'][i])
+            mnlyr_y.append(cumret.index[i].year)
+            mnlyr_m.append(cumret.index[i].month)
+    mnlyr.append(cumret['orig_value'][-1])
     
+    mnr = pd.DataFrame(columns = ['Year','Month','Value','Return'])
+    mnr['Year'] = mnlyr_y
+    mnr['Month'] = mnlyr_m
+    mnr['Value'] = mnlyr[:-1]
+    mnr['Return'] = mnr['Value'].pct_change().shift(-1)*100
+
+    mnrs= mnr[:-1]
+    mnrs.drop(['Value'],axis=1)
+    print("Historical Monthly Returns of the Portfolio(BAR)")
+    print(mnrs)
+
+    #-------------------------------------------------------------------------------
     
+    # Maximum Drawdown (PLOT)
+
+    window = 252
+
+    ##ORIGINAL PORTFOLIO
+    Roll_Max_c = cumret['orig_value'].rolling(window, min_periods=1).max()
+    Daily_Drawdown_c = cumret['orig_value']/Roll_Max_c - 1.0
+
+    Max_Daily_Drawdown_c = Daily_Drawdown_c.rolling(window, min_periods=1).min()
+    max_Drawdown_c = min(Daily_Drawdown_c)
+    # to plot -->> Daily_Drawdown_c  && Max_Daily_Drawdown_c
+    print('Maximum Drawdown of Original Portfolio', max_Drawdown_c*100,'%')
+
+    ##OPTIMIZED PORTFOLIO
+    Roll_Max_o = cumret['opt_value'].rolling(window, min_periods=1).max()
+    Daily_Drawdown_o = cumret['opt_value']/Roll_Max_o - 1.0
+
+    Max_Daily_Drawdown_o = Daily_Drawdown_o.rolling(window, min_periods=1).min()
+    max_Drawdown_o = min(Daily_Drawdown_o)
+    # to plot -->> Daily_Drawdown_o  && Max_Daily_Drawdown_o
+    print('Maximum Drawdown of Optimized Portfolio', max_Drawdown_o*100,'%')
+
+    ##BENCHMARK
+    Roll_Max_b = cumret['benchmark'].rolling(window, min_periods=1).max()
+    Daily_Drawdown_b = cumret['benchmark']/Roll_Max_b - 1.0
+
+    Max_Daily_Drawdown_b = Daily_Drawdown_b.rolling(window, min_periods=1).min()
+    max_Drawdown_b = min(Daily_Drawdown_b)
+    # to plot -->> Daily_Drawdown_b  && Max_Daily_Drawdown_b
+    print('Maximum Drawdown of Benchmark', max_Drawdown_b*100,'%')
+    
+    #----------------------------------------------------------------------------------
+
+    #Individual Asset Statistics
+
+    #----------------------------------------------------------------------------------
+
+    #Efficient Frontier(PLOT)
+
+    #----------------------------------------------------------------------------------
+
+
+
+
+
     #all variables to be added in this dictionary
     context = {
-        "Current Value": net_now_value,
-        "Invested value": net_buy_value,
-        "Profit/loss": total_pnl,
+        'Current_Value': round(net_now_value,0),
+        'Invested_value': round(net_buy_value,0),
+        'Profit_loss': round(total_pnl,0),
 
     }
 
-
-    # return inp1
-    return render(request, 'product/portfolio.html', context)
+    return context
+    #return render(request, 'product/portfolio.html', context)

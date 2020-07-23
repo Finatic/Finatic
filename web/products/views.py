@@ -32,9 +32,10 @@ def portfolio(request):
             print(buy_price)
             print(quantity)
             data = form.cleaned_data
-            func1(request, data, ticker_symbol, buy_price, quantity)
-            # inp1 = solve(request, data, ticker_symbol, buy_price, quantity)
-            return JsonResponse(data)
+            context = func1(request, data, ticker_symbol, buy_price, quantity)
+            
+            #return JsonResponse(data)
+            return render(request, 'product/report.html', context)
 
         else:
             error = form.errors.as_data()
