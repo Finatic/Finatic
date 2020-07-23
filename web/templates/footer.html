@@ -29,14 +29,28 @@
 
             <div class="col-md-2 mb-md-0 mb-2 ml-auto">
                 <!-- Links -->
+                <h5>Company</h5>
+
+                <ul class="list-unstyled" style="text-decoration: none;">
+                    <li class="">
+                        <a href="{%url 'about'%}">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#">Blogs</a>
+                    </li>
+                    <li>
+                        <a href="#">Partners</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-2 mb-md-0 mb-2 ml-auto">
+                <!-- Links -->
                 <h5>Products</h5>
 
                 <ul class="list-unstyled" style="text-decoration: none;">
                     <li class="">
-                        <a href="#">Portfolio Analyzer</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'your_portfolio' %}">Portfolio Optimizer</a>
+                        <a href="{% url 'your_portfolio' %}">Portfolio Analyzer</a>
                     </li>
                     <li>
                         <a href="#">Portfolio Creator</a>
