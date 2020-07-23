@@ -1,13 +1,7 @@
 from django.shortcuts import render
 from .forms import port_opti
 from django.http import JsonResponse
-
-# import libraries for function
-import numpy as np
-import pandas as pd
-import re
-import datetime
-from pandas_datareader import data as pdr
+from .solve import func1
 
 
 # Create your views here.
@@ -38,7 +32,7 @@ def portfolio(request):
             print(buy_price)
             print(quantity)
             data = form.cleaned_data
-            solve(request, data, ticker_symbol, buy_price, quantity)
+            func1(request, data, ticker_symbol, buy_price, quantity)
             # inp1 = solve(request, data, ticker_symbol, buy_price, quantity)
             return JsonResponse(data)
 
@@ -54,54 +48,4 @@ def portfolio(request):
         return render(request, 'product/portfolio.html', {'form': form, "number": data})
 
 
-def solve(request, data, ticker_symbol, buy_price, quantity):
-    Ticks = []
-    for i in range(len(ticker_symbol)):
-        Ticks.append(ticker_symbol[i])
-    tick = []
-    for i in range(len(Ticks)):
-        tick.append(Ticks[i].split('( ', 1)[1].split(' )')[0])
-    inp = pd.DataFrame(index=tick)
-    inp["Quantity"] = quantity
-    inp["Buy Price"] = buy_price
-    print(inp)
-    start_date = data['start_date']
-    end_date = data['end_date']
-    today = datetime.date.today()
-    yester = today - datetime.timedelta(days=1)
-    for i in range(len(inp)):
-        inp['Quantity'][i] = float(inp['Quantity'][i])
-        inp['Buy Price'][i] = float(inp['Buy Price'][i])
-    ticker_list = inp.index
-    n = len(ticker_list)
-    ticker = []
-    for i in range(n):
-        ticker.append(ticker_list[i]+str('.NS'))
-    portfolio = pd.DataFrame()
-    now = pd.DataFrame()
-    # importing data from yahoo
-    for i in range(n):
-        portfolio[ticker[i]] = pdr.DataReader(ticker[i].strip(
-            '\n'), data_source='yahoo', start=start_date, end=end_date)['Adj Close']
-        now[ticker[i]] = pdr.DataReader(ticker[i].strip(
-            '\n'), data_source='yahoo', start=yester, end=today)['Adj Close']
 
-    inp1 = inp
-    inp1['ltp'] = np.nan
-    for i in range(n):
-        inp['ltp'].iloc[i] = now[ticker[i]].iloc[-1]
-    inp1['buy_value'] = inp1['Quantity']*inp1['Buy Price']
-    inp1['now_value'] = inp1['Quantity']*inp1['ltp']
-    inp1['pnl'] = inp1['now_value']-inp1['buy_value']
-    total_pnl = np.sum(inp1['pnl'])
-    net_buy_value = np.sum(inp1['buy_value'])
-    net_now_value = np.sum(inp1['now_value'])
-    inp1['Weightage'] = inp1['now_value']/net_now_value
-
-    print(inp1)
-    print('Current Value : ', net_now_value)
-    print('Invested Value : ', net_buy_value)
-    print('Profit / Loss : ', total_pnl)
-
-    # return inp1
-    return render(request, 'product/portfolio.html', {})

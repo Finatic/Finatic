@@ -46,44 +46,29 @@ Portfolio Optimiser
     }
 </style>
 <div>
-    <h1>Portfolio Optimization</h1>
+    <h1>Portfolio Analyzer</h1>
     <p>
-        This portfolio optimizer tool supports the following portfolio optimization strategies:
+        The portfolio analyzer tool provides the following Analytical Outcomes:
     </p>
     <ul>
         <li>
-            Mean Variance Optimization &ndash; Find the optimal risk adjusted portfolio that lies on the efficient
-            frontier
+            Asset-wise, Sector-wise and Industry-wise Portfolio Allocation.
         </li>
         <li>
-            Minimize Conditional Value-at-Risk &ndash; Optimize the portfolio to minimize the expected tail loss
+            Financial Health of the Companies in the the Portfolio.
         </li>
         <li>
-            Risk Parity &ndash; Find the portfolio that equalizes the risk contribution of portfolio assets
+            Historical Performance, Annual Returns, Sharpe Ratio, Risk Structure.
         </li>
         <li>
-            Minimize Tracking Error &ndash; Find the portfolio that minimizes the tracking error against the
-            selected benchmark
+            Beta of the Portfolio (Market Dependence), Maximum Drawdown, Individual Asset Statistics.
         </li>
         <li>
-            Maximize Information Ratio &ndash; Find the portfolio that maximizes the information ratio against the
-            selected benchmark
+            Efficient Frontier, Optimization based on Sharpe Ratio, with Performance of Optimized Portfolio
         </li>
 
         <li>
-            Maximize Kelly Criterion &ndash; Finds the portfolio with the maximum expected geometric growth rate
-        </li>
-        <li>
-            Maximize Sortino Ratio &ndash; Find the portfolio that maximizes the Sortino ratio for the given minimum
-            acceptable return
-        </li>
-        <li>
-            Maximize Omega Ratio &ndash; Find the portfolio that maximizes the Omega ratio for the given minimum
-            acceptable return
-        </li>
-        <li>
-            Minimize Maximum Drawdown &ndash; Find the portfolio with the minimum worst case drawdown with optional
-            minimum acceptable return
+            Predictive Analysis with the help of Monte Carlo Simulation, and Performance forecasts.
         </li>
     </ul>
     <p>
@@ -94,11 +79,7 @@ Portfolio Optimiser
         of portfolios constructed using the optimized asset weights may vary from the given performance goal.
     </p>
     <p>
-        The required inputs for the optimization include the time range and the portfolio assets. Portfolio asset
-        weights and constraints are optional.
-        You can also use the <a href="black-litterman-model"><strong>Black-Litterman model</strong> </a> based portfolio
-        optimization,
-        which allows the benchmark portfolio asset weights to be optimized based on investor's views.
+        The required inputs for the optimization include the time range and the portfolio assets.
     </p>
 
 
@@ -119,6 +100,7 @@ Portfolio Optimiser
             <div class="col form-group">
                 <label for="id_benchmark">Benchmark</label>
                 <select name="benchmark" id="id_benchmark" class="form-control">
+                    
                     <option value="NIFTY50">NIFTY50</option>
 
                     <option value="SENSEX">SENSEX</option>
