@@ -320,6 +320,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'Current_Value': round(net_now_value, 0),
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
+        'inp1': inp1.to_html(),
 
     }
 
