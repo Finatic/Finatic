@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import port_opti
 from django.http import JsonResponse
 from .solve import func1
-
+from django.http import HttpResponseRedirect
 
 # Create your views here.
+
 
 def portfolio(request):
     message = []
@@ -32,10 +33,12 @@ def portfolio(request):
             print(buy_price)
             print(quantity)
             data = form.cleaned_data
-            context = func1(request, data, ticker_symbol, buy_price, quantity)
-            
-            #return JsonResponse(data)
-            return render(request, 'product/report.html', context)
+            context = {}
+            context = func1(data, ticker_symbol, buy_price, quantity)
+
+            # return redirect('/products/report', context=context)
+            return report(request, context)
+            # return JsonResponse(data)
 
         else:
             error = form.errors.as_data()
@@ -49,4 +52,5 @@ def portfolio(request):
         return render(request, 'product/portfolio.html', {'form': form, "number": data})
 
 
-
+def report(request, context):
+    return render(request, 'product/report.html', context)
