@@ -9,6 +9,7 @@ from scipy import stats
 # importing render
 # from django.shortcuts import render
 # from django.http import JsonResponse
+from json import dumps
 
 
 def func1(data, ticker_symbol, buy_price, quantity):
@@ -76,12 +77,14 @@ def func1(data, ticker_symbol, buy_price, quantity):
     net_now_value = np.sum(inp1['now_value'])
     inp1['Weightage'] = inp1['now_value']/net_now_value
 
-    inp1dic = []
-    for i in range(inp1.shape[0]):
-        temp = inp1.iloc[i]
-        inp1dic.append(dict(temp))
-    
-    print(inp1)
+    inpar = inp1.to_numpy()
+    para = inpar.tolist()
+    #para = [row for row in inpar]
+    pardict = {'1': para}
+    paradict = dumps(pardict)
+    print(inpar)
+    print(para)
+    print(paradict)
     print('Current Value : ', net_now_value)
     print('Invested Value : ', net_buy_value)
     print('Profit / Loss : ', total_pnl)
@@ -326,11 +329,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
         'inp1': inp1.to_html(),
-        'inpp1': inp1,
-        'inpp1c': inp1.columns,
-        'inpp1i': inp1.index,
-        'inpp1r':inp1.to_numpy(),
-        'inp1di': inp1dic,
+        'paradict': paradict
 
     }
 

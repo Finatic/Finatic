@@ -4,43 +4,6 @@ Portfolio Report
 {%endblock%}
 {%block content %}
 {%load static%}
-<<<<<<< HEAD
-
-<body>
-    <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
-    <br>
-    <br>
-    <table id="statable" class="table table-hover"  >
-        
-        <td>Ticker</td>
-        <td>Quantity</td>
-        <td>Buy Price</td>
-        <td>Current Price</td>
-        <td>Invested Value</td>
-        <td>Current Value</td>
-        <td>Profit / Loss</td>
-        <td>Weightage</td>
-        {%for i in inp1di%}
-            <tr>
-                <td>{{i.Ticker}}</td>
-                <td>{{i.Quantity}}</td>
-                <td>{{i.Buy_Price}}</td>
-                <td>{{i.ltp}}</td>
-                <td>{{i.buy_value}}</td>
-                <td>{{i.now_value}}</td>
-                <td>{{i.pnl}}</td>
-                <td>{{i.Weightage}}</td>
-            </tr>
-        {%endfor%}
-    </table>
-
-    <div class="container">
-        
-        <p> Net Current Value = {{Current_Value}} </p>
-        <p> Net Invested Value = {{Invested_value}} </p>
-        <p> Net Profit / Loss = {{Profit_loss}} </p>
-        <!-- <p> Stats =</p>{{inp1|safe}} -->
-=======
 
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -55,8 +18,8 @@ Portfolio Report
         <p> Profit / Loss = {{Profit_loss}} </p>
         <p> Stats =</p>{{inp1|safe}}
         <p> And sooo onn....</p>
->>>>>>> d38a8938641e904d8d2646e565be38c42319e3bb
     </div>
+    <div id="table_div"></div>
 
 </body>
 
@@ -66,7 +29,7 @@ Portfolio Report
 
     function drawTable() {
         var arr = [[]];
-        var arr = JSON.parse("{{data|escapejs}}");
+        var arr = JSON.parse("{{paradict|escapejs}}");
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Company');
