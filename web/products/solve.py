@@ -9,6 +9,7 @@ from scipy import stats
 # importing render
 # from django.shortcuts import render
 # from django.http import JsonResponse
+from json import dumps
 
 
 def func1(data, ticker_symbol, buy_price, quantity):
@@ -23,6 +24,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         tick.append(Ticks[i].split('( ', 1)[1].split(' )')[0])
     inp = pd.DataFrame(index=tick)
     ticker_list = inp.index
+    inp["Ticker"] = inp.index
     n = len(ticker_list)
     ticker = []
     for i in range(n):
@@ -30,12 +32,12 @@ def func1(data, ticker_symbol, buy_price, quantity):
 
     # define other user input
     inp["Quantity"] = quantity
-    inp["Buy Price"] = buy_price
+    inp["Buy_Price"] = buy_price
     # convert to float
     for i in range(len(inp)):
         inp['Quantity'][i] = float(inp['Quantity'][i])
-        inp['Buy Price'][i] = float(inp['Buy Price'][i])
-    # print(inp)
+        inp['Buy_Price'][i] = float(inp['Buy_Price'][i])
+    print(inp)
 
     # define time range
     start_date = data['start_date']
@@ -66,8 +68,8 @@ def func1(data, ticker_symbol, buy_price, quantity):
     inp1 = inp
     inp1['ltp'] = np.nan
     for i in range(n):
-        inp['ltp'].iloc[i] = now[ticker[i]].iloc[-1]
-    inp1['buy_value'] = inp1['Quantity']*inp1['Buy Price']
+        inp['ltp'].iloc[i] = round(now[ticker[i]].iloc[-1], 2)
+    inp1['buy_value'] = inp1['Quantity']*inp1['Buy_Price']
     inp1['now_value'] = inp1['Quantity']*inp1['ltp']
     inp1['pnl'] = inp1['now_value']-inp1['buy_value']
     total_pnl = np.sum(inp1['pnl'])
@@ -78,10 +80,17 @@ def func1(data, ticker_symbol, buy_price, quantity):
     test = inp1.to_numpy()
     print(test)
 
-    print(inp1.to_numpy())
-    # print('Current Value : ', net_now_value)
-    # print('Invested Value : ', net_buy_value)
-    # print('Profit / Loss : ', total_pnl)
+    inpar = inp1.to_numpy()
+    para = inpar.tolist()
+    #para = [row for row in inpar]
+    pardict = {'1': para}
+    paradict = dumps(pardict)
+    print(inpar)
+    print(para)
+    print(paradict)
+    print('Current Value : ', net_now_value)
+    print('Invested Value : ', net_buy_value)
+    print('Profit / Loss : ', total_pnl)
     # -----------------------------------------------------------------------------------
 
     # Sectorwise/Industrywise Allocation
@@ -324,9 +333,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
         'inp1': inp1.to_html(),
-        'inpp1c': inp1.columns,
-        'inpp1i': inp1.index,
-        'inpp1r': inp1.to_numpy(),
+        'paradict': paradict
 
     }
 

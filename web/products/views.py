@@ -37,12 +37,6 @@ def portfolio(request):
             data = form.cleaned_data
             context = {}
             context = func1(data, ticker_symbol, buy_price, quantity)
-            dataDictionary = {'1': [['ITC', 200.0, 194.0, 199.60000610351562, 38800.0, 39920.001220703125, 1120.001220703125, 0.2672629734072873],
-                                    ['HUL', 20.0, 2000.0, 2209.300048828125, 40000.0, 44186.0009765625, 4186.0009765625,
-                                     0.2958236884484091],
-                                    ['DEEPAKNTR', 100.0, 450.0, 652.5999755859375, 45000.0, 65259.99755859375,
-                                     20259.99755859375, 0.43691333814430355]]}
-            context['data'] = dumps(dataDictionary)
 
             # return HttpResponseRedirect(reverse(report, args=[context]))
 
