@@ -4,6 +4,7 @@ Portfolio Report
 {%endblock%}
 {%block content %}
 {%load static%}
+<<<<<<< HEAD
 
 <body>
     <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
@@ -39,9 +40,51 @@ Portfolio Report
         <p> Net Invested Value = {{Invested_value}} </p>
         <p> Net Profit / Loss = {{Profit_loss}} </p>
         <!-- <p> Stats =</p>{{inp1|safe}} -->
+=======
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+</head>
+
+<body>
+    <div>
+        <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
+        <p> Current Value = {{Current_Value}} </p>
+        <p> Invested Value = {{Invested_value}} </p>
+        <p> Profit / Loss = {{Profit_loss}} </p>
+        <p> Stats =</p>{{inp1|safe}}
+        <p> And sooo onn....</p>
+>>>>>>> d38a8938641e904d8d2646e565be38c42319e3bb
     </div>
 
 </body>
 
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
 
+    function drawTable() {
+        var arr = [[]];
+        var arr = JSON.parse("{{data|escapejs}}");
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'Company');
+        data.addColumn('number', 'Quantity');
+        data.addColumn('number', 'Buy Price');
+        data.addColumn('number', 'Current Price');
+        data.addColumn('number', 'Buy Value');
+        data.addColumn('number', 'Current Value');
+        data.addColumn('number', 'Profit / Loss');
+        data.addColumn('number', 'Weightage');
+
+        data.addRows(
+            arr['1'],
+        );
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+    }
+</script>
 {%endblock%}
