@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .forms import port_opti
 from django.http import JsonResponse
 from .solve import func1
@@ -35,9 +35,10 @@ def portfolio(request):
             data = form.cleaned_data
             context = {}
             context = func1(data, ticker_symbol, buy_price, quantity)
+            return HttpResponseRedirect(reverse(report, args=[context]))
 
             # return redirect('/products/report', context=context)
-            return report(request, context)
+            # return report(request, context)
             # return JsonResponse(data)
 
         else:
