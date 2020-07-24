@@ -75,18 +75,17 @@ def func1(data, ticker_symbol, buy_price, quantity):
     net_now_value = np.sum(inp1['now_value'])
     inp1['Weightage'] = inp1['now_value']/net_now_value
 
-    print(inp1)
+    print(inp1.to_numpy())
     print('Current Value : ', net_now_value)
     print('Invested Value : ', net_buy_value)
     print('Profit / Loss : ', total_pnl)
     # -----------------------------------------------------------------------------------
 
-    # Sectorwise/Industrywise Allocation
-    listed = pd.read_csv(
-        'products/static_product/fundamentals.csv', index_col='Ticker')
-    inp2 = inp1
-    list_con = pd.concat([inp2, listed], axis=1, sort=False)
-    # dat1 is the dataframe with Sector Allocation by Value
+    #Sectorwise/Industrywise Allocation
+    listed = pd.read_csv('products/static_product/fundamentals.csv', index_col='Ticker')
+    inp2 = inp1.copy()
+    list_con = pd.concat([inp2,listed], axis=1, sort = False)
+    #dat1 is the dataframe with Sector Allocation by Value
     dat1 = list_con.groupby(['Sector'])['now_value'].agg('sum')
     dat1 = dat1.replace(0, np.nan)
     dat1.dropna(inplace=True)
@@ -143,7 +142,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
     max_sr_ret = ret_arr[sharpe_arr.argmax()]
     max_sr_vol = vol_arr[sharpe_arr.argmax()]
 
-    inp3 = inp1
+    inp3 = inp1.copy()
     inp3['Opt_weight'] = opt_weight
     inp3['Opt_value'] = inp3['Opt_weight']*np.sum(inp3['now_value'])
     inp3['Opt_quantity'] = (inp3['Opt_value']/inp3['ltp'])
@@ -321,6 +320,9 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
         'inp1': inp1.to_html(),
+        'inpp1c': inp1.columns,
+        'inpp1i': inp1.index,
+        'inpp1r':inp1.to_numpy(),
 
     }
 
