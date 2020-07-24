@@ -81,20 +81,11 @@ def func1(data, ticker_symbol, buy_price, quantity):
     print('Profit / Loss : ', total_pnl)
     # -----------------------------------------------------------------------------------
 
-<<<<<<< HEAD
     #Sectorwise/Industrywise Allocation
     listed = pd.read_csv('products/static_product/fundamentals.csv', index_col='Ticker')
     inp2 = inp1.copy()
     list_con = pd.concat([inp2,listed], axis=1, sort = False)
     #dat1 is the dataframe with Sector Allocation by Value
-=======
-    # Sectorwise/Industrywise Allocation
-    listed = pd.read_csv(
-        'products/static_product/fundamentals.csv', index_col='Ticker')
-    inp2 = inp1
-    list_con = pd.concat([inp2, listed], axis=1, sort=False)
-    # dat1 is the dataframe with Sector Allocation by Value
->>>>>>> cccf8a1ae3d87877002ac2b107db20b9f6f18230
     dat1 = list_con.groupby(['Sector'])['now_value'].agg('sum')
     dat1 = dat1.replace(0, np.nan)
     dat1.dropna(inplace=True)
@@ -330,6 +321,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'Profit_loss': round(total_pnl, 0),
         'inp1': inp1.to_html(),
         'inpp1c': inp1.columns,
+        'inpp1i': inp1.index,
         'inpp1r':inp1.to_numpy(),
 
     }
