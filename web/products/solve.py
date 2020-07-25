@@ -335,9 +335,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'inp1': inp1.to_html(),
         'paradict': paradict,
         'sector': sector,
-        'indpie': indpie,
-        'indpieh': indpieh,
-
+        
     }
 
     return context

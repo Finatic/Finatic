@@ -11,19 +11,17 @@ Portfolio Report
 </head>
 
 <body>
-    <<<<<<< HEAD <h2 class="text-info h1-responsive font-weight-bold pb-2">Report</h2>
-        =======
-        <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
-        <br>
-        >>>>>>> 4ae37355ab8ad843d2c31a13a0c76698cb4421cf
-        <div id="table_div"></div>
-        <br>
-        <div>
-            <p> Current Value = {{Current_Value}} </p>
-            <p> Invested Value = {{Invested_value}} </p>
-            <p> Profit / Loss = {{Profit_loss}} </p>
-        </div>
-        <canvas id="myChart" width="1600" height="900"></canvas>
+
+    <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
+    <br>
+    <div id="table_div"></div>
+    <br>
+    <div>
+        <p> Current Value = {{Current_Value}} </p>
+        <p> Invested Value = {{Invested_value}} </p>
+        <p> Profit / Loss = {{Profit_loss}} </p>
+    </div>
+    <canvas id="myChart" width="1600" height="900"></canvas>
 
 </body>
 
@@ -31,8 +29,10 @@ Portfolio Report
 <script>
     var sect = [[]];
     var sect = JSON.parse("{{sector|escapejs}}");
+    console.log(sect)
     var data = {
         datasets: [{
+            backgroundColor: ['#85884e', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
             data: sect['1']
         }],
 
@@ -43,7 +43,7 @@ Portfolio Report
     var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: data,
-        options: options
+        //options: options
     });
 </script>
 
