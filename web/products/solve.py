@@ -120,7 +120,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
 
     
     print(list_pe)
-    listpe = list_con.to_numpy()
+    listpe = list_pe.to_numpy()
     pelist = listpe.tolist()
     pe = {'1': pelist}
     pe = dumps(pe)
