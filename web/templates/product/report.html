@@ -20,7 +20,7 @@ Portfolio Optimiser
         </div>
 
         <ul class="list-unstyled components">
-            <p>Dummy Heading</p>
+            <p>Portfolio Analyzer</p>
             <li>
                 <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -36,25 +36,16 @@ Portfolio Optimiser
                 </ul>
             </li>
             <li>
-                <a href="#">About</a>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
+                <a href="#">Portfolio Statistics</a>
             </li>
             <li>
-                <a href="#">Portfolio</a>
+                <a href="#">Historical Analysis</a>
             </li>
             <li>
-                <a href="#">Contact</a>
+                <a href="#">Optimization</a>
+            </li>
+            <li>
+                <a href="#">Predictive Analysis</a>
             </li>
         </ul>
 
@@ -106,6 +97,9 @@ Portfolio Optimiser
             <p>Annual variance = {{percent_var2}}</p>
             <br>
             <div id="table_divc"></div>
+            <br>
+            <p>Weighted PE = {{weighted_pe}}</p>
+        </div>
 
 
         </div>
@@ -113,6 +107,15 @@ Portfolio Optimiser
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
+
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -138,7 +141,7 @@ Portfolio Optimiser
             };
             var ctx = document.getElementById("myCharta");
             var myPieChart = new Chart(ctx, {
-                type: 'pie',
+                type: 'doughnut',
                 data: data,
                 //options: options
             });
@@ -189,7 +192,7 @@ Portfolio Optimiser
                     arr['1'],
                 );
 
-                var table = new google.visualization.Table(document.getElementById('table_div'));
+                var table = new google.visualization.Table(document.getElementById('table_diva'));
 
                 table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
             }
