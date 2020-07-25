@@ -81,7 +81,6 @@ def func1(data, ticker_symbol, buy_price, quantity):
     para = inpar.tolist()
     pardict = {'1': para}
     paradict = dumps(pardict)
-    print(inp1)
     print('Current Value : ', net_now_value)
     print('Invested Value : ', net_buy_value)
     print('Profit / Loss : ', total_pnl)
@@ -100,21 +99,16 @@ def func1(data, ticker_symbol, buy_price, quantity):
     secpieh = dat1.index.tolist()
     #sectora = [secpie, secpieh]
     sector = {'1': secpie, '2': secpieh}
-    print(sector['1'])
     sector = dumps(sector)
 
     # dat2 is the dataframe with Industry Allocation by Value
     dat2 = list_con.groupby(['Industry'])['now_value'].agg('sum')
     dat2 = dat2.replace(0, np.nan)
     dat2.dropna(inplace=True)
-<<<<<<< HEAD
     indpie = dat2.tolist()
     indpieh = dat2.index.tolist()
     indust = {'1': indpie, '2': indpieh}
-    print(dat2)
-=======
-    # print(dat2)
->>>>>>> 09112d6934ccbb1ce57466185c29acdb02ca9491
+    indust = dumps(indust)
 
     # Weighted PE Ratio
     list_con['buy_value'] = list_con['buy_value'].dropna(inplace=True)
@@ -122,8 +116,13 @@ def func1(data, ticker_symbol, buy_price, quantity):
     list_pe = list_pe.iloc[:len(inp2)]
     weighted_pe = np.sum(
         list_pe['Price to Earnings Ratio (TTM)']*list_pe['now_value']/net_now_value)
-    # print(list_pe)
-    # print("Weighted PE :", weighted_pe)
+    print(list_con[:len(list_pe)])
+    print(list_pe)
+    listpe = list_pe.to_numpy()
+    pelist = listpe.tolist()
+    pe = {'1': pelist}
+    pe = dumps(pe)
+    print("Weighted PE :", weighted_pe)
     # --------------------------------------------------------------------------------------------
 
     # Calculating the optimized weights
@@ -169,7 +168,11 @@ def func1(data, ticker_symbol, buy_price, quantity):
     inp3['Opt_quantity'] = inp3['Opt_quantity'].astype(int)
 
     # optimized weightage and quantity(Optimization)
-    # print(inp3)
+    opt = inp3.to_numpy()
+    para = opt.tolist()
+    optdict = {'1': para}
+    optdict = dumps(optdict)
+    print(inp3)
     # --------------------------------------------------------------------------------
 
     # individual asset plot (portfolio1)
@@ -339,15 +342,21 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'Current_Value': round(net_now_value, 0),
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
-        'inp1': inp1.to_html(),
         'paradict': paradict,
         'sector': sector,
-<<<<<<< HEAD
         'industry': indust,
+        'optdict': optdict,
+        'percent_ret1': percent_ret1,
+        'percent_vols1': percent_vols1,
+        'percent_var1': percent_var1,
+        'percent_ret2': percent_ret2,
+        'percent_vols2': percent_vols2,
+        'percent_var2': percent_var2,
+        'pe': pe,
+        'weighted_pe': weighted_pe,
 
-=======
-        
->>>>>>> 09112d6934ccbb1ce57466185c29acdb02ca9491
+
+
     }
 
     return context

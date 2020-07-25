@@ -11,56 +11,77 @@ Portfolio Report
 </head>
 
 <body>
-<<<<<<< HEAD
-    <h2 class="text-info h1-responsive font-weight-bold pb-2">Report</h2>
-        
-        <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
-        <br>
-        <div id="table_div"></div>
-        <br>
-        <div>
-            <p> Current Value = {{Current_Value}} </p>
-            <p> Invested Value = {{Invested_value}} </p>
-            <p> Profit / Loss = {{Profit_loss}} </p>
-        </div>
-        <canvas id="myChart" width="1600" height="900"></canvas>
-=======
 
     <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
     <br>
-    <div id="table_div"></div>
+    <div id="table_diva"></div>
     <br>
-    <div>
+    <div class="container-fluid" >
         <p> Current Value = {{Current_Value}} </p>
         <p> Invested Value = {{Invested_value}} </p>
         <p> Profit / Loss = {{Profit_loss}} </p>
-    </div>
-    <canvas id="myChart" width="1600" height="900"></canvas>
->>>>>>> 09112d6934ccbb1ce57466185c29acdb02ca9491
+    
+        <canvas id="myCharta" width="70" height="20" class="col-sm-6"></canvas>
+        <canvas id="myChartb" width="70" height="20" class="col-sm-6"></canvas>
+        <br>
+        <div id="table_divb"></div>
+        <h6> Original Portfolio Statistics--></h6>
+        <p>Expected annual return = {{percent_ret1}} </p>
+        <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
+        <p>Annual variance = {{percent_var1}}</p>
 
+        <h6> Optimized Portfolio Statistics--></h6>
+        <p>Expected annual return = {{percent_ret2}} </p>
+        <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
+        <p>Annual variance = {{percent_var2}}</p>
+        <br>
+        <div id="table_divc"></div>
+    </div>
 </body>
 
-<!---------------------------Pie Chart---------------------------------------------->
+<!---------------------------Pie Chart--a-------------------------------------------->
 <script>
     var sect = [[]];
     var sect = JSON.parse("{{sector|escapejs}}");
     console.log(sect)
     var data = {
         datasets: [{
-            backgroundColor: ['#85884e', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
             data: sect['1']
         }],
 
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: sect['2']
     };
-    var ctx = document.getElementById("myChart");
+    var ctx = document.getElementById("myCharta");
     var myPieChart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: data,
         //options: options
     });
 </script>
+<!----------------------------Pie Chart--b------------------------------------------>
+<script>
+    var ind = [[]];
+    var ind = JSON.parse("{{industry|escapejs}}");
+    console.log(sect)
+    var data = {
+        datasets: [{
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            data: ind['1']
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: ind['2']
+    };
+    var ctx = document.getElementById("myChartb");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        //options: options
+    });
+</script>
+
 
 <!---------------------------Stat Table--------------------------------------------->
 <script type="text/javascript">
@@ -85,7 +106,100 @@ Portfolio Report
             arr['1'],
         );
 
-        var table = new google.visualization.Table(document.getElementById('table_div'));
+        var table = new google.visualization.Table(document.getElementById('table_diva'));
+
+        table.draw(data, { showRowNumber: true, width: '80%', height: '100%' });
+    }
+</script>
+<!------------------------Optimized Table------------------------------------------>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
+
+    function drawTable() {
+        var arr = [[]];
+        var arr = JSON.parse("{{optdict|escapejs}}");
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'Company');
+        data.addColumn('number', 'Quantity');
+        data.addColumn('number', 'Buy Price');
+        data.addColumn('number', 'Current Price');
+        data.addColumn('number', 'Buy Value');
+        data.addColumn('number', 'Current Value');
+        data.addColumn('number', 'Profit / Loss');
+        data.addColumn('number', 'Weightage');
+        data.addColumn('number', 'Optimized Weightage');
+        data.addColumn('number', 'Optimized Value');
+        data.addColumn('number', 'Optimized Quantity');
+
+        data.addRows(
+            arr['1'],
+        );
+
+        var table = new google.visualization.Table(document.getElementById('table_divb'));
+
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+    }
+</script>
+<!------------------------Individual PE list---------------------------------->
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
+
+    function drawTable() {
+        var arr = [[]];
+        var arr = JSON.parse("{{pe|escapejs}}");
+        console.log(arr)
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'Company');
+        data.addColumn('number', 'Quantity');
+        data.addColumn('number', 'Buy Price');
+        data.addColumn('number', 'Current Price');
+        data.addColumn('number', 'Buy Value');
+        data.addColumn('number', 'Current Value');
+        data.addColumn('number', 'Profit / Loss');
+        data.addColumn('number', 'Weightage');
+        data.addColumn('number', 'Volume');
+        data.addColumn('number', 'Market Cap');
+        data.addColumn('number', 'PE Ratio');
+        data.addColumn('number', 'EPS(TTM)');
+        data.addColumn('string', 'Sector');
+        data.addColumn('number', 'Last');
+        data.addColumn('number', 'Beta');
+        data.addColumn('number', 'Basic EPS(FY)');
+        data.addColumn('number', 'EBITDA(TTM)');
+        data.addColumn('number', 'Goodwill');
+        data.addColumn('string', 'Industry');
+        data.addColumn('number', 'Last Year Revenue');
+        data.addColumn('number', 'Net Debt');
+        data.addColumn('number', 'Net Income');
+        data.addColumn('number', 'Net margin');
+        data.addColumn('number', 'Quick Ratio');
+        data.addColumn('number', 'ROA');
+        data.addColumn('number', 'ROE');
+        data.addColumn('number', 'ROIC');
+        data.addColumn('number', 'Revenue per Employee');
+        data.addColumn('number', 'Total Debt');
+        data.addColumn('number', 'Total Revenue');
+        data.addColumn('number', 'YTD Perf');
+        data.addColumn('number', 'Yearly Performance');
+        data.addColumn('number', 'No. of Employees');
+        data.addColumn('number', 'Gross margin');
+        data.addColumn('number', 'Gross Profit(FY)');
+        data.addColumn('number', 'Gross Profit(MRQ)');
+        data.addColumn('number', 'Monthly Perf');
+        data.addColumn('number', 'Total Assets (MRQ)');
+        data.addColumn('number', 'Total Current Assets (MRQ)');
+        data.addColumn('number', 'Total Shares Outstanding ');
+
+
+        data.addRows(
+            arr['1'],
+        );
+
+        var table = new google.visualization.Table(document.getElementById('table_divc'));
 
         table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
     }
