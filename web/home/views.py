@@ -13,8 +13,8 @@ def contact_us(request):
             sender_email = form.cleaned_data['email']
             message = "{0} has sent you a new message:\n\n{2}\n\n{1}".format(
                 sender_name, form.cleaned_data['message'], sender_email)
-            send_mail('New Enquiry', message, sender_email,
-                      ['teamfinatic3@gmail.com'])
+            send_mail('New Enquiry', message, from_email=sender_email,
+                      recipient_list=['teamfinatic3@gmail.com'])
             message = ['Thanks for contacting us!']
 
             return render(request, 'home.html', {'message': message})

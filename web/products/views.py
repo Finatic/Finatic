@@ -15,11 +15,11 @@ def portfolio(request):
         form = port_opti(request.POST)
 
         if form.is_valid():
-            portfolio_type = form.cleaned_data['Portfolio_type']
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
-            nop = form.cleaned_data['number_of_portfolio']
-            benchmark = form.cleaned_data['benchmark']
+            # portfolio_type = form.cleaned_data['Portfolio_type']
+            # start_date = form.cleaned_data['start_date']
+            # end_date = form.cleaned_data['end_date']
+            # nop = form.cleaned_data['number_of_portfolio']
+            # benchmark = form.cleaned_data['benchmark']
             ticker_symbol = []
             quantity = []
             buy_price = []

@@ -77,14 +77,12 @@ def func1(data, ticker_symbol, buy_price, quantity):
     net_now_value = np.sum(inp1['now_value'])
     inp1['Weightage'] = inp1['now_value']/net_now_value
     print(inp1)
-    test = inp1.to_numpy()
-    print(test)
-
     inpar = inp1.to_numpy()
     para = inpar.tolist()
-    #para = [row for row in inpar]
+    # for google table
     pardict = {'1': para}
     paradict = dumps(pardict)
+
     print(inpar)
     print(para)
     print(paradict)
