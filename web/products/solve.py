@@ -101,7 +101,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
     dat1.dropna(inplace=True)
     secpie = dat1.tolist()
     secpieh = dat1.index.tolist()
-    sectora = [secpie, secpieh]
+    #sectora = [secpie, secpieh]
     sector = {'1': secpie, '2': secpieh}
     print(sector['1'])
     sector = dumps(sector)
@@ -112,6 +112,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
     dat2.dropna(inplace=True)
     indpie = dat2.tolist()
     indpieh = dat2.index.tolist()
+    indust = {'1': indpie, '2': indpieh}
     print(dat2)
 
     # Weighted PE Ratio
@@ -340,8 +341,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'inp1': inp1.to_html(),
         'paradict': paradict,
         'sector': sector,
-        'indpie': indpie,
-        'indpieh': indpieh,
+        'industry': indust,
 
     }
 
