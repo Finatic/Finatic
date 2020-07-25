@@ -79,13 +79,9 @@ def func1(data, ticker_symbol, buy_price, quantity):
     print(inp1)
     inpar = inp1.to_numpy()
     para = inpar.tolist()
-    # for google table
     pardict = {'1': para}
     paradict = dumps(pardict)
-
-    print(inpar)
-    print(para)
-    print(paradict)
+    print(inp1)
     print('Current Value : ', net_now_value)
     print('Invested Value : ', net_buy_value)
     print('Profit / Loss : ', total_pnl)
@@ -100,7 +96,13 @@ def func1(data, ticker_symbol, buy_price, quantity):
     dat1 = list_con.groupby(['Sector'])['now_value'].agg('sum')
     dat1 = dat1.replace(0, np.nan)
     dat1.dropna(inplace=True)
-    print(dat1)
+    secpie = dat1.tolist()
+    secpieh = dat1.index.tolist()
+    sectora = [secpie, secpieh]
+    sector = {'1': secpie, '2': secpieh}
+    print(sector['1'])
+    sector = dumps(sector)
+
     # dat2 is the dataframe with Industry Allocation by Value
     dat2 = list_con.groupby(['Industry'])['now_value'].agg('sum')
     dat2 = dat2.replace(0, np.nan)
@@ -331,7 +333,10 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
         'inp1': inp1.to_html(),
-        'paradict': paradict
+        'paradict': paradict,
+        'sector': sector,
+        'indpie': indpie,
+        'indpieh': indpieh,
 
     }
 
