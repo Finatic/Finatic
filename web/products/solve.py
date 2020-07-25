@@ -110,13 +110,9 @@ def func1(data, ticker_symbol, buy_price, quantity):
     dat2 = list_con.groupby(['Industry'])['now_value'].agg('sum')
     dat2 = dat2.replace(0, np.nan)
     dat2.dropna(inplace=True)
-<<<<<<< HEAD
     indpie = dat2.tolist()
     indpieh = dat2.index.tolist()
     print(dat2)
-=======
-    # print(dat2)
->>>>>>> 63d12a61d068e8f31b0cd0db2439013c03c5be2d
 
     # Weighted PE Ratio
     list_con['buy_value'] = list_con['buy_value'].dropna(inplace=True)
