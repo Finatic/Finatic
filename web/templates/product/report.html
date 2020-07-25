@@ -109,151 +109,149 @@ Portfolio Optimiser
 
 
         </div>
-        <!-- jQuery CDN - Slim version (=without AJAX) -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+    </div>
+</div>
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
-                    $(this).toggleClass('active');
-                });
-            });
-        </script>
-        <!---------------------------Pie Chart---------------------------------------------->
-        <script>
-            var sect = [[]];
-            var sect = JSON.parse("{{sector|escapejs}}");
-            console.log(sect)
-            var data = {
-                datasets: [{
-                    backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
-                    data: sect['1']
-                }],
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+<!---------------------------Pie Chart---------------------------------------------->
+<script>
+    var sect = [[]];
+    var sect = JSON.parse("{{sector|escapejs}}");
+    console.log(sect)
+    var data = {
+        datasets: [{
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            data: sect['1']
+        }],
 
-                // These labels appear in the legend and in the tooltips when hovering different arcs
-                labels: sect['2']
-            };
-            var ctx = document.getElementById("myCharta");
-            var myPieChart = new Chart(ctx, {
-                type: 'pie',
-                data: data,
-                //options: options
-            });
-        </script>
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: sect['2']
+    };
+    var ctx = document.getElementById("myCharta");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        //options: options
+    });
+</script>
 
-        <!----------------------------Pie Chart--b------------------------------------------>
-        <script>
-            var ind = [[]];
-            var ind = JSON.parse("{{industry|escapejs}}");
-            console.log(sect)
-            var data = {
-                datasets: [{
-                    backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
-                    data: ind['1']
-                }],
+<!----------------------------Pie Chart--b------------------------------------------>
+<script>
+    var ind = [[]];
+    var ind = JSON.parse("{{industry|escapejs}}");
+    console.log(sect)
+    var data = {
+        datasets: [{
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            data: ind['1']
+        }],
 
-                // These labels appear in the legend and in the tooltips when hovering different arcs
-                labels: ind['2']
-            };
-            var ctx = document.getElementById("myChartb");
-            var myPieChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: data,
-                //options: options
-            });
-        </script>
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: ind['2']
+    };
+    var ctx = document.getElementById("myChartb");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        //options: options
+    });
+</script>
 
-        <!---------------------------Stat Table--------------------------------------------->
-        <script type="text/javascript">
-            google.charts.load('current', { 'packages': ['table'] });
-            google.charts.setOnLoadCallback(drawTable);
+<!---------------------------Stat Table--------------------------------------------->
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
 
-            function drawTable() {
-                var arr = [[]];
-                var arr = JSON.parse("{{paradict|escapejs}}");
-                var data = new google.visualization.DataTable();
+    function drawTable() {
+        var arr = [[]];
+        var arr = JSON.parse("{{paradict|escapejs}}");
+        var data = new google.visualization.DataTable();
 
-                data.addColumn('string', 'Company');
-                data.addColumn('number', 'Quantity');
-                data.addColumn('number', 'Buy Price');
-                data.addColumn('number', 'Current Price');
-                data.addColumn('number', 'Buy Value');
-                data.addColumn('number', 'Current Value');
-                data.addColumn('number', 'Profit / Loss');
-                data.addColumn('number', 'Weightage');
+        data.addColumn('string', 'Company');
+        data.addColumn('number', 'Quantity');
+        data.addColumn('number', 'Buy Price');
+        data.addColumn('number', 'Current Price');
+        data.addColumn('number', 'Buy Value');
+        data.addColumn('number', 'Current Value');
+        data.addColumn('number', 'Profit / Loss');
+        data.addColumn('number', 'Weightage');
 
-                data.addRows(
-                    arr['1'],
-                );
+        data.addRows(
+            arr['1'],
+        );
 
-                var table = new google.visualization.Table(document.getElementById('table_diva'));
+        var table = new google.visualization.Table(document.getElementById('table_diva'));
 
-                table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
-            }
-        </script>
-        <!------------------------Optimized Table------------------------------------------>
-        <script type="text/javascript">
-            google.charts.load('current', { 'packages': ['table'] });
-            google.charts.setOnLoadCallback(drawTable);
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+    }
+</script>
+<!------------------------Optimized Table------------------------------------------>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
 
-            function drawTable() {
-                var arr = [[]];
-                var arr = JSON.parse("{{optdict|escapejs}}");
-                var data = new google.visualization.DataTable();
+    function drawTable() {
+        var arr = [[]];
+        var arr = JSON.parse("{{optdict|escapejs}}");
+        var data = new google.visualization.DataTable();
 
-                data.addColumn('string', 'Company');
-                data.addColumn('number', 'Quantity');
-                data.addColumn('number', 'Buy Price');
-                data.addColumn('number', 'Current Price');
-                data.addColumn('number', 'Buy Value');
-                data.addColumn('number', 'Current Value');
-                data.addColumn('number', 'Profit / Loss');
-                data.addColumn('number', 'Weightage');
-                data.addColumn('number', 'Optimized Weightage');
-                data.addColumn('number', 'Optimized Value');
-                data.addColumn('number', 'Optimized Quantity');
+        data.addColumn('string', 'Company');
+        data.addColumn('number', 'Quantity');
+        data.addColumn('number', 'Buy Price');
+        data.addColumn('number', 'Current Price');
+        data.addColumn('number', 'Buy Value');
+        data.addColumn('number', 'Current Value');
+        data.addColumn('number', 'Profit / Loss');
+        data.addColumn('number', 'Weightage');
+        data.addColumn('number', 'Optimized Weightage');
+        data.addColumn('number', 'Optimized Value');
+        data.addColumn('number', 'Optimized Quantity');
 
-                data.addRows(
-                    arr['1'],
-                );
+        data.addRows(
+            arr['1'],
+        );
 
-                var table = new google.visualization.Table(document.getElementById('table_divb'));
+        var table = new google.visualization.Table(document.getElementById('table_divb'));
 
-                table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
-            }
-        </script>
-        <!------------------------Individual PE list---------------------------------->
-        <script type="text/javascript">
-            google.charts.load('current', { 'packages': ['table'] });
-            google.charts.setOnLoadCallback(drawTable);
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+    }
+</script>
+<!------------------------Individual PE list---------------------------------->
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
 
-            function drawTable() {
-                var arr = [[]];
-                var arr = JSON.parse("{{pe|escapejs}}");
-                console.log(arr)
-                var data = new google.visualization.DataTable();
+    function drawTable() {
+        var arr = [[]];
+        var arr = JSON.parse("{{pe|escapejs}}");
+        console.log(arr)
+        var data = new google.visualization.DataTable();
 
-                data.addColumn('string', 'Company');
-                data.addColumn('number', 'Price to Earning Ratio (TTM)');
-                data.addColumn('number', 'Current Value');
-
-
-                data.addRows(
-                    arr['1'],
-                );
-
-                var table = new google.visualization.Table(document.getElementById('table_divc'));
-
-                table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
-            }
-        </script>
+        data.addColumn('string', 'Company');
+        data.addColumn('number', 'Price to Earning Ratio (TTM)');
+        data.addColumn('number', 'Current Value');
 
 
+        data.addRows(
+            arr['1'],
+        );
 
-        </body>
+        var table = new google.visualization.Table(document.getElementById('table_divc'));
 
-        </html>
-        {%endblock%}
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+    }
+</script>
+
+
+{%endblock%}
