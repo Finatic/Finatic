@@ -109,18 +109,9 @@ Portfolio Optimiser
 
 
         </div>
-
         <!-- jQuery CDN - Slim version (=without AJAX) -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-        <!-- Popper.JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-            crossorigin="anonymous"></script>
-        <!-- Bootstrap JS -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
 
         <script type="text/javascript">
@@ -147,7 +138,7 @@ Portfolio Optimiser
             };
             var ctx = document.getElementById("myCharta");
             var myPieChart = new Chart(ctx, {
-                type: 'doughnut',
+                type: 'pie',
                 data: data,
                 //options: options
             });
@@ -246,45 +237,8 @@ Portfolio Optimiser
                 var data = new google.visualization.DataTable();
 
                 data.addColumn('string', 'Company');
-                data.addColumn('number', 'Quantity');
-                data.addColumn('number', 'Buy Price');
-                data.addColumn('number', 'Current Price');
-                data.addColumn('number', 'Buy Value');
+                data.addColumn('number', 'Price to Earning Ratio (TTM)');
                 data.addColumn('number', 'Current Value');
-                data.addColumn('number', 'Profit / Loss');
-                data.addColumn('number', 'Weightage');
-                data.addColumn('number', 'Volume');
-                data.addColumn('number', 'Market Cap');
-                data.addColumn('number', 'PE Ratio');
-                data.addColumn('number', 'EPS(TTM)');
-                data.addColumn('string', 'Sector');
-                data.addColumn('number', 'Last');
-                data.addColumn('number', 'Beta');
-                data.addColumn('number', 'Basic EPS(FY)');
-                data.addColumn('number', 'EBITDA(TTM)');
-                data.addColumn('number', 'Goodwill');
-                data.addColumn('string', 'Industry');
-                data.addColumn('number', 'Last Year Revenue');
-                data.addColumn('number', 'Net Debt');
-                data.addColumn('number', 'Net Income');
-                data.addColumn('number', 'Net margin');
-                data.addColumn('number', 'Quick Ratio');
-                data.addColumn('number', 'ROA');
-                data.addColumn('number', 'ROE');
-                data.addColumn('number', 'ROIC');
-                data.addColumn('number', 'Revenue per Employee');
-                data.addColumn('number', 'Total Debt');
-                data.addColumn('number', 'Total Revenue');
-                data.addColumn('number', 'YTD Perf');
-                data.addColumn('number', 'Yearly Performance');
-                data.addColumn('number', 'No. of Employees');
-                data.addColumn('number', 'Gross margin');
-                data.addColumn('number', 'Gross Profit(FY)');
-                data.addColumn('number', 'Gross Profit(MRQ)');
-                data.addColumn('number', 'Monthly Perf');
-                data.addColumn('number', 'Total Assets (MRQ)');
-                data.addColumn('number', 'Total Current Assets (MRQ)');
-                data.addColumn('number', 'Total Shares Outstanding ');
 
 
                 data.addRows(
@@ -296,6 +250,8 @@ Portfolio Optimiser
                 table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
             }
         </script>
+
+
 
         </body>
 
