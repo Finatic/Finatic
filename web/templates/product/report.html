@@ -1,6 +1,6 @@
 {%extends 'base.html'%}
 {%block title %}
-Portfolio Optimiser
+Portfolio Analyzer
 {%endblock%}
 {%block content %}
 {%load static%}
@@ -96,7 +96,9 @@ Portfolio Optimiser
                     <p> Invested Value = {{Invested_value}} </p>
                     <p> Profit / Loss = {{Profit_loss}} </p>
                 </div>
+                <p>Sector</p>
                 <canvas id="myCharta" width="70" height="20" class="col-sm-6"></canvas>
+                <p>Industry</p>
                 <canvas id="myChartb" width="70" height="20" class="col-sm-6"></canvas>
                 <br>
                 <div id="table_divb"></div>
@@ -104,7 +106,7 @@ Portfolio Optimiser
                 <p>Expected annual return = {{percent_ret1}} </p>
                 <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
                 <p>Annual variance = {{percent_var1}}</p>
-
+                <br>
                 <h6> Optimized Portfolio Statistics--></h6>
                 <p>Expected annual return = {{percent_ret2}} </p>
                 <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
