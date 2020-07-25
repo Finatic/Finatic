@@ -7,11 +7,12 @@ Portfolio Report
 
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
 
 <body>
     <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
+    <br>
     <div id="table_div"></div>
     <br>
     <div>
@@ -19,10 +20,31 @@ Portfolio Report
         <p> Invested Value = {{Invested_value}} </p>
         <p> Profit / Loss = {{Profit_loss}} </p>
     </div>
-    
+    <canvas id="myChart" width="1600" height="900"></canvas>
 
 </body>
 
+<!---------------------------Pie Chart---------------------------------------------->
+<script>
+    var sect = [[]];
+    var sect = JSON.parse("{{sector|escapejs}}");
+    var data = {
+        datasets: [{
+            data: sect['1']
+        }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: sect['2']
+    };
+    var ctx = document.getElementById("myChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: options
+    });
+</script>
+
+<!---------------------------Stat Table--------------------------------------------->
 <script type="text/javascript">
     google.charts.load('current', { 'packages': ['table'] });
     google.charts.setOnLoadCallback(drawTable);
