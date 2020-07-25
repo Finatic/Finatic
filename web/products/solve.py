@@ -68,7 +68,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
     inp1 = inp
     inp1['ltp'] = np.nan
     for i in range(n):
-        inp['ltp'].iloc[i] = round(now[ticker[i]].iloc[-1],2)
+        inp['ltp'].iloc[i] = round(now[ticker[i]].iloc[-1], 2)
     inp1['buy_value'] = inp1['Quantity']*inp1['Buy_Price']
     inp1['now_value'] = inp1['Quantity']*inp1['ltp']
     inp1['pnl'] = inp1['now_value']-inp1['buy_value']
@@ -76,6 +76,9 @@ def func1(data, ticker_symbol, buy_price, quantity):
     net_buy_value = np.sum(inp1['buy_value'])
     net_now_value = np.sum(inp1['now_value'])
     inp1['Weightage'] = inp1['now_value']/net_now_value
+    print(inp1)
+    test = inp1.to_numpy()
+    print(test)
 
     inpar = inp1.to_numpy()
     para = inpar.tolist()
@@ -87,11 +90,12 @@ def func1(data, ticker_symbol, buy_price, quantity):
     print('Profit / Loss : ', total_pnl)
     # -----------------------------------------------------------------------------------
 
-    #Sectorwise/Industrywise Allocation
-    listed = pd.read_csv('products/static_product/fundamentals.csv', index_col='Ticker')
+    # Sectorwise/Industrywise Allocation
+    listed = pd.read_csv(
+        'products/static_product/fundamentals.csv', index_col='Ticker')
     inp2 = inp1.copy()
-    list_con = pd.concat([inp2,listed], axis=1, sort = False)
-    #dat1 is the dataframe with Sector Allocation by Value
+    list_con = pd.concat([inp2, listed], axis=1, sort=False)
+    # dat1 is the dataframe with Sector Allocation by Value
     dat1 = list_con.groupby(['Sector'])['now_value'].agg('sum')
     dat1 = dat1.replace(0, np.nan)
     dat1.dropna(inplace=True)
@@ -106,9 +110,13 @@ def func1(data, ticker_symbol, buy_price, quantity):
     dat2 = list_con.groupby(['Industry'])['now_value'].agg('sum')
     dat2 = dat2.replace(0, np.nan)
     dat2.dropna(inplace=True)
+<<<<<<< HEAD
     indpie = dat2.tolist()
     indpieh = dat2.index.tolist()
     print(dat2)
+=======
+    # print(dat2)
+>>>>>>> 63d12a61d068e8f31b0cd0db2439013c03c5be2d
 
     # Weighted PE Ratio
     list_con['buy_value'] = list_con['buy_value'].dropna(inplace=True)
@@ -116,8 +124,8 @@ def func1(data, ticker_symbol, buy_price, quantity):
     list_pe = list_pe.iloc[:len(inp2)]
     weighted_pe = np.sum(
         list_pe['Price to Earnings Ratio (TTM)']*list_pe['now_value']/net_now_value)
-    print(list_pe)
-    print("Weighted PE :", weighted_pe)
+    # print(list_pe)
+    # print("Weighted PE :", weighted_pe)
     # --------------------------------------------------------------------------------------------
 
     # Calculating the optimized weights
@@ -148,7 +156,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         # Sharpe Ratio
         sharpe_arr[x] = ret_arr[x]/vol_arr[x]
 
-    print('Max Sharpe ratio= {}'.format(sharpe_arr.max()))
+    # print('Max Sharpe ratio= {}'.format(sharpe_arr.max()))
     l = sharpe_arr.argmax()
 
     opt_weight = all_weights[l]
@@ -163,7 +171,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
     inp3['Opt_quantity'] = inp3['Opt_quantity'].astype(int)
 
     # optimized weightage and quantity(Optimization)
-    print(inp3)
+    # print(inp3)
     # --------------------------------------------------------------------------------
 
     # individual asset plot (portfolio1)
@@ -177,7 +185,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
     # Original & Optimal Weights
     weight1 = inp1["Weightage"].values
     weight2 = opt_weight
-    print(weight1)
+    # print(weight1)
     # Portfolio Variance
     port_variance1 = np.dot(weight1.T, np.dot(cov_matrix_annual, weight1))
     port_variance2 = np.dot(weight2.T, np.dot(cov_matrix_annual, weight2))
@@ -195,14 +203,14 @@ def func1(data, ticker_symbol, buy_price, quantity):
     percent_var2 = str(round(port_variance2, 2) * 100) + '%'
     percent_vols2 = str(round(port_volatility2, 2) * 100) + '%'
     percent_ret2 = str(round(portfolioSimpleAnnualReturn2, 2)*100)+'%'
-    print('Original Statistics ->')
-    print("Expected annual return : " + percent_ret1)
-    print('Annual volatility/standard deviation/risk : '+percent_vols1)
-    print('Annual variance : '+percent_var1)
-    print('Optimized Statistics ->')
-    print("Expected annual return : " + percent_ret2)
-    print('Annual volatility/standard deviation/risk : '+percent_vols2)
-    print('Annual variance : '+percent_var2)
+    # print('Original Statistics ->')
+    # print("Expected annual return : " + percent_ret1)
+    # print('Annual volatility/standard deviation/risk : '+percent_vols1)
+    # print('Annual variance : '+percent_var1)
+    # print('Optimized Statistics ->')
+    # print("Expected annual return : " + percent_ret2)
+    # print('Annual volatility/standard deviation/risk : '+percent_vols2)
+    # print('Annual variance : '+percent_var2)
 
     # Original and Optimized weights
     w1 = np.array(weight1)
@@ -229,7 +237,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
     cumret['orig_value'] = cumulative_ret1
     cumret['opt_value'] = cumulative_ret2
     cumret['benchmark'] = benchm
-    print(cumret)
+    # print(cumret)
     # --------------------------------------------------------------------------
 
     # Calculating the beta of the portfolio
@@ -253,8 +261,8 @@ def func1(data, ticker_symbol, buy_price, quantity):
     yr['Yearly Return'] = yr[0]
 
     yr.drop([0], axis=1)
-    print("Historical Yearly Returns of the Portfolio(BAR)")
-    print(yr['Yearly Return'])
+    # print("Historical Yearly Returns of the Portfolio(BAR)")
+    # print(yr['Yearly Return'])
 
     # -------------------------------------------------------------------------------
 
@@ -279,8 +287,8 @@ def func1(data, ticker_symbol, buy_price, quantity):
 
     mnrs = mnr[:-1]
     mnrs.drop(['Value'], axis=1)
-    print("Historical Monthly Returns of the Portfolio(BAR)")
-    print(mnrs)
+    # print("Historical Monthly Returns of the Portfolio(BAR)")
+    # print(mnrs)
 
     # -------------------------------------------------------------------------------
 
@@ -296,7 +304,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         window, min_periods=1).min()
     max_Drawdown_c = min(Daily_Drawdown_c)
     # to plot -->> Daily_Drawdown_c  && Max_Daily_Drawdown_c
-    print('Maximum Drawdown of Original Portfolio', max_Drawdown_c*100, '%')
+    # print('Maximum Drawdown of Original Portfolio', max_Drawdown_c*100, '%')
 
     # OPTIMIZED PORTFOLIO
     Roll_Max_o = cumret['opt_value'].rolling(window, min_periods=1).max()
@@ -306,7 +314,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         window, min_periods=1).min()
     max_Drawdown_o = min(Daily_Drawdown_o)
     # to plot -->> Daily_Drawdown_o  && Max_Daily_Drawdown_o
-    print('Maximum Drawdown of Optimized Portfolio', max_Drawdown_o*100, '%')
+    # print('Maximum Drawdown of Optimized Portfolio', max_Drawdown_o*100, '%')
 
     # BENCHMARK
     Roll_Max_b = cumret['benchmark'].rolling(window, min_periods=1).max()
@@ -316,7 +324,7 @@ def func1(data, ticker_symbol, buy_price, quantity):
         window, min_periods=1).min()
     max_Drawdown_b = min(Daily_Drawdown_b)
     # to plot -->> Daily_Drawdown_b  && Max_Daily_Drawdown_b
-    print('Maximum Drawdown of Benchmark', max_Drawdown_b*100, '%')
+    # print('Maximum Drawdown of Benchmark', max_Drawdown_b*100, '%')
 
     # ----------------------------------------------------------------------------------
 
