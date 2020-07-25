@@ -77,9 +77,6 @@ def func1(data, ticker_symbol, buy_price, quantity):
     net_now_value = np.sum(inp1['now_value'])
     inp1['Weightage'] = inp1['now_value']/net_now_value
     print(inp1)
-    test = inp1.to_numpy()
-    print(test)
-
     inpar = inp1.to_numpy()
     para = inpar.tolist()
     pardict = {'1': para}
@@ -105,15 +102,19 @@ def func1(data, ticker_symbol, buy_price, quantity):
     sector = {'1': secpie, '2': secpieh}
     print(sector['1'])
     sector = dumps(sector)
-    
+
     # dat2 is the dataframe with Industry Allocation by Value
     dat2 = list_con.groupby(['Industry'])['now_value'].agg('sum')
     dat2 = dat2.replace(0, np.nan)
     dat2.dropna(inplace=True)
+<<<<<<< HEAD
     indpie = dat2.tolist()
     indpieh = dat2.index.tolist()
     indust = {'1': indpie, '2': indpieh}
     print(dat2)
+=======
+    # print(dat2)
+>>>>>>> 09112d6934ccbb1ce57466185c29acdb02ca9491
 
     # Weighted PE Ratio
     list_con['buy_value'] = list_con['buy_value'].dropna(inplace=True)
@@ -341,8 +342,12 @@ def func1(data, ticker_symbol, buy_price, quantity):
         'inp1': inp1.to_html(),
         'paradict': paradict,
         'sector': sector,
+<<<<<<< HEAD
         'industry': indust,
 
+=======
+        
+>>>>>>> 09112d6934ccbb1ce57466185c29acdb02ca9491
     }
 
     return context
