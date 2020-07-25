@@ -151,14 +151,14 @@
             console.log(sect)
             var data = {
                 datasets: [{
-                    backgroundColor: ['#85884e', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+                    backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
                     data: sect['1']
                 }],
 
                 // These labels appear in the legend and in the tooltips when hovering different arcs
                 labels: sect['2']
             };
-            var ctx = document.getElementById("myChart");
+            var ctx = document.getElementById("myCharta");
             var myPieChart = new Chart(ctx, {
                 type: 'pie',
                 data: data,
