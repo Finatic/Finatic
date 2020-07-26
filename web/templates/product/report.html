@@ -67,6 +67,7 @@ Portfolio Analyser
             </div>
         </nav>
         <div>
+            <br>
             <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
             <br>
             <div id="table_diva"></div>
@@ -85,32 +86,32 @@ Portfolio Analyser
                 </div>
             </div>
             <br>
-            <div id="table_divb"></div>
-            <h6> Original Portfolio Statistics--></h6>
-            <p>Expected annual return = {{percent_ret1}} </p>
-            <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
-            <p>Annual variance = {{percent_var1}}</p>
-
-            <h6> Optimized Portfolio Statistics--></h6>
-            <p>Expected annual return = {{percent_ret2}} </p>
-            <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
-            <p>Annual variance = {{percent_var2}}</p>
-            <br>
             <div id="table_divc"></div>
             <br>
             <p>Weighted PE = {{weighted_pe}}</p>
+            <br>
+            <div id="table_divb"></div>
+            <br>
+            <div class="row">
+                <div class="col" style="height: 400;">
+                    <h6> Original Portfolio Statistics--></h6>
+                    <p>Expected annual return = {{percent_ret1}} </p>
+                    <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
+                    <p>Annual variance = {{percent_var1}}</p>
+                </div>
+                <div class="col" style="height: 400;">
+                    <h6> Optimized Portfolio Statistics--></h6>
+                    <p>Expected annual return = {{percent_ret2}} </p>
+                    <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
+                    <p>Annual variance = {{percent_var2}}</p>
+                </div>
+            </div>
+            
         </div>
 
-
-<<<<<<< HEAD
         </div>
 </div>
 
-=======
-    </div>
-</div>
-</div>
->>>>>>> 1fe3cb0cb3124d095d8023f15c1d8ed6836c7c29
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -124,7 +125,7 @@ Portfolio Analyser
         });
     });
 </script>
-<!---------------------------Pie Chart---------------------------------------------->
+<!---------------------------Pie Chart-a--------------------------------------------->
 <script>
     var sect = [[]];
     var sect = JSON.parse("{{sector|escapejs}}");
@@ -140,7 +141,7 @@ Portfolio Analyser
     };
     var ctx = document.getElementById("myCharta");
     var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'pie',
         data: data,
         //options: options
     });
@@ -227,7 +228,7 @@ Portfolio Analyser
         table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
     }
 </script>
-<!------------------------Individual PE list---------------------------------->
+<!------------------------Individual Asset list---------------------------------->
 <script type="text/javascript">
     google.charts.load('current', { 'packages': ['table'] });
     google.charts.setOnLoadCallback(drawTable);
@@ -239,8 +240,10 @@ Portfolio Analyser
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Company');
+        data.addColumn('string', 'Industry');
         data.addColumn('number', 'Price to Earning Ratio (TTM)');
-        data.addColumn('number', 'Current Value');
+        data.addColumn('number', 'Basic EPS (TTM)');
+        //data.addColumn('number', 'Current Value');
 
 
         data.addRows(
@@ -249,13 +252,9 @@ Portfolio Analyser
 
         var table = new google.visualization.Table(document.getElementById('table_divc'));
 
-        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+        table.draw(data, { showRowNumber: true, width: '70%', height: '100%' });
     }
 </script>
 
 
-<<<<<<< HEAD
 {%endblock%}
-=======
-{%endblock%}
->>>>>>> 1fe3cb0cb3124d095d8023f15c1d8ed6836c7c29
