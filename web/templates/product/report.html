@@ -154,7 +154,7 @@ Portfolio Analyser
     var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: data,
-        //options: options
+        
     });
 </script>
 
@@ -176,7 +176,7 @@ Portfolio Analyser
     var myPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: data,
-        //options: options
+        
     });
 </script>
 
@@ -197,6 +197,7 @@ Portfolio Analyser
         data.addColumn('number', 'Buy Value');
         data.addColumn('number', 'Current Value');
         data.addColumn('number', 'Profit / Loss');
+        data.addColumn('number', 'Profit / Loss %');
         data.addColumn('number', 'Weightage');
 
         data.addRows(
@@ -220,11 +221,9 @@ Portfolio Analyser
 
         data.addColumn('string', 'Company');
         data.addColumn('number', 'Quantity');
-        data.addColumn('number', 'Buy Price');
         data.addColumn('number', 'Current Price');
         data.addColumn('number', 'Buy Value');
         data.addColumn('number', 'Current Value');
-        data.addColumn('number', 'Profit / Loss');
         data.addColumn('number', 'Weightage');
         data.addColumn('number', 'Optimized Weightage');
         data.addColumn('number', 'Optimized Value');

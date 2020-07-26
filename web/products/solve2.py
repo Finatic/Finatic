@@ -35,6 +35,7 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     df_inp.index.name = "Ticker"
 
     # define other user input
+    df_inp['Company'] = df_inp.index.str.replace('.NS', "")
     df_inp["quantity"] = np.array(quantities).astype(float)
     df_inp["buy_price"] = np.array(buy_prices).astype(float)
     print(df_inp)
@@ -43,7 +44,7 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     start_date = data['start_date']
     end_date = data['end_date']
     today = datetime.datetime.now().date()
-    yesterday = today - datetime.timedelta(days=1)
+    yesterday = today - datetime.timedelta(days=3)
     print("Yesterday:", yesterday)
     df_portfolio = pd.DataFrame()
     df_now = pd.DataFrame()
@@ -92,6 +93,7 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     df_inp['buy_value'] = df_inp['quantity'] * df_inp['buy_price']
     df_inp['now_value'] = df_inp['quantity'] * df_inp['ltp']
     df_inp['pnl'] = df_inp['now_value'] - df_inp['buy_value']
+    df_inp['perc_gain'] = df_inp['pnl']*100/df_inp['buy_value']
     total_pnl = np.sum(df_inp['pnl'])
     net_buy_value = np.sum(df_inp['buy_value'])
     net_now_value = np.sum(df_inp['now_value'])
@@ -142,7 +144,7 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     # max_sr_ret = portfolio_return(opt_weight, annualized_returns)
     # max_sr_vol = portfolio_vol(opt_weight, returns.cov())
 
-    inp3 = df_inp[["quantity", "buy_price", "ltp", "buy_value", "now_value", "pnl", "weightage"]].copy()
+    inp3 = df_inp[["quantity","ltp", "buy_value", "now_value", "weightage"]].copy()
     inp3.index = inp3.index.str.replace('.NS', "")
     inp3['Opt_weight'] = opt_weight
     inp3['Opt_value'] = inp3['Opt_weight'] * np.sum(inp3['now_value'])
