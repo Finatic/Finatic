@@ -21,7 +21,7 @@ buy_prices_ = ['900', '900']
 quantities_ = ['10', '10']
 
 
-def func1(data, ticker_symbols, buy_prices, quantities):
+def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     print("$$$$$$$$$$$$$$$$$$")
     print(data)
     print(ticker_symbols)
@@ -64,15 +64,15 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     yf_data = yf.download(
         tickers=tickers,
         start=start_date,
-        end=end_date,
+        end=end_date+datetime.timedelta(days=1),
         interval='1d',
         group_by='ticker'
     )
 
     yf_data_current = yf.download(
         tickers=tickers,
-        start=yesterday,
-        end=datetime.datetime.now().date(),
+        start=datetime.datetime.now().date()-datetime.timedelta(days=15),
+        end=datetime.datetime.now().date()+datetime.timedelta(days=1),
         interval='1d',
         group_by='ticker'
     )
@@ -139,7 +139,7 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     returns = df_portfolio.drop(columns=benchmark).pct_change().dropna()
     annualized_returns = (returns + 1).prod() ** (252 / returns.shape[0]) - 1
 
-    opt_weight = max_sharp_ratio(annualized_returns, returns.cov(), 0.07)
+    opt_weight = max_sharp_ratio(annualized_returns, returns.cov(), risk_free_rate)
 
     # max_sr_ret = portfolio_return(opt_weight, annualized_returns)
     # max_sr_vol = portfolio_vol(opt_weight, returns.cov())
@@ -159,7 +159,7 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     # --------------------------------------------------------------------------------
 
     # individual asset plot (portfolio1)
-    portfolio1 = df_portfolio * 100 / df_portfolio.iloc[0]
+    # portfolio1 = df_portfolio * 100 / df_portfolio.iloc[0]
 
     returns = df_portfolio.pct_change().drop(columns=benchmark)
     returns = returns.iloc[1:]
@@ -171,22 +171,38 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     weight2 = opt_weight
     # print(weight1)
     # Portfolio Variance
-    port_variance1 = np.dot(weight1.T, np.dot(cov_matrix_annual, weight1))
-    port_variance2 = np.dot(weight2.T, np.dot(cov_matrix_annual, weight2))
+    # port_variance1 = np.dot(weight1.T, np.dot(cov_matrix_annual, weight1))
+    # port_variance2 = np.dot(weight2.T, np.dot(cov_matrix_annual, weight2))
     # Portfolio Volatility
-    port_volatility1 = np.sqrt(port_variance1)
-    port_volatility2 = np.sqrt(port_variance2)
+    # port_volatility1 = np.sqrt(port_variance1)
+    # port_volatility2 = np.sqrt(port_variance2)
     # Annual Return (CAGR)(both)
-    portfolioSimpleAnnualReturn1 = np.sum(returns.mean() * weight1) * 252
-    portfolioSimpleAnnualReturn2 = np.sum(returns.mean() * weight2) * 252
+    # portfolioSimpleAnnualReturn1 = np.sum(returns.mean() * weight1) * 252
+    # portfolioSimpleAnnualReturn2 = np.sum(returns.mean() * weight2) * 252
 
     # Historical Data Statistics
-    percent_var1 = str(round(port_variance1, 2) * 100) + '%'
-    percent_vols1 = str(round(port_volatility1, 2) * 100) + '%'
-    percent_ret1 = str(round(portfolioSimpleAnnualReturn1, 2) * 100) + '%'
-    percent_var2 = str(round(port_variance2, 2) * 100) + '%'
-    percent_vols2 = str(round(port_volatility2, 2) * 100) + '%'
-    percent_ret2 = str(round(portfolioSimpleAnnualReturn2, 2) * 100) + '%'
+    percent_var1 = str(round(((portfolio_vol(weight1, returns.cov()))**2)*100, 2)) + '%'
+    percent_vols1 = str(round(portfolio_vol(weight1, returns.cov())*100, 2)) + '%'
+    percent_ret1 = str(round(portfolio_return(weight1, annualized_returns)*100, 2)) + '%'
+    percent_var2 = str(round(((portfolio_vol(weight2, returns.cov()))**2)*100, 2)) + '%'
+    percent_vols2 = str(round(portfolio_vol(weight2, returns.cov())*100, 2)) + '%'
+    percent_ret2 = str(round(portfolio_return(weight2, annualized_returns)*100, 2)) + '%'
+
+    # net_portfolio_return1 = str(round(portfolio_return(weight1, annualized_returns), 3) * 100) + '%'
+    # net_portfolio_return2 = str(round(portfolio_return(weight2, annualized_returns), 3) * 100) + '%'
+    # net_portfolio_volatility1 = str(round(portfolio_vol(weight1, returns.cov()), 3))
+    # net_portfolio_volatility2 = str(round(portfolio_vol(weight2, returns.cov()), 3))
+
+    sharpe_ratio1 = str(round(
+        (portfolio_return(weight1, annualized_returns) - risk_free_rate) / portfolio_vol(weight1, returns.cov()),
+        3))
+
+    sharpe_ratio2 = str(round(
+        (portfolio_return(weight2, annualized_returns) - risk_free_rate) / portfolio_vol(weight2, returns.cov()),
+        3))
+
+    # cagr_1 = ""
+    # cagr_2 = ""
     # print('Original Statistics ->')
     # print("Expected annual return : " + percent_ret1)
     # print('Annual volatility/standard deviation/risk : '+percent_vols1)
@@ -257,7 +273,7 @@ def func1(data, ticker_symbols, buy_prices, quantities):
     mnlyr_y = []
 
     for i in range(len(cumret)):
-        if (int(cumret.index[i].month) != int(cumret.index[i - 1].month)):
+        if int(cumret.index[i].month) != int(cumret.index[i - 1].month):
             mnlyr.append(cumret['orig_value'][i])
             mnlyr_y.append(cumret.index[i].year)
             mnlyr_m.append(cumret.index[i].month)
@@ -337,7 +353,9 @@ def func1(data, ticker_symbols, buy_prices, quantities):
         'percent_var2': percent_var2,
         'pe': pe,
         'weighted_pe': weighted_pe,
-
+        'sharpe_ratio1': sharpe_ratio1,
+        'sharpe_ratio2': sharpe_ratio2,
+        'risk_free_rate': risk_free_rate*100
     }
 
     return context
