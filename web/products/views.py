@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from .forms import port_opti
 from django.http import JsonResponse
-from .solve import func1
+from .solve2 import func1
 from django.http import HttpResponseRedirect
 from json import dumps
 
