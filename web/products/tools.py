@@ -7,7 +7,7 @@ def portfolio_return(weights, annualized_returns):
 
 
 def portfolio_vol(weights, cov_mat):
-    return (weights.T @ cov_mat @ weights) ** 0.5
+    return np.dot(weights.T,  np.dot(cov_mat*252, weights)) ** 0.5
 
 
 def max_sharp_ratio(annualized_returns, cov, risk_free):
