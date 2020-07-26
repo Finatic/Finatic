@@ -112,12 +112,12 @@ def func1(data, ticker_symbol, buy_price, quantity):
 
     # Weighted PE Ratio
     list_con['buy_value'] = list_con['buy_value'].dropna(inplace=True)
-    list_pe = list_con[['Ticker','Price to Earnings Ratio (TTM)', 'now_value']]
+    list_pe = list_con[['Ticker','Industry','Price to Earnings Ratio (TTM)', 'now_value','Basic EPS (TTM)']]
     list_pe = list_pe.iloc[:len(inp2)]
     weighted_pe = np.sum(
         list_pe['Price to Earnings Ratio (TTM)']*list_pe['now_value']/net_now_value)
     list_con = list_con[:len(list_pe)]
-
+    list_pe = list_pe.drop(['now_value'], axis =1)
     
     print(list_pe)
     listpe = list_pe.to_numpy()
