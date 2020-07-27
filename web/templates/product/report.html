@@ -104,6 +104,10 @@ Portfolio Analyser
                 </div>
             </div>
             <br>
+            <div class="d-flex justify-content-center">
+                <a href="#" title="Asset Information">Individual Asset Statistics</a>
+            </div>
+            <br>
             <div id="table_divc"></div>
             <br>
             <a href="#" title="Portfolio Price to Earning Ratio">Weighted PE Ratio = {{weighted_pe}}</a>
@@ -150,6 +154,7 @@ Portfolio Analyser
     </div>
 </div>
 
+<!------------------------------Sidebar-------------------------------------------->
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -282,7 +287,7 @@ Portfolio Analyser
         table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
     }
 </script>
-<!------------------------Individual Asset list---------------------------------->
+<!------------------------Individual Asset Table---------------------------------->
 <script type="text/javascript">
     google.charts.load('current', { 'packages': ['table'] });
     google.charts.setOnLoadCallback(drawTable);
@@ -311,14 +316,29 @@ Portfolio Analyser
     }
 </script>
 
-<!----------------------Yearly Performance -------------------------------------->
+<!----------------------Yearly Performance Bar -------------------------------------->
 <script>
     var arr = [];
     var arr = JSON.parse("{{yrldict|escapejs}}");
+
+    var colors = []
+    for(var i = 0; i < arr['1'].length; i++){
+        var color;
+        if(arr['1'][i]<0){
+            color = '#ff4938';
+        }
+        else{
+            color = '#48fa69';
+        }
+
+        colors[i] = color;
+    }
+
     var data = {
         datasets: [{
             label: 'Yearly Return',
             data: arr['1'],
+            backgroundColor: colors,
         }],
         labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
         
@@ -336,14 +356,29 @@ Portfolio Analyser
 </script>
 
 
-<!----------------------Monthly Performance -------------------------------------->
+<!----------------------Monthly Performance Bar -------------------------------------->
 <script>
     var arr = [];
     var arr = JSON.parse("{{mnlyret|escapejs}}");
+
+    var colors = []
+    for(var i = 0; i < arr['1'].length; i++){
+        var color;
+        if(arr['2'][i]<0){
+            color = '#ff4938';
+        }
+        else{
+            color = '#48fa69';
+        }
+
+        colors[i] = color;
+    }
+
     var data = {
         datasets: [{
             label: 'Monthly Return',
             data: arr['2'],
+            backgroundColor: colors,
         }],
         labels: arr['1'],
         
@@ -359,4 +394,9 @@ Portfolio Analyser
     });
 
 </script>
+
+
+
+
+<!----------------------------END-------------------------------------------------->
 {%endblock%}
