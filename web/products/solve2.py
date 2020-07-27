@@ -41,9 +41,11 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     print(df_inp)
 
     # define time range
-    start_date = data['start_date']
-    end_date = data['end_date']
     today = datetime.datetime.now().date()
+    #start_date = data['start_date']
+    #end_date = data['end_date']
+    start_date = today - datetime.timedelta(weeks=250 )
+    end_date = today
     yesterday = today - datetime.timedelta(days=3)
     print("Yesterday:", yesterday)
     df_portfolio = pd.DataFrame()
@@ -127,7 +129,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     # Weighted PE Ratio
     weighted_pe = np.sum(df_inp["Price to Earnings Ratio (TTM)"] * df_inp['now_value'] / net_now_value)
-    list_pe = df_inp[['Industry', 'Price to Earnings Ratio (TTM)', 'Basic EPS (TTM)']].copy()
+    weighted_beta = np.sum(df_inp["1-Year Beta"] * df_inp['now_value'] / net_now_value)
+    list_pe = df_inp[['Industry','1-Year Beta', 'Price to Earnings Ratio (TTM)', 'Basic EPS (TTM)']].copy()
     list_pe.index = list_pe.index.str.replace('.NS', "")
     pelist = list_pe.reset_index().to_numpy().tolist()
     pe = {'1': pelist}
@@ -137,7 +140,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     # Calculating the optimized weights
     returns = df_portfolio.drop(columns=benchmark).pct_change().dropna()
-    annualized_returns = (returns + 1).prod() ** (252 / returns.shape[0]) - 1
+    annualized_returns = ((returns + 1).prod() ** (252 / returns.shape[0])) - 1
 
     opt_weight = max_sharp_ratio(annualized_returns, returns.cov(), risk_free_rate)
 
@@ -240,10 +243,6 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     # print(cumret)
     # --------------------------------------------------------------------------
 
-    # Calculating the beta of the portfolio
-
-    # ----------------------------------------------------------------
-
     # Yearly Return Performance
 
     yearlyr = [cumret['orig_value'][0]]
@@ -262,7 +261,10 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     yr.drop([0], axis=1)
     # print("Historical Yearly Returns of the Portfolio(BAR)")
-    # print(yr['Yearly Return'])
+    yrl = yr['Yearly Return'].to_numpy().tolist()
+    yrdict = {'1': yrl}
+    yrldict = json.dumps(yrdict)
+    print(yrldict)
 
     # -------------------------------------------------------------------------------
 
@@ -353,9 +355,11 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'percent_var2': percent_var2,
         'pe': pe,
         'weighted_pe': weighted_pe,
+        "weighted_beta": weighted_beta,
         'sharpe_ratio1': sharpe_ratio1,
         'sharpe_ratio2': sharpe_ratio2,
-        'risk_free_rate': risk_free_rate*100
+        'risk_free_rate': risk_free_rate*100,
+        'yrldict' : yrldict
     }
 
     return context
