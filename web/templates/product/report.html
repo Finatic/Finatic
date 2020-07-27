@@ -122,6 +122,9 @@ Portfolio Analyser
                 <a href="#" title="5 Year Performance"> Historical Portfolio Performance</a>
             </div>
             <br>
+            <canvas id="perf_plot" width="100" height="50"></canvas>
+            <br>
+            <br>
             <canvas id="yearly_bar" width="100" height="50"></canvas>
             <br>
             <br>
@@ -394,8 +397,46 @@ Portfolio Analyser
     });
 
 </script>
+<!--------------------------Performance Plot Line------------------------------->
+<script>
+    var arr= [[]];
+    var arr = JSON.parse("{{pltdict|escapejs}}");
+    var lis = [];
+    var i;
+    for(i =0;i<arr['1'].length;i++){
+        var t,y;
+        var dic = {
+            t : arr['1'][i],
+            y : arr['2'][i]
+        };
+        lis.push(dic)
+    }
+    console.log(lis);
+    var data = {
+        datasets : [{
+            label: 'Performance Plot',
+            data: lis
+        }]
+    }
 
 
+    var ctx = document.getElementById("perf_plot");
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    time: {
+                        unit: 'day'
+                    }
+                }]
+            }
+        }
+    });
+</script>
 
 
 <!----------------------------END-------------------------------------------------->

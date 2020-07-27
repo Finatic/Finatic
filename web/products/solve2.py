@@ -85,8 +85,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     # importing benchmark data
     bench = df_portfolio[benchmark]
-    benchm = bench * 100 / bench[0]
-
+    benchm = bench[1:] * 100 / bench[1]
+    #print(bench)
     df_inp['ltp'] = np.nan
 
     for i in tickers:
@@ -240,10 +240,21 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     cumret['orig_value'] = cumulative_ret1
     cumret['opt_value'] = cumulative_ret2
     cumret['benchmark'] = benchm
-    # print(cumret)
+    print(cumret)
+    # --------------------------------------------------------------------------
+    # Peformance Plot variables
+    pltind = cumret.index.to_numpy().tolist()
+    pltori = cumret['orig_value'].to_numpy().tolist()
+    pltopt = cumret['opt_value'].to_numpy().tolist()
+    pltbnc = cumret['benchmark'].to_numpy().tolist()
+    pltdic = {}
+    pltdic = {'1':pltind, '2':pltori, '3':pltopt, '4':pltbnc}
+    pltdict = json.dumps(pltdic)
+    #print(pltdict)
+
     # --------------------------------------------------------------------------
 
-    # Yearly Return Performance
+    # Yearly Return Performance--------done-----------
 
     yearlyr = [cumret['orig_value'][0]]
     yearlyd = [start_date.year]
@@ -264,11 +275,11 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     yrl = yr['Yearly Return'].to_numpy().tolist()
     yrdict = {'1': yrl}
     yrldict = json.dumps(yrdict)
-    print(yrldict)
+    #print(yrldict)
 
     # -------------------------------------------------------------------------------
 
-    # Monthly Return Performance
+    # Monthly Return Performance---------done-----------------
 
     mnlyr = []
     mnlyr_m = []
@@ -296,7 +307,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     mnrval = mnrs['Return'].to_numpy().tolist()
     mnlyret = {'1':mnrind, '2':mnrval}
     mnlyret = json.dumps(mnlyret)
-    print(mnrs)
+    #print(mnrs)
     # yrl = yr['Yearly Return'].to_numpy().tolist()
     # yrdict = {'1': yrl}
     # yrldict = json.dumps(yrdict)
@@ -370,7 +381,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'sharpe_ratio2': sharpe_ratio2,
         'risk_free_rate': risk_free_rate*100,
         'yrldict' : yrldict,
-        'mnlyret' : mnlyret
+        'mnlyret' : mnlyret,
+        'pltdict' : pltdict
     }
 
     return context
