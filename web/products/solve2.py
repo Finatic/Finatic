@@ -44,7 +44,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     today = datetime.datetime.now().date()
     #start_date = data['start_date']
     #end_date = data['end_date']
-    start_date = today - datetime.timedelta(weeks=250 )
+    start_date = datetime.datetime(2015, 1, 1) #today - datetime.timedelta(weeks=250 )
     end_date = today
     yesterday = today - datetime.timedelta(days=3)
     print("Yesterday:", yesterday)
@@ -289,8 +289,18 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     mnrs = mnr[:-1]
     mnrs.drop(['Value'], axis=1)
-    # print("Historical Monthly Returns of the Portfolio(BAR)")
-    # print(mnrs)
+    mnrs['ind'] = np.nan
+    for i in range(len(mnrs)):
+        mnrs['ind'].iloc[i] = str(mnrs['Year'].iloc[i]) + "-" + str(mnrs['Month'].iloc[i])
+    mnrind = mnrs['ind'].to_numpy().tolist()
+    mnrval = mnrs['Return'].to_numpy().tolist()
+    mnlyret = {'1':mnrind, '2':mnrval}
+    mnlyret = json.dumps(mnlyret)
+    print(mnrs)
+    # yrl = yr['Yearly Return'].to_numpy().tolist()
+    # yrdict = {'1': yrl}
+    # yrldict = json.dumps(yrdict)
+    # print(yrldict)
 
     # -------------------------------------------------------------------------------
 
@@ -359,7 +369,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'sharpe_ratio1': sharpe_ratio1,
         'sharpe_ratio2': sharpe_ratio2,
         'risk_free_rate': risk_free_rate*100,
-        'yrldict' : yrldict
+        'yrldict' : yrldict,
+        'mnlyret' : mnlyret
     }
 
     return context

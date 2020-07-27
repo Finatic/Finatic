@@ -106,8 +106,9 @@ Portfolio Analyser
             <br>
             <a href="#" title="Market Dependence">Weighted Portfolio Beta = {{weighted_beta}}</a>
             <br>
-            <canvas id="yearly_bar" width="200" height="100"></canvas>
+            <canvas id="yearly_bar" width="100" height="50"></canvas>
             <br>
+            <canvas id="mnly_bar" width="100" height="50"></canvas>
             <br>
             <div id="table_divb"></div>
             <br>
@@ -295,7 +296,8 @@ Portfolio Analyser
 
 <!----------------------Yearly Performance -------------------------------------->
 <script>
-    var arr = JSON.parse("{{yrldict}}");
+    var arr = [];
+    var arr = JSON.parse("{{yrldict|escapejs}}");
     var data = {
         datasets: [{
             label: 'Yearly Return',
@@ -303,43 +305,41 @@ Portfolio Analyser
         }],
         labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
         
-        backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-         ],
-         borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-         ],
     };
 
     var ctx = document.getElementById("yearly_bar");
     var myBarChart = new Chart(ctx, {
         type: 'bar',
         data: data,
-        //options: options
+        options: {
+        responsive: true
+        }
     });
 
 </script>
 
+
+<!----------------------Monthly Performance -------------------------------------->
+<script>
+    var arr = [];
+    var arr = JSON.parse("{{mnlyret|escapejs}}");
+    var data = {
+        datasets: [{
+            label: 'Monthly Return',
+            data: arr['2'],
+        }],
+        labels: arr['1'],
+        
+    };
+
+    var ctx = document.getElementById("mnly_bar");
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+        responsive: true
+        }
+    });
+
+</script>
 {%endblock%}
