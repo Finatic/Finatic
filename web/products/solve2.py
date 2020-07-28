@@ -252,7 +252,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     cumret['opt_value'] = cumulative_ret2
     cumret['benchmark'] = benchm
     #print(cumret)
-
+    cumret = cumret.dropna()
     # --------------------------------------------------------------------------
     # Peformance Plot variables
     pltind = cumret.index.strftime("%Y-%m-%d").to_numpy().tolist()

@@ -458,18 +458,10 @@ Portfolio Analyser
 <script>
     var arra= [];
     var arra = JSON.parse("{{pltdict|escapejs}}");
-    
-    var lis = [];
-    for(let i =0;i<arra['1'].length;i++){
-        var dic = {
-            x : arra['1'][i],
-            y : arra['2'][i]
-        };
-        lis.push(dic);
-    }
-    
+
+
     const labels = [];
-    for(let i=0;i<arra['1'].length();i++){
+    for(let i=0;i<arra['1'].length;i++){
         const date = moment(arra['1'][i]).format('YYYY-MM-DD');
         labels.push(date.toString());
     }
@@ -480,17 +472,64 @@ Portfolio Analyser
         data: { 
             labels,
             datasets: [{
-                data: [arra['2']]
-            }],
+                label: 'Performance',
+                data: arra['2'],
+                borderWidth: 3,
+                fill: false,
+                borderColor: '#67f581',
+                showLine: true,
+                pointRadius: 0
+            },
+            {
+                label: 'Benchmark',
+                data: arra['4'],
+                borderWidth: 3,
+                fill: false,
+                borderColor: '#25effa',
+                showLine: true,
+                pointRadius: 0
+            },
+            ],
 
         },
-        //options: {
-        //    scales: {
-        //        xAxes: [{
-        //            type: 'time',
-        //        }]
-        //    }
-        //}
+        options: {
+
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Portfolio Value'
+                      }
+                }]
+            },
+            pan: {
+                enabled: true,
+                mode: 'xy',
+            },
+            zoom: {
+                enabled: true,
+                mode: 'xy', // or 'x' for "drag" version
+            },
+            responsive: true,
+            legend: {
+                display: true,
+            },
+            title: {
+                display: true,
+                text: 'Historical Portfolio Performance if 100Rs invested in 2015'
+            }
+        }
     });
 </script>
 
