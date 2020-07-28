@@ -151,17 +151,19 @@ Portfolio Analyser
                     <p>Expected annual return = {{percent_ret1}} </p>
                     <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
                     <p>Annual variance = {{percent_var1}}</p>
-                    <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) = {{sharpe_ratio1}}</a>
+                    <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
+                        {{sharpe_ratio1}}</a>
                 </div>
                 <div class="col" style="height: 400;">
                     <h6> Optimized Portfolio Statistics--></h6>
                     <p>Expected annual return = {{percent_ret2}} </p>
                     <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
                     <p>Annual variance = {{percent_var2}}</p>
-                    <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) = {{sharpe_ratio2}}</a>
+                    <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
+                        {{sharpe_ratio2}}</a>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -203,9 +205,9 @@ Portfolio Analyser
                 display: true,
                 text: 'Sector Allocation'
             },
-            
+
         }
-        
+
     });
 </script>
 
@@ -232,7 +234,7 @@ Portfolio Analyser
                 display: true,
                 text: 'Industry Allocation'
             },
-            
+
         }
     });
 </script>
@@ -241,7 +243,7 @@ Portfolio Analyser
 <script>
     var ind = [[]];
     var ind = JSON.parse("{{company|escapejs}}");
-    
+
     var data = {
         datasets: [{
             backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
@@ -260,7 +262,7 @@ Portfolio Analyser
                 display: true,
                 text: 'Company Allocation'
             },
-            
+
         }
     });
 </script>
@@ -269,7 +271,7 @@ Portfolio Analyser
 <script>
     var ind = [[]];
     var ind = JSON.parse("{{cap|escapejs}}");
-    
+
     var data = {
         datasets: [{
             backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
@@ -288,7 +290,7 @@ Portfolio Analyser
                 display: true,
                 text: 'Cap Allocation'
             },
-            
+
         }
     });
 </script>
@@ -302,7 +304,7 @@ Portfolio Analyser
         var arr = JSON.parse("{{paradict|escapejs}}");
         var data = new google.visualization.DataTable();
 
-        data.addColumn('string', 'Company');
+        //data.addColumn('string', 'Company');
         data.addColumn('number', 'Quantity');
         data.addColumn('number', 'Buy Price');
         data.addColumn('number', 'Current Price');
@@ -384,12 +386,12 @@ Portfolio Analyser
     var arr = JSON.parse("{{yrldict|escapejs}}");
 
     var colors = []
-    for(var i = 0; i < arr['1'].length; i++){
+    for (var i = 0; i < arr['1'].length; i++) {
         var color;
-        if(arr['1'][i]<0){
+        if (arr['1'][i] < 0) {
             color = '#ff4938';
         }
-        else{
+        else {
             color = '#48fa69';
         }
 
@@ -403,7 +405,7 @@ Portfolio Analyser
             backgroundColor: colors,
         }],
         labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
-        
+
     };
 
     var ctx = document.getElementById("yearly_bar");
@@ -411,7 +413,7 @@ Portfolio Analyser
         type: 'bar',
         data: data,
         options: {
-        responsive: true
+            responsive: true
         }
     });
 
@@ -424,12 +426,12 @@ Portfolio Analyser
     var arr = JSON.parse("{{mnlyret|escapejs}}");
 
     var colors = []
-    for(var i = 0; i < arr['1'].length; i++){
+    for (var i = 0; i < arr['1'].length; i++) {
         var color;
-        if(arr['2'][i]<0){
+        if (arr['2'][i] < 0) {
             color = '#ff4938';
         }
-        else{
+        else {
             color = '#48fa69';
         }
 
@@ -443,7 +445,7 @@ Portfolio Analyser
             backgroundColor: colors,
         }],
         labels: arr['1'],
-        
+
     };
 
     var ctx = document.getElementById("mnly_bar");
@@ -451,19 +453,19 @@ Portfolio Analyser
         type: 'bar',
         data: data,
         options: {
-        responsive: true
+            responsive: true
         }
     });
 
 </script>
 <!--------------------------Performance Plot Line------------------------------->
 <script>
-    var arra= [];
+    var arra = [];
     var arra = JSON.parse("{{pltdict|escapejs}}");
 
 
     const labels = [];
-    for(let i=0;i<arra['1'].length;i++){
+    for (let i = 0; i < arra['1'].length; i++) {
         const date = moment(arra['1'][i]).format('YYYY-MM-DD');
         labels.push(date.toString());
     }
@@ -471,7 +473,7 @@ Portfolio Analyser
     var ctx = document.getElementById("perf_plot").getContext('2d');
     var chart = new Chart(ctx, {
         type: 'line',
-        data: { 
+        data: {
             labels,
             datasets: [{
                 label: 'Performance',
