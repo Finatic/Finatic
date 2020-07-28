@@ -140,7 +140,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     # Weighted PE Ratio
     weighted_pe = np.sum(df_inp["Price to Earnings Ratio (TTM)"] * df_inp['now_value'] / net_now_value)
     weighted_beta = np.sum(df_inp["1-Year Beta"] * df_inp['now_value'] / net_now_value)
-    list_pe = df_inp[['Industry','1-Year Beta', 'Price to Earnings Ratio (TTM)', 'Basic EPS (TTM)']].copy()
+    list_pe = df_inp[['Cap','Industry','1-Year Beta', 'Price to Earnings Ratio (TTM)', 'Basic EPS (TTM)']].copy()
     list_pe.index = list_pe.index.str.replace('.NS', "")
     pelist = list_pe.reset_index().to_numpy().tolist()
     pe = {'1': pelist}
@@ -157,12 +157,13 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     # max_sr_ret = portfolio_return(opt_weight, annualized_returns)
     # max_sr_vol = portfolio_vol(opt_weight, returns.cov())
 
-    inp3 = df_inp[["quantity","ltp", "buy_value", "now_value", "weightage"]].copy()
+    inp3 = df_inp[["ltp", "buy_value", "now_value", "weightage"]].copy()
+    
     inp3.index = inp3.index.str.replace('.NS', "")
     inp3['Opt_weight'] = opt_weight
     inp3['Opt_value'] = inp3['Opt_weight'] * np.sum(inp3['now_value'])
     inp3['Opt_quantity'] = (inp3['Opt_value'] / inp3['ltp']).astype(int)
-
+    inp3 = inp3.drop(['ltp'], axis=1)
     # optimized weightage and quantity(Optimization)
     opt = inp3.reset_index().to_numpy()
     para = opt.tolist()
@@ -251,6 +252,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     cumret['opt_value'] = cumulative_ret2
     cumret['benchmark'] = benchm
     #print(cumret)
+
     # --------------------------------------------------------------------------
     # Peformance Plot variables
     pltind = cumret.index.strftime("%Y-%m-%d").to_numpy().tolist()
@@ -393,7 +395,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'risk_free_rate': risk_free_rate*100,
         'yrldict' : yrldict,
         'mnlyret' : mnlyret,
-        'pltdict' : pltdict
+        'pltdict' : pltdict,
     }
 
     return context

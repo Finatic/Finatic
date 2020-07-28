@@ -12,8 +12,8 @@ Portfolio Analyser
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <meta charset="UTF-8">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
 
 <div class="wrapper">
     <!-- Sidebar Holder -->
@@ -99,6 +99,10 @@ Portfolio Analyser
                 <div class="col-md-6">
                     <canvas id="myChartd"></canvas>
                 </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
                 <div class="col-md-6">
                     <canvas id="myCharta"></canvas>
                 </div>
@@ -326,8 +330,6 @@ Portfolio Analyser
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Company');
-        data.addColumn('number', 'Quantity');
-        data.addColumn('number', 'Current Price');
         data.addColumn('number', 'Buy Value');
         data.addColumn('number', 'Current Value');
         data.addColumn('number', 'Weightage');
@@ -356,6 +358,7 @@ Portfolio Analyser
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Company');
+        data.addColumn('string', 'Cap');
         data.addColumn('string', 'Industry');
         data.addColumn('number', '1-Year Beta');
         data.addColumn('number', 'Price to Earning Ratio (TTM)');
@@ -453,44 +456,41 @@ Portfolio Analyser
 </script>
 <!--------------------------Performance Plot Line------------------------------->
 <script>
-    var arr= [];
-    var arr = JSON.parse("{{pltdict|escapejs}}");
+    var arra= [];
+    var arra = JSON.parse("{{pltdict|escapejs}}");
+    
     var lis = [];
-    var i;
-    for(i =0;i<arr['1'].length;i++){
+    for(let i =0;i<arra['1'].length;i++){
         var dic = {
-            x : arr['1'][i],
-            y : arr['2'][i]
+            x : arra['1'][i],
+            y : arra['2'][i]
         };
-        lis.push(dic)
+        lis.push(dic);
     }
-    print(lis);
-    var data1 = {
-        
-            label: 'Performance Plot',
-            data: [{
-                x: arr['1'][0],
-                y: arr['2'][0]
-            },
-            {
-                x: arr['1'][1],
-                y: arr['2'][1]
-            }]
-        
+    
+    const labels = [];
+    for(let i=0;i<arra['1'].length();i++){
+        const date = moment(arra['1'][i]).format('YYYY-MM-DD');
+        labels.push(date.toString());
     }
 
-
-    var ctx = document.getElementById("perf_plot");
+    var ctx = document.getElementById("perf_plot").getContext('2d');
     var chart = new Chart(ctx, {
         type: 'line',
-        data: { datasets: [data1] },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                }]
-            }
-        }
+        data: { 
+            labels,
+            datasets: [{
+                data: [arra['2']]
+            }],
+
+        },
+        //options: {
+        //    scales: {
+        //        xAxes: [{
+        //            type: 'time',
+        //        }]
+        //    }
+        //}
     });
 </script>
 
