@@ -11,6 +11,9 @@ Portfolio Analyser
 <link rel="stylesheet" href="{%static 'css/style5.css'%}">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<meta charset="UTF-8">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
 
 <div class="wrapper">
     <!-- Sidebar Holder -->
@@ -72,11 +75,33 @@ Portfolio Analyser
             <br>
             <div id="table_diva"></div>
             <br>
-            <div>
-                <p> Current Value = {{Current_Value}} </p>
-                <p> Invested Value = {{Invested_value}} </p>
-                <p> Profit / Loss = {{Profit_loss}} </p>
+            <div class="d-flex justify-content-center">
+                <div class="p-2">
+                    <p> Current Value = {{Current_Value}} </p>
+                </div>
+                <div class="p-2">
+                    <p> Invested Value = {{Invested_value}} </p>
+                </div>
+                <div class="p-2">
+                    <p> Profit / Loss = {{Profit_loss}} </p>
+                </div>
             </div>
+            <br>
+            <br>
+            <div class="d-flex justify-content-center">
+                <a href="#" title="Sector/Industry Weightage"> Portfolio Allocation</a>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="myChartc"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="myChartd"></canvas>
+                </div>
+            </div>
+            <br>
+            <br>
             <div class="row">
                 <div class="col-md-6">
                     <canvas id="myCharta"></canvas>
@@ -86,9 +111,35 @@ Portfolio Analyser
                 </div>
             </div>
             <br>
+            <div class="d-flex justify-content-center">
+                <a href="#" title="Asset Information">Individual Asset Statistics</a>
+            </div>
+            <br>
             <div id="table_divc"></div>
             <br>
-            <p>Weighted PE = {{weighted_pe}}</p>
+            <a href="#" title="Portfolio Price to Earning Ratio">Weighted PE Ratio = {{weighted_pe}}</a>
+            <br>
+            <a href="#" title="Market Dependence">Weighted Portfolio Beta = {{weighted_beta}}</a>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="d-flex justify-content-center">
+                <a href="#" title="5 Year Performance"> Historical Portfolio Performance</a>
+            </div>
+            <br>
+            <canvas id="perf_plot" width="100" height="50"></canvas>
+            <br>
+            <br>
+            <canvas id="yearly_bar" width="100" height="50"></canvas>
+            <br>
+            <br>
+            <canvas id="mnly_bar" width="100" height="50"></canvas>
+            <br>
+            <div class="d-flex justify-content-center">
+                <a href="#" title="Sharpe Ratio Maximization"> Optimization Statistics</a>
+            </div>
             <br>
             <div id="table_divb"></div>
             <br>
@@ -98,22 +149,24 @@ Portfolio Analyser
                     <p>Expected annual return = {{percent_ret1}} </p>
                     <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
                     <p>Annual variance = {{percent_var1}}</p>
-                    <p>Sharpe Ratio(rf @ {{ risk_free_rate }}%) = {{sharpe_ratio1}}</p>
+                    <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
+                        {{sharpe_ratio1}}</a>
                 </div>
                 <div class="col" style="height: 400;">
                     <h6> Optimized Portfolio Statistics--></h6>
                     <p>Expected annual return = {{percent_ret2}} </p>
                     <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
                     <p>Annual variance = {{percent_var2}}</p>
-                    <p>Sharpe Ratio(rf @ {{ risk_free_rate }}%) = {{sharpe_ratio2}}</p>
+                    <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
+                        {{sharpe_ratio2}}</a>
                 </div>
             </div>
 
         </div>
-
     </div>
 </div>
 
+<!------------------------------Sidebar-------------------------------------------->
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -143,9 +196,16 @@ Portfolio Analyser
     };
     var ctx = document.getElementById("myCharta");
     var myPieChart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: data,
-        //options: options
+        options: {
+            title: {
+                display: true,
+                text: 'Sector Allocation'
+            },
+
+        }
+
     });
 </script>
 
@@ -167,10 +227,71 @@ Portfolio Analyser
     var myPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: data,
-        //options: options
+        options: {
+            title: {
+                display: true,
+                text: 'Industry Allocation'
+            },
+
+        }
     });
 </script>
 
+<!----------------------------Pie Chart--c------------------------------------------>
+<script>
+    var ind = [[]];
+    var ind = JSON.parse("{{company|escapejs}}");
+
+    var data = {
+        datasets: [{
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            data: ind['1']
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: ind['2']
+    };
+    var ctx = document.getElementById("myChartc");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            title: {
+                display: true,
+                text: 'Company Allocation'
+            },
+
+        }
+    });
+</script>
+
+<!----------------------------Pie Chart--d------------------------------------------>
+<script>
+    var ind = [[]];
+    var ind = JSON.parse("{{cap|escapejs}}");
+
+    var data = {
+        datasets: [{
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            data: ind['1']
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: ind['2']
+    };
+    var ctx = document.getElementById("myChartd");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            title: {
+                display: true,
+                text: 'Cap Allocation'
+            },
+
+        }
+    });
+</script>
 <!---------------------------Stat Table--------------------------------------------->
 <script type="text/javascript">
     google.charts.load('current', { 'packages': ['table'] });
@@ -188,6 +309,7 @@ Portfolio Analyser
         data.addColumn('number', 'Buy Value');
         data.addColumn('number', 'Current Value');
         data.addColumn('number', 'Profit / Loss');
+        data.addColumn('number', 'Profit / Loss %');
         data.addColumn('number', 'Weightage');
 
         data.addRows(
@@ -210,12 +332,8 @@ Portfolio Analyser
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Company');
-        data.addColumn('number', 'Quantity');
-        data.addColumn('number', 'Buy Price');
-        data.addColumn('number', 'Current Price');
         data.addColumn('number', 'Buy Value');
         data.addColumn('number', 'Current Value');
-        data.addColumn('number', 'Profit / Loss');
         data.addColumn('number', 'Weightage');
         data.addColumn('number', 'Optimized Weightage');
         data.addColumn('number', 'Optimized Value');
@@ -230,7 +348,7 @@ Portfolio Analyser
         table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
     }
 </script>
-<!------------------------Individual Asset list---------------------------------->
+<!------------------------Individual Asset Table---------------------------------->
 <script type="text/javascript">
     google.charts.load('current', { 'packages': ['table'] });
     google.charts.setOnLoadCallback(drawTable);
@@ -242,7 +360,9 @@ Portfolio Analyser
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Company');
+        data.addColumn('string', 'Cap');
         data.addColumn('string', 'Industry');
+        data.addColumn('number', '1-Year Beta');
         data.addColumn('number', 'Price to Earning Ratio (TTM)');
         data.addColumn('number', 'Basic EPS (TTM)');
         //data.addColumn('number', 'Current Value');
@@ -254,9 +374,167 @@ Portfolio Analyser
 
         var table = new google.visualization.Table(document.getElementById('table_divc'));
 
-        table.draw(data, { showRowNumber: true, width: '70%', height: '100%' });
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
     }
 </script>
 
+<!----------------------Yearly Performance Bar -------------------------------------->
+<script>
+    var arr = [];
+    var arr = JSON.parse("{{yrldict|escapejs}}");
 
+    var colors = []
+    for (var i = 0; i < arr['1'].length; i++) {
+        var color;
+        if (arr['1'][i] < 0) {
+            color = '#ff4938';
+        }
+        else {
+            color = '#48fa69';
+        }
+
+        colors[i] = color;
+    }
+
+    var data = {
+        datasets: [{
+            label: 'Yearly Return',
+            data: arr['1'],
+            backgroundColor: colors,
+        }],
+        labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
+
+    };
+
+    var ctx = document.getElementById("yearly_bar");
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true
+        }
+    });
+
+</script>
+
+
+<!----------------------Monthly Performance Bar -------------------------------------->
+<script>
+    var arr = [];
+    var arr = JSON.parse("{{mnlyret|escapejs}}");
+
+    var colors = []
+    for (var i = 0; i < arr['1'].length; i++) {
+        var color;
+        if (arr['2'][i] < 0) {
+            color = '#ff4938';
+        }
+        else {
+            color = '#48fa69';
+        }
+
+        colors[i] = color;
+    }
+
+    var data = {
+        datasets: [{
+            label: 'Monthly Return',
+            data: arr['2'],
+            backgroundColor: colors,
+        }],
+        labels: arr['1'],
+
+    };
+
+    var ctx = document.getElementById("mnly_bar");
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true
+        }
+    });
+
+</script>
+<!--------------------------Performance Plot Line------------------------------->
+<script>
+    var arra = [];
+    var arra = JSON.parse("{{pltdict|escapejs}}");
+
+
+    const labels = [];
+    for (let i = 0; i < arra['1'].length; i++) {
+        const date = moment(arra['1'][i]).format('YYYY-MM-DD');
+        labels.push(date.toString());
+    }
+
+    var ctx = document.getElementById("perf_plot").getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Performance',
+                data: arra['2'],
+                borderWidth: 3,
+                fill: false,
+                borderColor: '#67f581',
+                showLine: true,
+                pointRadius: 0
+            },
+            {
+                label: 'Benchmark',
+                data: arra['4'],
+                borderWidth: 3,
+                fill: false,
+                borderColor: '#25effa',
+                showLine: true,
+                pointRadius: 0
+            },
+            ],
+
+        },
+        options: {
+
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Portfolio Value'
+                    }
+                }]
+            },
+            pan: {
+                enabled: true,
+                mode: 'xy',
+            },
+            zoom: {
+                enabled: true,
+                mode: 'xy', // or 'x' for "drag" version
+            },
+            responsive: true,
+            legend: {
+                display: true,
+            },
+            title: {
+                display: true,
+                text: 'Historical Portfolio Performance if 100Rs invested in 2015'
+            }
+        }
+    });
+</script>
+
+
+<!----------------------------END-------------------------------------------------->
 {%endblock%}

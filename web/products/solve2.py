@@ -35,15 +35,18 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     df_inp.index.name = "Ticker"
 
     # define other user input
+    df_inp['Company'] = df_inp.index.str.replace('.NS', "")
     df_inp["quantity"] = np.array(quantities).astype(float)
     df_inp["buy_price"] = np.array(buy_prices).astype(float)
     print(df_inp)
 
     # define time range
-    start_date = data['start_date']
-    end_date = data['end_date']
     today = datetime.datetime.now().date()
-    yesterday = today - datetime.timedelta(days=1)
+    #start_date = data['start_date']
+    #end_date = data['end_date']
+    start_date = datetime.datetime(2015, 1, 1) #today - datetime.timedelta(weeks=250 )
+    end_date = today
+    yesterday = today - datetime.timedelta(days=3)
     print("Yesterday:", yesterday)
     df_portfolio = pd.DataFrame()
     df_now = pd.DataFrame()
@@ -82,8 +85,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     # importing benchmark data
     bench = df_portfolio[benchmark]
-    benchm = bench * 100 / bench[0]
-
+    benchm = bench[1:] * 100 / bench[1]
+    #print(bench)
     df_inp['ltp'] = np.nan
 
     for i in tickers:
@@ -92,6 +95,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     df_inp['buy_value'] = df_inp['quantity'] * df_inp['buy_price']
     df_inp['now_value'] = df_inp['quantity'] * df_inp['ltp']
     df_inp['pnl'] = df_inp['now_value'] - df_inp['buy_value']
+    df_inp['perc_gain'] = df_inp['pnl']*100/df_inp['buy_value']
     total_pnl = np.sum(df_inp['pnl'])
     net_buy_value = np.sum(df_inp['buy_value'])
     net_now_value = np.sum(df_inp['now_value'])
@@ -103,17 +107,27 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     para = inpar.tolist()
     pardict = {'1': para}
     paradict = json.dumps(pardict)
-    print('Current Value : ', net_now_value)
-    print('Invested Value : ', net_buy_value)
-    print('Profit / Loss : ', total_pnl)
+    #print('Current Value : ', net_now_value)
+    #print('Invested Value : ', net_buy_value)
+    #print('Profit / Loss : ', total_pnl)
     # -----------------------------------------------------------------------------------
 
     # Sector-wise/Industry-wise Allocation
     df_listed = pd.read_csv('products/static_product/fundamentals.csv', index_col='Ticker')
     df_listed.index = df_listed.index.astype(str) + '.NS'
     df_inp = df_inp.join(df_listed[df_listed.index.isin(tickers)])
-    group_sector = df_inp.groupby(['Sector']).agg('sum')['now_value']
 
+    group_company = df_inp.groupby(['Ticker']).agg('sum')['now_value']
+    company_pie_values = group_company.to_list()
+    company_pie_names = group_company.index.tolist()
+    company_pie_data = json.dumps({'1': company_pie_values, '2': company_pie_names})
+
+    group_cap = df_inp.groupby(['Cap']).agg('sum')['now_value']
+    cap_pie_values = group_cap.to_list()
+    cap_pie_names = group_cap.index.tolist()
+    cap_pie_data = json.dumps({'1': cap_pie_values, '2': cap_pie_names})
+
+    group_sector = df_inp.groupby(['Sector']).agg('sum')['now_value']
     sector_pie_values = group_sector.tolist()
     sector_pie_names = group_sector.index.tolist()
     sector_pie_data = json.dumps({'1': sector_pie_values, '2': sector_pie_names})
@@ -125,35 +139,37 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     # Weighted PE Ratio
     weighted_pe = np.sum(df_inp["Price to Earnings Ratio (TTM)"] * df_inp['now_value'] / net_now_value)
-    list_pe = df_inp[['Industry', 'Price to Earnings Ratio (TTM)', 'Basic EPS (TTM)']].copy()
+    weighted_beta = np.sum(df_inp["1-Year Beta"] * df_inp['now_value'] / net_now_value)
+    list_pe = df_inp[['Cap','Industry','1-Year Beta', 'Price to Earnings Ratio (TTM)', 'Basic EPS (TTM)']].copy()
     list_pe.index = list_pe.index.str.replace('.NS', "")
     pelist = list_pe.reset_index().to_numpy().tolist()
     pe = {'1': pelist}
     pe = json.dumps(pe)
-    print("Weighted PE :", weighted_pe)
+    #print("Weighted PE :", weighted_pe)
     # --------------------------------------------------------------------------------------------
 
     # Calculating the optimized weights
     returns = df_portfolio.drop(columns=benchmark).pct_change().dropna()
-    annualized_returns = (returns + 1).prod() ** (252 / returns.shape[0]) - 1
+    annualized_returns = ((returns + 1).prod() ** (252 / returns.shape[0])) - 1
 
     opt_weight = max_sharp_ratio(annualized_returns, returns.cov(), risk_free_rate)
 
     # max_sr_ret = portfolio_return(opt_weight, annualized_returns)
     # max_sr_vol = portfolio_vol(opt_weight, returns.cov())
 
-    inp3 = df_inp[["quantity", "buy_price", "ltp", "buy_value", "now_value", "pnl", "weightage"]].copy()
+    inp3 = df_inp[["ltp", "buy_value", "now_value", "weightage"]].copy()
+    
     inp3.index = inp3.index.str.replace('.NS', "")
     inp3['Opt_weight'] = opt_weight
     inp3['Opt_value'] = inp3['Opt_weight'] * np.sum(inp3['now_value'])
     inp3['Opt_quantity'] = (inp3['Opt_value'] / inp3['ltp']).astype(int)
-
+    inp3 = inp3.drop(['ltp'], axis=1)
     # optimized weightage and quantity(Optimization)
     opt = inp3.reset_index().to_numpy()
     para = opt.tolist()
     optdict = {'1': para}
     optdict = json.dumps(optdict)
-    print(inp3)
+    #print(inp3)
     # --------------------------------------------------------------------------------
 
     # individual asset plot (portfolio1)
@@ -235,14 +251,21 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     cumret['orig_value'] = cumulative_ret1
     cumret['opt_value'] = cumulative_ret2
     cumret['benchmark'] = benchm
-    # print(cumret)
+    #print(cumret)
+    cumret = cumret.dropna()
+    # --------------------------------------------------------------------------
+    # Peformance Plot variables
+    pltind = cumret.index.strftime("%Y-%m-%d").to_numpy().tolist()
+    pltori = cumret['orig_value'].to_numpy().tolist()
+    pltopt = cumret['opt_value'].to_numpy().tolist()
+    pltbnc = cumret['benchmark'].to_numpy().tolist()
+    pltdic = {'1':pltind, '2':pltori, '3':pltopt, '4':pltbnc}
+    pltdict = json.dumps(pltdic)
+    #print(pltdict)
+
     # --------------------------------------------------------------------------
 
-    # Calculating the beta of the portfolio
-
-    # ----------------------------------------------------------------
-
-    # Yearly Return Performance
+    # Yearly Return Performance--------done-----------
 
     yearlyr = [cumret['orig_value'][0]]
     yearlyd = [start_date.year]
@@ -260,11 +283,14 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     yr.drop([0], axis=1)
     # print("Historical Yearly Returns of the Portfolio(BAR)")
-    # print(yr['Yearly Return'])
+    yrl = yr['Yearly Return'].to_numpy().tolist()
+    yrdict = {'1': yrl}
+    yrldict = json.dumps(yrdict)
+    #print(yrldict)
 
     # -------------------------------------------------------------------------------
 
-    # Monthly Return Performance
+    # Monthly Return Performance---------done-----------------
 
     mnlyr = []
     mnlyr_m = []
@@ -285,8 +311,18 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
 
     mnrs = mnr[:-1]
     mnrs.drop(['Value'], axis=1)
-    # print("Historical Monthly Returns of the Portfolio(BAR)")
-    # print(mnrs)
+    mnrs['ind'] = np.nan
+    for i in range(len(mnrs)):
+        mnrs['ind'].iloc[i] = str(mnrs['Year'].iloc[i]) + "-" + str(mnrs['Month'].iloc[i])
+    mnrind = mnrs['ind'].to_numpy().tolist()
+    mnrval = mnrs['Return'].to_numpy().tolist()
+    mnlyret = {'1':mnrind, '2':mnrval}
+    mnlyret = json.dumps(mnlyret)
+    #print(mnrs)
+    # yrl = yr['Yearly Return'].to_numpy().tolist()
+    # yrdict = {'1': yrl}
+    # yrldict = json.dumps(yrdict)
+    # print(yrldict)
 
     # -------------------------------------------------------------------------------
 
@@ -340,6 +376,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
         'paradict': paradict,
+        'company': company_pie_data,
+        'cap': cap_pie_data,
         'sector': sector_pie_data,
         'industry': industry_pie_data,
         'optdict': optdict,
@@ -351,9 +389,13 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'percent_var2': percent_var2,
         'pe': pe,
         'weighted_pe': weighted_pe,
+        "weighted_beta": weighted_beta,
         'sharpe_ratio1': sharpe_ratio1,
         'sharpe_ratio2': sharpe_ratio2,
-        'risk_free_rate': risk_free_rate*100
+        'risk_free_rate': risk_free_rate*100,
+        'yrldict' : yrldict,
+        'mnlyret' : mnlyret,
+        'pltdict' : pltdict,
     }
 
     return context
