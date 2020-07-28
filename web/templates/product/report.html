@@ -514,22 +514,36 @@ Portfolio Analyser
                     scaleLabel: {
                         display: true,
                         labelString: 'Portfolio Value'
-                      },
-                      ticks: {
+                    },
+                    ticks: {
                         // Include a dollar sign in the ticks
                         callback: function(value, index, values) {
                             return value;
                         }
-                      }
+                    }
                 }],
             },
-            pan: {
-                enabled: true,
-                mode: 'xy',
+            tooltips: {
+                mode: "nearest",
+                intersect: false,
+                callbacks: {
+                    title: function(a, d) {
+                        // return a[0].xLabel.toFixed(2);
+                      return a[0].xLabel;
+                    },
+                    label: function(i, d) {
+                        return (
+                            d.datasets[i.datasetIndex].label + ": " + i.yLabel.toFixed(2)
+                        );
+                    }
+                }
             },
-            zoom: {
-                enabled: true,
-                mode: 'xy', // or 'x' for "drag" version
+            plugins: {
+                crosshair: {
+                    sync: {
+                    enabled: false
+                    }
+                }
             },
             responsive: true,
             legend: {
@@ -624,7 +638,29 @@ Portfolio Analyser
             title: {
                 display: true,
                 text:  'Performance if 100Rs invested in 2015'
-            }
+            },
+            tooltips: {
+                mode: "nearest",
+                intersect: false,
+                callbacks: {
+                    title: function(a, d) {
+                        // return a[0].xLabel.toFixed(2);
+                      return a[0].xLabel;
+                    },
+                    label: function(i, d) {
+                        return (
+                            d.datasets[i.datasetIndex].label + ": " + i.yLabel.toFixed(2)
+                        );
+                    }
+                }
+            },
+            plugins: {
+                crosshair: {
+                    sync: {
+                    enabled: false
+                    }
+                }
+            },
         }
     });
 </script>
