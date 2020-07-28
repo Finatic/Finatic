@@ -143,6 +143,8 @@ Portfolio Analyser
             <br>
             <div id="table_divb"></div>
             <br>
+            <canvas id="opt_plot" width="100" height="50"></canvas>
+            <br>
             <div class="row">
                 <div class="col" style="height: 400;">
                     <h6> Original Portfolio Statistics--></h6>
@@ -510,8 +512,14 @@ Portfolio Analyser
                     scaleLabel: {
                         display: true,
                         labelString: 'Portfolio Value'
+                      },
+                      ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                            return value;
+                        }
                       }
-                }]
+                }],
             },
             pan: {
                 enabled: true,
@@ -533,6 +541,91 @@ Portfolio Analyser
     });
 </script>
 
+<!--------------------------Optimization Plot Line------------------------------->
+<script>
+    var arrb= [];
+    var arrb = JSON.parse("{{pltdict|escapejs}}");
+
+
+    const labelsb = [];
+    for(let i=0;i<arrb['1'].length;i++){
+        const date = moment(arrb['1'][i]).format('YYYY-MM-DD');
+        labelsb.push(date.toString());
+    }
+
+    var ctxa = document.getElementById("opt_plot").getContext('2d');
+    var chart = new Chart(ctxa, {
+        type: 'line',
+        data: { 
+            labels: labelsb,
+            datasets: [{
+                label: 'Your Performance',
+                data: arrb['2'],
+                borderWidth: 3,
+                fill: false,
+                borderColor: 'blue',
+                showLine: true,
+                pointRadius: 0
+            },
+            {
+                label: 'Benchmark',
+                data: arrb['4'],
+                borderWidth: 3,
+                fill: false,
+                borderColor: '#25effa',
+                showLine: true,
+                pointRadius: 0
+            },
+            {
+                label: 'Optimized Performance',
+                data: arrb['3'],
+                borderWidth: 3,
+                fill: false,
+                borderColor: '#67f581',
+                showLine: true,
+                pointRadius: 0
+            },
+            ],
+
+        },
+        options: {
+
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                      },
+                      ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                            return value;
+                        }
+                      }
+                }],
+            },
+            responsive: true,
+            legend: {
+                display: true,
+            },
+            title: {
+                display: true,
+                text:  'Performance if 100Rs invested in 2015'
+            }
+        }
+    });
+</script>
 
 <!----------------------------END-------------------------------------------------->
 {%endblock%}
