@@ -108,10 +108,10 @@ Portfolio Analyser
                     <p>Sharpe Ratio(rf @ {{ risk_free_rate }}%) = {{sharpe_ratio2}}</p>
                 </div>
             </div>
-            
-        </div>
 
         </div>
+
+    </div>
 </div>
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -181,7 +181,7 @@ Portfolio Analyser
         var arr = JSON.parse("{{paradict|escapejs}}");
         var data = new google.visualization.DataTable();
 
-        data.addColumn('string', 'Company');
+        //data.addColumn('string', 'Company');
         data.addColumn('number', 'Quantity');
         data.addColumn('number', 'Buy Price');
         data.addColumn('number', 'Current Price');
