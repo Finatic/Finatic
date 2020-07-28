@@ -107,17 +107,27 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     para = inpar.tolist()
     pardict = {'1': para}
     paradict = json.dumps(pardict)
-    print('Current Value : ', net_now_value)
-    print('Invested Value : ', net_buy_value)
-    print('Profit / Loss : ', total_pnl)
+    #print('Current Value : ', net_now_value)
+    #print('Invested Value : ', net_buy_value)
+    #print('Profit / Loss : ', total_pnl)
     # -----------------------------------------------------------------------------------
 
     # Sector-wise/Industry-wise Allocation
     df_listed = pd.read_csv('products/static_product/fundamentals.csv', index_col='Ticker')
     df_listed.index = df_listed.index.astype(str) + '.NS'
     df_inp = df_inp.join(df_listed[df_listed.index.isin(tickers)])
-    group_sector = df_inp.groupby(['Sector']).agg('sum')['now_value']
 
+    group_company = df_inp.groupby(['Ticker']).agg('sum')['now_value']
+    company_pie_values = group_company.to_list()
+    company_pie_names = group_company.index.tolist()
+    company_pie_data = json.dumps({'1': company_pie_values, '2': company_pie_names})
+
+    group_cap = df_inp.groupby(['Cap']).agg('sum')['now_value']
+    cap_pie_values = group_cap.to_list()
+    cap_pie_names = group_cap.index.tolist()
+    cap_pie_data = json.dumps({'1': cap_pie_values, '2': cap_pie_names})
+
+    group_sector = df_inp.groupby(['Sector']).agg('sum')['now_value']
     sector_pie_values = group_sector.tolist()
     sector_pie_names = group_sector.index.tolist()
     sector_pie_data = json.dumps({'1': sector_pie_values, '2': sector_pie_names})
@@ -135,7 +145,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     pelist = list_pe.reset_index().to_numpy().tolist()
     pe = {'1': pelist}
     pe = json.dumps(pe)
-    print("Weighted PE :", weighted_pe)
+    #print("Weighted PE :", weighted_pe)
     # --------------------------------------------------------------------------------------------
 
     # Calculating the optimized weights
@@ -158,7 +168,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     para = opt.tolist()
     optdict = {'1': para}
     optdict = json.dumps(optdict)
-    print(inp3)
+    #print(inp3)
     # --------------------------------------------------------------------------------
 
     # individual asset plot (portfolio1)
@@ -240,14 +250,13 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     cumret['orig_value'] = cumulative_ret1
     cumret['opt_value'] = cumulative_ret2
     cumret['benchmark'] = benchm
-    print(cumret)
+    #print(cumret)
     # --------------------------------------------------------------------------
     # Peformance Plot variables
-    pltind = cumret.index.to_numpy().tolist()
+    pltind = cumret.index.strftime("%Y-%m-%d").to_numpy().tolist()
     pltori = cumret['orig_value'].to_numpy().tolist()
     pltopt = cumret['opt_value'].to_numpy().tolist()
     pltbnc = cumret['benchmark'].to_numpy().tolist()
-    pltdic = {}
     pltdic = {'1':pltind, '2':pltori, '3':pltopt, '4':pltbnc}
     pltdict = json.dumps(pltdic)
     #print(pltdict)
@@ -365,6 +374,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'Invested_value': round(net_buy_value, 0),
         'Profit_loss': round(total_pnl, 0),
         'paradict': paradict,
+        'company': company_pie_data,
+        'cap': cap_pie_data,
         'sector': sector_pie_data,
         'industry': industry_pie_data,
         'optdict': optdict,

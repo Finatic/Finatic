@@ -11,6 +11,9 @@ Portfolio Analyser
 <link rel="stylesheet" href="{%static 'css/style5.css'%}">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<meta charset="UTF-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 
 <div class="wrapper">
     <!-- Sidebar Holder -->
@@ -84,18 +87,18 @@ Portfolio Analyser
                 </div>
             </div>
             <br>
-            <div>
-                <h6> Original Portfolio Statistics--></h6>
-                <p>Expected annual return = {{percent_ret1}} </p>
-                <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
-                <p>Annual variance = {{percent_var1}}</p>
-            </div>
             <br>
             <div class="d-flex justify-content-center">
                 <a href="#" title="Sector/Industry Weightage"> Portfolio Allocation</a>
             </div>
             <br>
             <div class="row">
+                <div class="col-md-6">
+                    <canvas id="myChartc"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="myChartd"></canvas>
+                </div>
                 <div class="col-md-6">
                     <canvas id="myCharta"></canvas>
                 </div>
@@ -194,9 +197,7 @@ Portfolio Analyser
                 display: true,
                 text: 'Sector Allocation'
             },
-            legend: {
-                display: false,
-            }
+            
         }
         
     });
@@ -225,13 +226,66 @@ Portfolio Analyser
                 display: true,
                 text: 'Industry Allocation'
             },
-            legend: {
-                display: false,
-            }
+            
         }
     });
 </script>
 
+<!----------------------------Pie Chart--c------------------------------------------>
+<script>
+    var ind = [[]];
+    var ind = JSON.parse("{{company|escapejs}}");
+    
+    var data = {
+        datasets: [{
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            data: ind['1']
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: ind['2']
+    };
+    var ctx = document.getElementById("myChartc");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            title: {
+                display: true,
+                text: 'Company Allocation'
+            },
+            
+        }
+    });
+</script>
+
+<!----------------------------Pie Chart--d------------------------------------------>
+<script>
+    var ind = [[]];
+    var ind = JSON.parse("{{cap|escapejs}}");
+    
+    var data = {
+        datasets: [{
+            backgroundColor: ['#67f581', '#1abbde', '#fffe2b', '#345de3', '#0033da', '#5ca06d', '#27fa3a', '#07d58f', '#ee2d80', '#5bc0de'],
+            data: ind['1']
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: ind['2']
+    };
+    var ctx = document.getElementById("myChartd");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            title: {
+                display: true,
+                text: 'Cap Allocation'
+            },
+            
+        }
+    });
+</script>
 <!---------------------------Stat Table--------------------------------------------->
 <script type="text/javascript">
     google.charts.load('current', { 'packages': ['table'] });
@@ -399,39 +453,41 @@ Portfolio Analyser
 </script>
 <!--------------------------Performance Plot Line------------------------------->
 <script>
-    var arr= [[]];
+    var arr= [];
     var arr = JSON.parse("{{pltdict|escapejs}}");
     var lis = [];
     var i;
     for(i =0;i<arr['1'].length;i++){
-        var t,y;
         var dic = {
-            t : arr['1'][i],
+            x : arr['1'][i],
             y : arr['2'][i]
         };
         lis.push(dic)
     }
-    console.log(lis);
-    var data = {
-        datasets : [{
+    print(lis);
+    var data1 = {
+        
             label: 'Performance Plot',
-            data: lis
-        }]
+            data: [{
+                x: arr['1'][0],
+                y: arr['2'][0]
+            },
+            {
+                x: arr['1'][1],
+                y: arr['2'][1]
+            }]
+        
     }
 
 
     var ctx = document.getElementById("perf_plot");
     var chart = new Chart(ctx, {
         type: 'line',
-        data: data,
+        data: { datasets: [data1] },
         options: {
             scales: {
                 xAxes: [{
                     type: 'time',
-                    distribution: 'series',
-                    time: {
-                        unit: 'day'
-                    }
                 }]
             }
         }
