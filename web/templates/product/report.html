@@ -122,7 +122,16 @@ Portfolio Analyser
             <a href="#" title="Market Dependence">Weighted Portfolio Beta = {{weighted_beta}}</a>
             <br>
             <br>
+            <div id="table_divd"></div>
             <br>
+            <div class="col" style="height: 400;">
+                <h6> Original Portfolio Statistics--></h6>
+                <p>Expected Portfolio annual return = {{percent_ret1}} </p>
+                <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
+                <p>Annual variance = {{percent_var1}}</p>
+                <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
+                    {{sharpe_ratio1}}</a>
+            </div>
             <br>
             <br>
             <div class="d-flex justify-content-center">
@@ -376,6 +385,31 @@ Portfolio Analyser
         var table = new google.visualization.Table(document.getElementById('table_divc'));
 
         table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+    }
+</script>
+
+<!------------------------Individual Expected Table---------------------------------->
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
+
+    function drawTable() {
+        var arr = [[]];
+        var arr = JSON.parse("{{indexp|escapejs}}");
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'Company');
+        data.addColumn('number', 'Historical Annual Return %');
+        data.addColumn('number', 'Historical Volatility');
+
+
+        data.addRows(
+            arr['1'],
+        );
+
+        var table = new google.visualization.Table(document.getElementById('table_divd'));
+
+        table.draw(data, { showRowNumber: true, width: '50%', height: '100%' });
     }
 </script>
 

@@ -149,16 +149,32 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     pe = json.dumps(pe)
     #print("Weighted PE :", weighted_pe)
 
-      #Individual Expected Return / Volatility
-    print(df_portfolio)
+    returns = df_portfolio.drop(columns=benchmark).pct_change().dropna()
+    annualized_returns = ((returns + 1).prod() ** (252 / returns.shape[0])) - 1
 
+    window_size = 100
+    vola = []
+    for i in range(len(df_inp)):
+        #vol = df_portfolio.iloc[:,[i]].pct_change().std()*(252**0.5)
+        ret = df_portfolio.iloc[:,[i]].pct_change()[1:]
+        vol =  np.sqrt(252*ret.var())
+        vola.append(vol[0])
+    print(vol)
+      #Individual Expected Return / Volatility
+    indiv = pd.DataFrame(index=df_portfolio.columns[:-1])
+    indiv['Company'] = df_inp.index.str.replace('.NS', "")
+    indiv['Expected Return'] = annualized_returns*100
+    indiv['Volatility'] = vola
+    print(indiv)
+    indi = indiv.to_numpy().tolist()
+    indexp = {'1': indi}
+    indexp = json.dumps(indexp)
 
     # --------------------------------------------------------------------------------------------
 
     # Calculating the optimized weights
-    returns = df_portfolio.drop(columns=benchmark).pct_change().dropna()
-    annualized_returns = ((returns + 1).prod() ** (252 / returns.shape[0])) - 1
-
+    
+    #print(annualized_returns)
     opt_weight = max_sharp_ratio(annualized_returns, returns.cov(), risk_free_rate)
 
     # max_sr_ret = portfolio_return(opt_weight, annualized_returns)
@@ -395,6 +411,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'percent_vols2': percent_vols2,
         'percent_var2': percent_var2,
         'pe': pe,
+        'indexp': indexp,
         'weighted_pe': weighted_pe,
         "weighted_beta": weighted_beta,
         'sharpe_ratio1': sharpe_ratio1,
