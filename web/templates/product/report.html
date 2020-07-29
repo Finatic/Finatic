@@ -132,10 +132,10 @@ Portfolio Analyser
             <canvas id="perf_plot" width="100" height="50"></canvas>
             <br>
             <br>
-            <canvas id="yearly_bar" width="100" height="50"></canvas>
+            <canvas id="yearly_bar" width="100" height="30"></canvas>
             <br>
             <br>
-            <canvas id="mnly_bar" width="100" height="50"></canvas>
+            <canvas id="mnly_bar" width="100" height="30"></canvas>
             <br>
             <div class="d-flex justify-content-center">
                 <a href="#" title="Sharpe Ratio Maximization"> Optimization Statistics</a>
@@ -367,7 +367,6 @@ Portfolio Analyser
         data.addColumn('number', '1-Year Beta');
         data.addColumn('number', 'Price to Earning Ratio (TTM)');
         data.addColumn('number', 'Basic EPS (TTM)');
-        //data.addColumn('number', 'Current Value');
 
 
         data.addRows(
@@ -453,7 +452,12 @@ Portfolio Analyser
         type: 'bar',
         data: data,
         options: {
-            responsive: true
+            responsive: true,
+            xAxes: [{
+                gridLines: {
+                    display: false
+                }
+            }],
         }
     });
 

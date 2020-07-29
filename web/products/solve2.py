@@ -112,7 +112,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     #print('Profit / Loss : ', total_pnl)
     # -----------------------------------------------------------------------------------
 
-    # Sector-wise/Industry-wise Allocation
+    # Portfolio Allocation
+
     df_listed = pd.read_csv('products/static_product/fundamentals.csv', index_col='Ticker')
     df_listed.index = df_listed.index.astype(str) + '.NS'
     df_inp = df_inp.join(df_listed[df_listed.index.isin(tickers)])
@@ -137,7 +138,8 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     industry_pie_names = group_industry.index.tolist()
     industry_pie_data = json.dumps({'1': industry_pie_values, '2': industry_pie_names})
 
-    # Weighted PE Ratio
+    #-----------------------------------------------------------------------------------------------
+    # Individual Asset Stat
     weighted_pe = np.sum(df_inp["Price to Earnings Ratio (TTM)"] * df_inp['now_value'] / net_now_value)
     weighted_beta = np.sum(df_inp["1-Year Beta"] * df_inp['now_value'] / net_now_value)
     list_pe = df_inp[['Cap','Industry','1-Year Beta', 'Price to Earnings Ratio (TTM)', 'Basic EPS (TTM)']].copy()
@@ -146,6 +148,11 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     pe = {'1': pelist}
     pe = json.dumps(pe)
     #print("Weighted PE :", weighted_pe)
+
+      #Individual Expected Return / Volatility
+    print(df_portfolio)
+
+
     # --------------------------------------------------------------------------------------------
 
     # Calculating the optimized weights

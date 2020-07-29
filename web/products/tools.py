@@ -13,7 +13,7 @@ def portfolio_vol(weights, cov_mat):
 def max_sharp_ratio(annualized_returns, cov, risk_free):
     n = annualized_returns.shape[0]
     init_guess = np.repeat(1 / n, n)
-    bounds = ((0.0, 1.0),) * n  # an N-tuple of 2-tuples!
+    bounds = ((1/(4*n), 3/n),) * n  # an N-tuple of 2-tuples!
     # construct the constraints
     weights_sum_to_1 = {'type': 'eq',
                         'fun': lambda weights_: np.sum(weights_) - 1
