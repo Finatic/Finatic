@@ -4,7 +4,10 @@ Home
 {%endblock%}
 {%block content %}
 {%load static%}
+
 <link rel="stylesheet" href="{%static 'css/landing.css'%}">
+
+
 <style>
     * {
 
@@ -140,7 +143,16 @@ Home
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-{% endfor %} 
+{% endfor %}
+<!-- ***** Preloader Start ***** -->
+<div id="preloader">
+    <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>  
+<!-- ***** Preloader End ***** -->
 <div class="jumbotron jumbotron-fluid" style="background-image: url('{%static "images/main.png"%}')">
     <div id='stars'></div>
     <div id='stars2'></div>
@@ -641,6 +653,22 @@ Home
     </div>
 </section>
 <!-- ***** Blog End ***** -->
+
+<!-- jQuery -->
+<script src="{%static 'js/jquery-2.1.0.min.js'%}"></script>
+
+<!-- Bootstrap -->
+<script src="{%static 'js/popper.js'%}"></script>
+<script src="{%static 'js/bootstrap.min.js'%}"></script>
+
+<!-- Plugins -->
+<script src="{%static 'js/scrollreveal.min.js'%}"></script>
+<script src="{%static 'js/waypoints.min.js'%}"></script>
+<script src="{%static 'js/jquery.counterup.min.js'%}"></script>
+<script src="{%static 'js/imgfix.min.js'%}"></script> 
+
+<!-- Global Init -->
+<script src="{%static 'js/custom.js'%}"></script>
 
 
 {%endblock%}
