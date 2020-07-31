@@ -1,0 +1,362 @@
+{%extends 'base.html'%}
+{%block title %}
+Home
+{%endblock%}
+{%block content %}
+{%load static%}
+<style>
+    * {
+
+        box-sizing: border-box;
+    }
+
+    .content-box {
+        border-style: solid;
+        border-width: 1px 1px 3px;
+        border-color: #ccc;
+        border-bottom-color: #5bc0de;
+        padding: 0 7% 10px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        margin-top: 50px;
+        color: #444;
+        background: #fff;
+    }
+
+
+
+    h2 {
+        padding-top: 3px;
+        text-align: center;
+    }
+
+    .icon-position {
+        margin: -70px auto 35px;
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 80px;
+        height: 80px;
+    }
+
+    .fa-stack {
+        position: relative;
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        line-height: 2em;
+        vertical-align: middle;
+    }
+
+    .fa-4x {
+        font-size: 4em;
+    }
+
+    .fa-stack-2x {
+        font-size: 1.5em;
+    }
+
+
+
+    .fa {
+        display: inline-block;
+
+        line-height: 1.35;
+    }
+
+    .icon-background {
+        color: #5bc0de85;
+    }
+
+    .links {
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .links a {
+        display: block;
+        text-align: center;
+    }
+
+    a {
+        color: #5bc0de;
+        text-decoration: none;
+    }
+
+    a {
+        background-color: transparent;
+    }
+
+    .jumbotron {
+        background-size: cover;
+        color: white;
+        background-repeat: repeat-y;
+        height: 600px;
+
+
+    }
+</style>
+<style>
+    .mbr-white {
+        color: #ffffff;
+    }
+    .foo{
+        @media (max-width: 768px) .display-1 {
+            font-size: 4.16rem;
+            font-size: calc(2.4699999999999998rem + (5.2 - 2.4699999999999998) * ((100vw - 20rem) / (48 - 20)));
+            line-height: calc(1.4 * (2.4699999999999998rem + (5.2 - 2.4699999999999998) * ((100vw - 20rem) / (48 - 20))));
+        }
+    }
+
+    .display-1 {
+        font-family: 'Pacifico', sans-serif;
+        font-size: 5.2rem;
+    }
+
+    .mbr-section-title {
+        font-style: normal;
+        line-height: 1.2;
+    }
+
+    .mbr-bold {
+        font-weight: 700;
+    }
+    .foo{
+        @media (max-width: 768px) .display-5 {
+            font-size: 1.28rem;
+            font-size: calc(1.21rem + (1.6 - 1.21) * ((100vw - 20rem) / (48 - 20)));
+            line-height: calc(1.4 * (1.21rem + (1.6 - 1.21) * ((100vw - 20rem) / (48 - 20))));
+        }
+    }
+
+    .display-5 {
+        font-family: 'Muli', sans-serif;
+    }
+</style>
+{%for i in message%}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{i}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<div class="jumbotron jumbotron-fluid" style="background-image: url('{%static "images/main.png"%}')">
+    <div id='stars'></div>
+    <div id='stars2'></div>
+    <div id='stars3'></div>
+    <div class="container">
+        <div class="row justify-content-md-end">
+            <div class="mbr-white col-lg-6 col-md-12">
+                <h2 class="mbr-section-title align-left pb-4 mbr-bold mbr-fonts-style display-1">
+                    <div>Finatic </div>
+                </h2>
+
+                <p class="mbr-text align-left mbr-fonts-style display-5">
+                    <p class="lead">
+                        Finatic is the goto platform to make informed data-driven 
+                        investment decisions. Let us help you, take your first step into the world 
+                        of Investments. 
+                    </p>
+                    <p class="lead">
+                        Build your personalized portfolio from scratch, customized 
+                        to your risk apetite, ambition and the current market trends. 
+                    </p>
+                    <p class="lead">
+                        Get a complete report on your Portfolio's backtested Performance, Risk structure, 
+                        Monte Carlo forecasts and much more. Get many more advanced tools used by Mutual 
+                        Fund Companies to manage your own porfolio at your finger tips.
+                    </p>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!-- try  -->
+<div class="row">
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card  card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-chart-pie fa-stack-1x icon-color "></i>
+                    </span>
+                </div>
+                <h2>Backtest Portfolio</h2>
+                <p>
+                    Backtest a portfolio asset allocation and compare historical and realized returns and risk
+                    characteristics against various lazy portfolios.
+                </p>
+                <p class="links">
+                    <a href="backtest-asset-class-allocation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Backtest
+                        Asset Allocation&nbsp;»</a>
+                    <a href="backtest-portfolio" class="btn btn-sm btn-outline-info my-1" role="button"
+                        aria-pressed="true">Backtest Portfolio&nbsp;»</a>
+                    <a href="backtest-dynamic-allocation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Backtest Dynamic Allocation&nbsp;»</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6  py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-cubes fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Factor Analysis</h2>
+                <p>Run regression analysis using Fama-French and Carhart factor models for individual assets or a
+                    portfolio
+                    to analyze returns against market, size, value and momentum factors.</p>
+                <p class="links">
+                    <a href="factor-analysis" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Factor Regression&nbsp;»</a>
+                    <a href="risk-factor-allocation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Risk Factor Allocation&nbsp;»</a>
+                    <a href="match-factor-exposure" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Match Factor Exposures&nbsp;»</a>
+                    <a href="principal-component-analysis" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Principal Component Analysis&nbsp;»</a>
+                    <a href="factor-statistics" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Factor Statistics&nbsp;»</a>
+                    <a href="etf-and-mutual-fund-factor-regressions" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Fund Factor Regressions&nbsp;»</a>
+                    <a href="factor-performance-attribution" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Fund Performance Attribution&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6  py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-random fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Asset Analytics</h2>
+                <p>Find funds based on asset class, style and risk adjusted performance, and analyze asset correlations.
+                </p>
+                <p class="links">
+                    <a href="fund-screener" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Fund Screener&nbsp;»</a>
+                    <a href="fund-performance" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Fund Performance&nbsp;»</a>
+                    <a href="asset-correlations" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Correlations&nbsp;»</a>
+                    <a href="asset-class-correlations" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Class Correlations&nbsp;»</a>
+                    <a href="asset-autocorrelation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Autocorrelation&nbsp;»</a>
+                    <a href="asset-cointegration" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Cointegration&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-chart-area fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Monte Carlo Simulation</h2>
+                <p>Run Monte Carlo simulations for the specified portfolio based on historical or forecasted returns to
+                    test
+                    long term expected portfolio growth and survival, and the capability to meet financial goals and
+                    liabilities.</p>
+                <p class="links">
+                    <a href="monte-carlo-simulation" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Monte Carlo Simulation&nbsp;»</a>
+                    <a href="financial-goals" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Financial Goals&nbsp;»</a>
+                    <a href="asset-liability-modeling" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Asset Liability Modeling&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card   card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-crosshairs fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Portfolio Optimization</h2>
+                <p>Chart the efficient frontier to explore risk vs. return trade-offs based on historical or forecasted
+                    returns. Optimize portfolios based on mean-variance, conditional value-at-risk (CVaR), risk-return
+                    ratios, or drawdowns. Apply the Black-Litterman model to find the optimal portfolio based on market
+                    views.</p>
+                <p class="links">
+                    <a href="efficient-frontier" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Historical Efficient Frontier&nbsp;»</a>
+                    <a href="efficient-frontier-forecast" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Forecasted Efficient Frontier&nbsp;»</a>
+                    <a href="Portfolio_Optimiser/Portfolio_Optimization.html" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Portfolio Optimization&nbsp;»</a>
+                    <a href="black-litterman-model" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Black-Litterman Model&nbsp;»</a>
+                    <a href="rolling-optimization" class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Rolling Optimization&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 py-4 ">
+        <div class="card  card-body h-100 shadow bg-white rounded">
+            <div class="card-block">
+                <div class="icon-position">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                        <i class="fas fa-history fa-stack-1x icon-color"></i>
+                    </span>
+                </div>
+                <h2>Timing Models</h2>
+                <p>Compare and test market timing models based on moving averages, momentum, the Shiller PE ratio
+                    valuation,
+                    and target volatility.</p>
+                <p class="links">
+                    <a href="test-market-timing-model?timingModel=2" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Market Valuation&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=5" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Moving Averages&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=4" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Momentum Rotation&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=6" class="btn btn-sm btn-outline-info my-1 "
+                        role="button" aria-pressed="true">Dual Momentum&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=9&amp;windowSize=6&amp;volatilityWindowSize=3&amp;assetsToHold=2"
+                        class="btn btn-sm btn-outline-info my-1 " role="button" aria-pressed="true">Adaptive
+                        Allocation&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=7&amp;windowSize=1"
+                        class="btn btn-sm btn-outline-info my-1 " role="button" aria-pressed="true">Target
+                        Volatility&nbsp;»</a>
+                    <a href="test-market-timing-model?timingModel=4&amp;coreSatellite=true"
+                        class="btn btn-sm btn-outline-info my-1 " role="button"
+                        aria-pressed="true">Core-Satellite&nbsp;»</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{%endblock%}

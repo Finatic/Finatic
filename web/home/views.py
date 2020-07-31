@@ -43,6 +43,8 @@ def base(request):
 def result(request, ):
     return render(request, "result.html")
 
+def adtools(request):
+    return render(request, "adtools.html")
 
 def Portfolio_Optimization(request, ):
     return render(request, "Portfolio_Optimiser/Portfolio_Optimization.html")
