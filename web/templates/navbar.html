@@ -12,10 +12,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'about' %}"><i class="fa fa-home"></i> About Us</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'contact' %}"><i class="fa fa-mail-bulk"></i> Contact
-                    Us</a>
-            </li>
 
             {% if user.is_authenticated %}
             <li class="nav-item">
@@ -23,6 +19,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'adtools' %}"><i class="fa fa-wrench"></i> Advanced Tools</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-upload"></i>Create Portfolio</a>
             </li>
             {%endif%}
 

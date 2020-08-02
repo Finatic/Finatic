@@ -159,13 +159,13 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         ret = df_portfolio.iloc[:, [i]].pct_change()[1:]
         vol = np.sqrt(252 * ret.var())
         vola.append(vol[0])
-    print(vol)
+
     # Individual Expected Return / Volatility
     indiv = pd.DataFrame(index=df_portfolio.columns[:-1])
     indiv['Company'] = df_inp.index.str.replace('.NS', "")
     indiv['Expected Return'] = annualized_returns * 100
-    indiv['Volatility'] = vola
-    print(indiv)
+    indiv['Volatility'] = vola*100
+    
     indi = indiv.to_numpy().tolist()
     indexp = {'1': indi}
     indexp = json.dumps(indexp)
@@ -392,8 +392,13 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     # Efficient Frontier(PLOT)
 
     ef_plot = ef_curve(returns, risk_free_rate)
-
+    #print(ef_plot)
     # ----------------------------------------------------------------------------------
+    #Monte Carlo Forecast
+    
+
+
+    # -----------------------------------------------------------------------------------
 
     # all variables to be added in this dictionary
     context = {

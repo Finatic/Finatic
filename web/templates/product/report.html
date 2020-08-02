@@ -5,7 +5,7 @@ Portfolio Analyser
 {%block content %}
 {%load static%}
 
-
+ 
 <!-- Our Custom CSS -->
 
 <link rel="stylesheet" href="{%static 'css/style5.css'%}">
@@ -39,16 +39,16 @@ Portfolio Analyser
                 </ul>
             </li>
             <li>
-                <a href="#">Portfolio Statistics</a>
+                <a href="#PortfolioStat">Portfolio Statistics</a>
             </li>
             <li>
-                <a href="#">Historical Analysis</a>
+                <a href="#HistoricalStat">Historical Analysis</a>
             </li>
             <li>
-                <a href="#">Optimization</a>
+                <a href="#OptimizeStat">Optimization</a>
             </li>
             <li>
-                <a href="#">Predictive Analysis</a>
+                <a href="#PredictiveStat">Predictive Analysis</a>
             </li>
         </ul>
 
@@ -70,109 +70,121 @@ Portfolio Analyser
             </div>
         </nav>
         <div>
-            <br>
-            <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
-            <br>
-            <div id="table_diva"></div>
-            <br>
-            <div class="d-flex justify-content-center">
-                <div class="p-2">
-                    <p> Current Value = {{Current_Value}} </p>
+            <section id="PortfolioStat">
+                <br>
+                <h2 class="text-info h1-responsive  font-weight-bold pb-2">Report</h2>
+                <br>
+                <div id="table_diva"></div>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <p> Current Value = {{Current_Value}} </p>
+                    </div>
+                    <div class="p-2">
+                        <p> Invested Value = {{Invested_value}} </p>
+                    </div>
+                    <div class="p-2">
+                        <p> Profit / Loss = {{Profit_loss}} </p>
+                    </div>
                 </div>
-                <div class="p-2">
-                    <p> Invested Value = {{Invested_value}} </p>
+                <br>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <a href="#" title="Sector/Industry Weightage"> Portfolio Allocation</a>
                 </div>
-                <div class="p-2">
-                    <p> Profit / Loss = {{Profit_loss}} </p>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="myChartc"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="myChartd"></canvas>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <br>
-            <div class="d-flex justify-content-center">
-                <a href="#" title="Sector/Industry Weightage"> Portfolio Allocation</a>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <canvas id="myChartc"></canvas>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="myCharta"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="myChartb"></canvas>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <canvas id="myChartd"></canvas>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <a href="#" title="Asset Information">Individual Asset Statistics</a>
                 </div>
-            </div>
-            <br>
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <canvas id="myCharta"></canvas>
-                </div>
-                <div class="col-md-6">
-                    <canvas id="myChartb"></canvas>
-                </div>
-            </div>
-            <br>
-            <div class="d-flex justify-content-center">
-                <a href="#" title="Asset Information">Individual Asset Statistics</a>
-            </div>
-            <br>
-            <div id="table_divc"></div>
-            <br>
-            <a href="#" title="Portfolio Price to Earning Ratio">Weighted PE Ratio = {{weighted_pe}}</a>
-            <br>
-            <a href="#" title="Market Dependence">Weighted Portfolio Beta = {{weighted_beta}}</a>
-            <br>
-            <br>
-            <div id="table_divd"></div>
-            <br>
-            <div class="col" style="height: 400;">
-                <h6> Original Portfolio Statistics--></h6>
-                <p>Expected Portfolio annual return = {{percent_ret1}} </p>
-                <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
-                <p>Annual variance = {{percent_var1}}</p>
-                <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
-                    {{sharpe_ratio1}}</a>
-            </div>
-            <br>
-            <br>
-            <div class="d-flex justify-content-center">
-                <a href="#" title="5 Year Performance"> Historical Portfolio Performance</a>
-            </div>
-            <br>
-            <canvas id="perf_plot" width="100" height="50"></canvas>
-            <br>
-            <br>
-            <canvas id="yearly_bar" width="100" height="30"></canvas>
-            <br>
-            <br>
-            <canvas id="mnly_bar" width="100" height="30"></canvas>
-            <br>
-            <div class="d-flex justify-content-center">
-                <a href="#" title="Sharpe Ratio Maximization"> Optimization Statistics</a>
-            </div>
-            <br>
-            <div id="table_divb"></div>
-            <br>
-            <canvas id="opt_plot" width="100" height="50"></canvas>
-            <br>
-            <div class="row">
+                <br>
+                <div id="table_divc"></div>
+                <br>
+                <a href="#" title="Portfolio Price to Earning Ratio">Weighted PE Ratio = {{weighted_pe}}</a>
+                <br>
+                <a href="#" title="Market Dependence">Weighted Portfolio Beta = {{weighted_beta}}</a>
+                <br>
+                <br>
+                <div id="table_divd"></div>
+                <br>
                 <div class="col" style="height: 400;">
                     <h6> Original Portfolio Statistics--></h6>
-                    <p>Expected annual return = {{percent_ret1}} </p>
+                    <p>Expected Portfolio annual return = {{percent_ret1}} </p>
                     <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
                     <p>Annual variance = {{percent_var1}}</p>
                     <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
                         {{sharpe_ratio1}}</a>
                 </div>
-                <div class="col" style="height: 400;">
-                    <h6> Optimized Portfolio Statistics--></h6>
-                    <p>Expected annual return = {{percent_ret2}} </p>
-                    <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
-                    <p>Annual variance = {{percent_var2}}</p>
-                    <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
-                        {{sharpe_ratio2}}</a>
+                <br>
+                <br>
+            </section>
+            <section id="HistoricalStat">
+                <div class="d-flex justify-content-center">
+                    <a href="#" title="5 Year Performance"> Historical Portfolio Performance</a>
                 </div>
-            </div>
-
+                <br>
+                <canvas id="perf_plot" width="100" height="50"></canvas>
+                <br>
+                <br>
+                <canvas id="yearly_bar" width="100" height="30"></canvas>
+                <br>
+                <br>
+                <canvas id="mnly_bar" width="100" height="30"></canvas>
+                <br>
+            </section>
+            <section id="OptimizeStat">
+                <div class="d-flex justify-content-center">
+                    <a href="#" title="Sharpe Ratio Maximization"> Optimization Statistics</a>
+                </div>
+                <br>
+                <div id="table_divb"></div>
+                <br>
+                <canvas id="opt_plot" width="100" height="50"></canvas>
+                <br>
+                <div class="row">
+                    <div class="col" style="height: 400;">
+                        <h6> Original Portfolio Statistics--></h6>
+                        <p>Expected annual return = {{percent_ret1}} </p>
+                        <p>Annual volatility/standard deviation/risk = {{percent_vols1}}</p>
+                        <p>Annual variance = {{percent_var1}}</p>
+                        <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
+                            {{sharpe_ratio1}}</a>
+                    </div>
+                    <div class="col" style="height: 400;">
+                        <h6> Optimized Portfolio Statistics--></h6>
+                        <p>Expected annual return = {{percent_ret2}} </p>
+                        <p>Annual volatility/standard deviation/risk = {{percent_vols2}}</p>
+                        <p>Annual variance = {{percent_var2}}</p>
+                        <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
+                            {{sharpe_ratio2}}</a>
+                    </div>
+                </div>
+                <br>
+            </section>
+            <section id="PredictiveStat">
+                <br>
+                <div class="d-flex justify-content-center">
+                    <a href="#" title="Predictive Analytics"> Predictive Statistics</a>
+                </div>
+            </section>
         </div>
     </div>
 </div>
