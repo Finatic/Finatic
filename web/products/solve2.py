@@ -164,7 +164,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     indiv = pd.DataFrame(index=df_portfolio.columns[:-1])
     indiv['Company'] = df_inp.index.str.replace('.NS', "")
     indiv['Expected Return'] = annualized_returns * 100
-    indiv['Volatility'] = vola*100
+    indiv['Volatility'] = vola
     
     indi = indiv.to_numpy().tolist()
     indexp = {'1': indi}
@@ -395,8 +395,112 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     #print(ef_plot)
     # ----------------------------------------------------------------------------------
     #Monte Carlo Forecast
-    
+    data_1 = cumret['orig_value']
+    data_2 = cumret['opt_value']
 
+    log_return1 = np.log(1 + data_1.pct_change())
+    log_return2 = np.log(1 + data_2.pct_change())
+
+    u1 = log_return1.mean()
+    u2 = log_return2.mean()
+
+    var1 = log_return1.var()
+    var2 = log_return2.var()
+
+    drift1 = u1 - (0.5 * var1)
+    drift2 = u2 - (0.5 * var2)
+
+    stdev1 = log_return1.std()
+    stdev2 = log_return2.std()
+
+    #---------------------------
+    # can be taken as user input
+    l = 500
+    #how many trading sessions in future
+    t_intervals = l
+    #no. of omte carlo simulations
+    iterations = 10
+
+    daily_returns1 = np.exp(drift1 + stdev1 * stats.norm.ppf(np.random.rand(t_intervals, iterations)))
+    daily_returns2 = np.exp(drift2 + stdev2 * stats.norm.ppf(np.random.rand(t_intervals, iterations)))
+
+    S0 = data_1.iloc[-1]
+    S1 = data_2.iloc[-1]
+
+    price_list1 = np.zeros_like(daily_returns1)
+    price_list1[0] = S0
+    price_list2 = np.zeros_like(daily_returns2)
+    price_list2[0] = S1
+
+    for t in range(1, t_intervals):
+        price_list1[t] = price_list1[t - 1] * daily_returns1[t]
+    
+    high1 = max(price_list1[-1])
+    median1 = np.median(price_list1[-1])
+    low1 = min(price_list1[-1])
+    print('For your Current Portfolio -->')
+    print('100 Rs invested in {0} will be this much after 500 trading days from {1}'.format(start_date, end_date))
+    print('The max prediction: ', high1)
+    print('The median prediction: ', median1)
+    print('The lowest prediction: ', low1)
+
+    for t in range(1, t_intervals):
+        price_list2[t] = price_list2[t - 1] * daily_returns2[t]
+
+    high2 = max(price_list2[-1])
+    median2 = np.median(price_list2[-1])
+    low2 = min(price_list2[-1])
+    print('For the Optimized Portfolio-->')
+    print('100 Rs invested in {0} will be this much after 500 trading days from {1}'.format(start_date, end_date))
+    print('The max prediction: ', high2)
+    print('The median prediction: ', median2)
+    print('The lowest prediction: ', low2)
+
+    expected1 = pd.DataFrame(price_list1)
+    expected2 = pd.DataFrame(price_list2)
+    expected1['avg'] = expected1.mean(axis=1)
+    expected2['avg'] = expected2.mean(axis=1)
+
+    start = data_1.index[-1]
+    times = pd.date_range(start, periods=l, freq='D')
+    expected1.index = times
+    expected2.index = times
+
+    dfnew1 = pd.DataFrame(index = times)
+    dfnew1['value'] = expected1['avg'].values
+    dfnew2 = pd.DataFrame(index = times)
+    dfnew2['value'] = expected2['avg'].values
+
+    data_1.index = pd.to_datetime(data_1.index)
+    data_2.index = pd.to_datetime(data_2.index)
+
+    dfnew3 = dfnew2*data_1[-1]/dfnew2['value'][0]
+    #print(dfnew1)
+    #print(dfnew2)
+    #print(dfnew3)
+    dfnew = pd.DataFrame(index = dfnew1.index, columns=['a','b','c'])
+    dfnew['a'] = dfnew1.values
+    dfnew['b'] = dfnew2.values
+    dfnew['c'] = dfnew3.values
+    print(dfnew)
+
+    a = []
+    #for i in a_1
+    #    a.append(i)
+    #print(a)
+    comptime = np.concatenate((data_1.index, dfnew1.index))
+    #c = a+b
+    #print(c)
+
+    comptime = comptime.tolist()
+    montp1 = data_1.to_numpy().tolist()
+    montp2 = data_2.to_numpy().tolist()
+    monta = dfnew['a'].to_numpy().tolist()
+    montb = dfnew['b'].to_numpy().tolist()
+    montc = dfnew['c'].to_numpy().tolist()
+    monte = {'D': comptime,'1': monta, '2': montb, '3': montc, '4': montp1, '5': montp2 }
+    monte = json.dumps(monte)
+    
 
     # -----------------------------------------------------------------------------------
 
@@ -427,6 +531,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'yrldict': yrldict,
         'mnlyret': mnlyret,
         'pltdict': pltdict,
+        'monte': monte,
     }
 
     return context
