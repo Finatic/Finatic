@@ -483,14 +483,15 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     dfnew['b'] = dfnew2.values
     dfnew['c'] = dfnew3.values
     print(dfnew)
-
-    a = []
-    #for i in a_1
-    #    a.append(i)
-    #print(a)
+    
     comptime = np.concatenate((data_1.index, dfnew1.index))
-    #c = a+b
-    #print(c)
+    mcd = pd.DataFrame(index= comptime)
+    #mcd['a'] = 
+    a = data_1 + dfnew1
+    #mcd['b'] = data
+    print(len(a))
+    print(len(mcd))
+    print(mcd[1280:])
 
     comptime = comptime.tolist()
     montp1 = data_1.to_numpy().tolist()
