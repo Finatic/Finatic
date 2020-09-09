@@ -35,6 +35,7 @@ def portfolio(request):
             print(buy_price)
             print(quantity)
             data = form.cleaned_data
+            print(data)
             #form.data.save()
             context = {}
             context = func1(data, ticker_symbol, buy_price, quantity)

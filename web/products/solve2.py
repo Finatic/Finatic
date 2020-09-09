@@ -149,13 +149,14 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     pe = json.dumps(pe)
     # print("Weighted PE :", weighted_pe)
 
+    #-----------------------------------------------
     returns = df_portfolio.drop(columns=benchmark).pct_change().dropna()
     annualized_returns = ((returns + 1).prod() ** (252 / returns.shape[0])) - 1
-
+    #-----------------------------------------------
+    
     window_size = 100
     vola = []
     for i in range(len(df_inp)):
-        # vol = df_portfolio.iloc[:,[i]].pct_change().std()*(252**0.5)
         ret = df_portfolio.iloc[:, [i]].pct_change()[1:]
         vol = np.sqrt(252 * ret.var())
         vola.append(vol[0])

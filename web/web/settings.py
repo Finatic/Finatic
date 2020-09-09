@@ -37,11 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #api
-    'rest_framework',
+
     #own
     'home',
-    'result',
+    'products',
     'user',
 ]
 LOGIN_REDIRECT_URL = 'home'
@@ -143,10 +142,3 @@ EMAIL_HOST_USER = 'teamfinatic3@gmail.com'
 EMAIL_HOST_PASSWORD = 'portfolioanalytics'
 
 
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-}
