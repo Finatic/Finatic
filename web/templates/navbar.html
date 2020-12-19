@@ -19,8 +19,11 @@
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'adtools' %}"><i class="fa fa-wrench"></i> Advanced Tools</a>
+                <a class="nav-link" href="{% url 'myports' %}"><i class="fa fa-bookmark"></i> My Portfolios</a>
             </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="{% url 'adtools' %}"><i class="fa fa-wrench"></i> Advanced Tools</a>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa fa-upload"></i>Create Portfolio</a>
             </li>

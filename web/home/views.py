@@ -48,3 +48,4 @@ def adtools(request):
 
 def Portfolio_Optimization(request, ):
     return render(request, "Portfolio_Optimiser/Portfolio_Optimization.html")
+

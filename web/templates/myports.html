@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{%block title %}
+My Portfolio
+{%endblock%}
+{% block content %}
+{% load static%}
+
+<p>Your Portfolios</p>
+<hr>
+    {% for port in user.MyPortfolio.all %}
+        <p>Number of Stocks -> {{port.number_of_portfolio}}  |  Portfolio Title -> {{port.portfolio_title}}   |   Portfolio Type -> {{port.Portfolio_type}}   |   Benchmark -> {{port.benchmark}}   |   Start Date -> {{port.start_date}}   |   End Date -> {{port.end_date}}</p>
+        <hr>
+    {% endfor %}
+
+
+
+{% endblock%}

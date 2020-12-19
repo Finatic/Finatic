@@ -154,7 +154,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     annualized_returns = ((returns + 1).prod() ** (252 / returns.shape[0])) - 1
     #-----------------------------------------------
     
-    window_size = 100
+    #window_size = 100
     vola = []
     for i in range(len(df_inp)):
         ret = df_portfolio.iloc[:, [i]].pct_change()[1:]
@@ -393,7 +393,7 @@ def func1(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     # Efficient Frontier(PLOT)
 
     ef_plot = ef_curve(returns, risk_free_rate)
-    #print(ef_plot)
+    print(ef_plot)
     # ----------------------------------------------------------------------------------
     #Monte Carlo Forecast
     data_1 = cumret['orig_value']

@@ -88,7 +88,17 @@ Portfolio Optimiser
 <div class="container">
     <form action="" method="POST" name="index" autocomplete="off">
         {%csrf_token%}
+        <!-- portfolio title -->
+        <hr>
+        <div class="form-row">
+            <div class="col form-group ">
+                <label for="id_portfolio_title">Portfolio Title</label>
+                <input type="text" name="portfolio_title" class="form-control"
+                     placeholder="Portfolio Description" id="portfolio_title">
+            </div>
+        </div>
         <!-- portfolio type -->
+        
         <div class="form-row">
             <div class="col form-group">
                 <label for="id_Portfolio_type">Portfolio Type</label>

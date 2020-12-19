@@ -1,5 +1,6 @@
 from django import forms
 import datetime
+from .models import MyPortfolio
 # port opti variable
 
 Portfolio_type_choice = (
@@ -49,12 +50,15 @@ benchmark_choice = (
 )
 
 
+
 class port_opti(forms.Form):
+    
     Portfolio_type = forms.ChoiceField(
         choices=Portfolio_type_choice, required=False)
+    portfolio_title = forms.CharField(max_length=500, required=False)
     benchmark = forms.ChoiceField(choices=benchmark_choice)
     start_date = forms.DateField(required=False)
-    end_date = forms.DateField()
+    end_date = forms.DateField(required=False)
     number_of_portfolio = forms.IntegerField(max_value=10, min_value=1)
 
     # ticker 1
