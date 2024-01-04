@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from .forms import port_opti
 from django.http import JsonResponse
-from .solve2 import func1
+from .solve import analyze
 from django.http import HttpResponseRedirect
 from json import dumps
 from .models import MyPortfolio, Port
@@ -39,15 +39,15 @@ def portfolio(response):
             print(buy_price)
             print(quantity)
             data = form.cleaned_data
-            print(data)
+            # print(data)
             #form.data.save()
 
-            nops = MyPortfolio(number_of_portfolio = nop, portfolio_title=portfolio_title, Portfolio_type=portfolio_type, start_date=start_date, end_date=end_date, benchmark=benchmark )
-            nops.save()
-            response.user.MyPortfolio.add(nops)
+            data_store = MyPortfolio(number_of_portfolio = nop, portfolio_title=portfolio_title, Portfolio_type=portfolio_type, start_date=start_date, end_date=end_date, benchmark=benchmark )
+            # data_store.save()
+            # response.user.MyPortfolio.add(data_store)
 
             context = {}
-            context = func1(data, ticker_symbol, buy_price, quantity)
+            context = analyze(data, ticker_symbol, buy_price, quantity)
 
             # return HttpResponseRedirect(reverse(report, args=[context]))
 
@@ -62,7 +62,7 @@ def portfolio(response):
     else:
         form = port_opti
         data = []
-        for i in range(1, 11):
+        for i in range(1, 31):
             data.append(i)
         return render(response, 'product/portfolio.html', {'form': form, "number": data})
 

@@ -59,7 +59,7 @@ class port_opti(forms.Form):
     benchmark = forms.ChoiceField(choices=benchmark_choice)
     start_date = forms.DateField(required=False)
     end_date = forms.DateField(required=False)
-    number_of_portfolio = forms.IntegerField(max_value=10, min_value=1)
+    number_of_portfolio = forms.IntegerField(max_value=30, min_value=1)
 
     # ticker 1
     ticker_symbol_1 = forms.CharField(required=False)
@@ -101,6 +101,86 @@ class port_opti(forms.Form):
     ticker_symbol_10 = forms.CharField(required=False)
     quantity_10 = forms.DecimalField(required=False)
     buy_price_10 = forms.DecimalField(required=False)
+    # ticker 11
+    ticker_symbol_11 = forms.CharField(required=False)
+    quantity_11= forms.DecimalField(required=False)
+    buy_price_11 = forms.DecimalField(required=False)
+    # ticker 12
+    ticker_symbol_12 = forms.CharField(required=False)
+    quantity_12 = forms.DecimalField(required=False)
+    buy_price_12 = forms.DecimalField(required=False)
+    # ticker_13
+    ticker_symbol_13 = forms.CharField(required=False)
+    quantity_13 = forms.DecimalField(required=False)
+    buy_price_13 = forms.DecimalField(required=False)
+    # ticker_14
+    ticker_symbol_14 = forms.CharField(required=False)
+    quantity_14 = forms.DecimalField(required=False)
+    buy_price_14 = forms.DecimalField(required=False)
+    # ticker_15
+    ticker_symbol_15 = forms.CharField(required=False)
+    quantity_15 = forms.DecimalField(required=False)
+    buy_price_15 = forms.DecimalField(required=False)
+    # ticker_16
+    ticker_symbol_16 = forms.CharField(required=False)
+    quantity_16 = forms.DecimalField(required=False)
+    buy_price_16 = forms.DecimalField(required=False)
+    # ticker_17
+    ticker_symbol_17 = forms.CharField(required=False)
+    quantity_17 = forms.DecimalField(required=False)
+    buy_price_17 = forms.DecimalField(required=False)
+    # ticker_18
+    ticker_symbol_18 = forms.CharField(required=False)
+    quantity_18 = forms.DecimalField(required=False)
+    buy_price_18 = forms.DecimalField(required=False)
+    # ticker_19
+    ticker_symbol_19 = forms.CharField(required=False)
+    quantity_19 = forms.DecimalField(required=False)
+    buy_price_19 = forms.DecimalField(required=False)
+    # ticker_20
+    ticker_symbol_20 = forms.CharField(required=False)
+    quantity_20 = forms.DecimalField(required=False)
+    buy_price_20 = forms.DecimalField(required=False)
+    # ticker 21
+    ticker_symbol_21 = forms.CharField(required=False)
+    quantity_21 = forms.DecimalField(required=False)
+    buy_price_21 = forms.DecimalField(required=False)
+    # ticker 22
+    ticker_symbol_22 = forms.CharField(required=False)
+    quantity_22 = forms.DecimalField(required=False)
+    buy_price_22 = forms.DecimalField(required=False)
+    # ticker_23
+    ticker_symbol_23 = forms.CharField(required=False)
+    quantity_23 = forms.DecimalField(required=False)
+    buy_price_23 = forms.DecimalField(required=False)
+    # ticker_4
+    ticker_symbol_24 = forms.CharField(required=False)
+    quantity_24 = forms.DecimalField(required=False)
+    buy_price_24 = forms.DecimalField(required=False)
+    # ticker_25
+    ticker_symbol_25 = forms.CharField(required=False)
+    quantity_25 = forms.DecimalField(required=False)
+    buy_price_25 = forms.DecimalField(required=False)
+    # ticker_26
+    ticker_symbol_26 = forms.CharField(required=False)
+    quantity_26 = forms.DecimalField(required=False)
+    buy_price_26 = forms.DecimalField(required=False)
+    # ticker_27
+    ticker_symbol_27 = forms.CharField(required=False)
+    quantity_27 = forms.DecimalField(required=False)
+    buy_price_27 = forms.DecimalField(required=False)
+    # ticker_28
+    ticker_symbol_28 = forms.CharField(required=False)
+    quantity_28 = forms.DecimalField(required=False)
+    buy_price_28 = forms.DecimalField(required=False)
+    # ticker_29
+    ticker_symbol_29 = forms.CharField(required=False)
+    quantity_29 = forms.DecimalField(required=False)
+    buy_price_29 = forms.DecimalField(required=False)
+    # ticker_30
+    ticker_symbol_30 = forms.CharField(required=False)
+    quantity_30 = forms.DecimalField(required=False)
+    buy_price_30 = forms.DecimalField(required=False)
 
     # Time_period = forms.ChoiceField(choices=Time_period_choice, widget=forms.Select(
     #     attrs={'class': 'form-control', 'onchange': 'toggleTimeframe()'}))

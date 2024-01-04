@@ -136,8 +136,8 @@ Portfolio Optimiser
         <div class="form-row">
             <div class="col form-group ">
                 <label for="id_number_of_portfolio">Number of Stocks in Portfolio</label>
-                <input type="number" name="number_of_portfolio" class="form-control" min=1 max=10 required=""
-                    onchange="add_port()" placeholder="add upto 10 portfolios" id="id_number_of_portfolio">
+                <input type="number" name="number_of_portfolio" class="form-control" min=1 max=30 required=""
+                    onchange="add_port()" placeholder="add upto 30 stocks" id="id_number_of_portfolio">
             </div>
         </div>
         <hr>
@@ -158,7 +158,7 @@ Portfolio Optimiser
                 <!-- <label for="id_ticker_symbol_{{i}}">Ticker Symbol</label> -->
                 <input id="myInput_{{i}}" type="text" name="ticker_symbol_{{i}}" placeholder="Ticker Symbol"
                     class="form-control">
-
+ 
             </div><!-- ticker symbol -->
 
             <div class="col form-group">
@@ -172,7 +172,7 @@ Portfolio Optimiser
                 <input type="number" name="buy_price_{{i}}" class="form-control" step="any" id="id_buy_price_{{i}}"
                     placeholder="Buy price">
             </div><!-- buy price -->
-
+ 
         </div>
         {%endfor%}
         <button class="btn btn-block btn-outline-info">Submit</button>
@@ -189,7 +189,7 @@ Portfolio Optimiser
         i++;
         console.log(i)
 
-        for (i; i <= 10; i++) {
+        for (i; i <= 30; i++) {
             form = document.getElementById('form_' + i)
             ticker_symbol = document.getElementById('myInput_' + i)
             quantity = document.getElementById('id_quantity_' + i)

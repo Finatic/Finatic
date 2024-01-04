@@ -182,10 +182,26 @@ Portfolio Analyser
             <section id="PredictiveStat">
                 <br>
                 <div class="d-flex justify-content-center">
-                    <a href="#" title="Predictive Analytics"> Predictive Statistics</a>
+                    <a href="#" title="Predictive Analytics"> Monte Carlo Predictive Statistics</a>
                 </div>
                 <canvas id="monte_plot" width="100" height="50"></canvas>
-
+                <br>
+                <h5> 100 Rs invested in {{start_date}} is predicted to be this much after 500 trading days from today( {{end_date}} )</h5>
+                <br>
+                <div class="row">
+                    <div class="col" style="height: 400;">
+                        <h6> Original Portfolio Expected Values--></h6>
+                        <p>Maximum = {{curmax}} </p>
+                        <p>Median = {{curmed}}</p>
+                        <p>Minimum = {{curlow}}</p>
+                    </div>
+                    <div class="col" style="height: 400;">
+                        <h6> Optimized Portfolio Expected Values--></h6>
+                        <p>Maximum = {{optmax}} </p>
+                        <p>Median = {{optmed}}</p>
+                        <p>Minimum = {{optlow}}</p>
+                    </div>
+                </div>
             </section>
         </div>
     </div>
@@ -423,7 +439,7 @@ Portfolio Analyser
 
         var table = new google.visualization.Table(document.getElementById('table_divd'));
 
-        table.draw(data, { showRowNumber: true, width: '50%', height: '100%' });
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
     }
 </script>
 
@@ -448,10 +464,10 @@ Portfolio Analyser
     var data = {
         datasets: [{
             label: 'Yearly Return',
-            data: arr['1'],
+            data: arr['2'],
             backgroundColor: colors,
         }],
-        labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
+        labels: arr['1'],
 
     };
 
@@ -726,8 +742,8 @@ Portfolio Analyser
 
 
     const labelsb = [];
-    for(let i=0;i<arrb['1'].length;i++){
-        const date = moment(arrb['1'][i]).format('YYYY-MM-DD');
+    for(let i=0;i<arrb['D'].length;i++){
+        const date = moment(arrb['D'][i]).format('YYYY-MM-DD');
         labelsb.push(date.toString());
     }
 
@@ -747,7 +763,7 @@ Portfolio Analyser
             },
             {
                 label: 'Benchmark',
-                data: arrb['4'],
+                data: arrb['1'],
                 borderWidth: 3,
                 fill: false,
                 borderColor: '#25effa',

@@ -8,7 +8,7 @@ Portfolio_type_choice = (
     ('Tickers', 'Tickers'),
 )
 benchmark_choice = (
-    ("NIFTY50", "NIFTY50"),
+    ("NIFTY500", "NIFTY500"),
     ("SENSEX", "SENSEX"),
 )
 
@@ -19,7 +19,7 @@ class MyPortfolio(models.Model):
     benchmark = models.CharField(choices=benchmark_choice, max_length=20, default="SENSEX")
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
-    number_of_portfolio = models.IntegerField(default=10)
+    number_of_portfolio = models.IntegerField(default=30)
 
     # ticker 1
     ticker_symbol_1 = models.CharField(max_length=50, null=True)
@@ -61,6 +61,86 @@ class MyPortfolio(models.Model):
     ticker_symbol_10 = models.CharField(max_length=50, null=True)
     quantity_10 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
     buy_price_10 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker 11
+    ticker_symbol_11 = models.CharField(max_length=50, null=True)
+    quantity_11 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_11 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker 12
+    ticker_symbol_12 = models.CharField(max_length=50, null=True)
+    quantity_12 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_12 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_13
+    ticker_symbol_13 = models.CharField(max_length=50, null=True)
+    quantity_13 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_13 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_14
+    ticker_symbol_14 = models.CharField(max_length=50, null=True)
+    quantity_14 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_14 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_15
+    ticker_symbol_15 = models.CharField(max_length=50, null=True)
+    quantity_15 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_15 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_16
+    ticker_symbol_16 = models.CharField(max_length=50, null=True)
+    quantity_16 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_16 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_17
+    ticker_symbol_17 = models.CharField(max_length=50, null=True)
+    quantity_17 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_17 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_18
+    ticker_symbol_18 = models.CharField(max_length=50, null=True)
+    quantity_18 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_18 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_19
+    ticker_symbol_19 = models.CharField(max_length=50, null=True)
+    quantity_19 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_19 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_20
+    ticker_symbol_20 = models.CharField(max_length=50, null=True)
+    quantity_20 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_20 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker 21
+    ticker_symbol_21 = models.CharField(max_length=50, null=True)
+    quantity_21 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_21 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker 22
+    ticker_symbol_22 = models.CharField(max_length=50, null=True)
+    quantity_22 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_22 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_23
+    ticker_symbol_23 = models.CharField(max_length=50, null=True)
+    quantity_23 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_23 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_24
+    ticker_symbol_24 = models.CharField(max_length=50, null=True)
+    quantity_24 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_24 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_25
+    ticker_symbol_25 = models.CharField(max_length=50, null=True)
+    quantity_25 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_25 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_26
+    ticker_symbol_26 = models.CharField(max_length=50, null=True)
+    quantity_26 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_26 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_27
+    ticker_symbol_27 = models.CharField(max_length=50, null=True)
+    quantity_27 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_27 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_28
+    ticker_symbol_28 = models.CharField(max_length=50, null=True)
+    quantity_28 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_28 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_29
+    ticker_symbol_29 = models.CharField(max_length=50, null=True)
+    quantity_29 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_29 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    # ticker_30
+    ticker_symbol_30 = models.CharField(max_length=50, null=True)
+    quantity_30 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
+    buy_price_30 = models.DecimalField(decimal_places=2, max_digits=10, null=True)
 
     def __str__(self):
         return self.number_of_portfolio
