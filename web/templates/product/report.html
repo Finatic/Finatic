@@ -632,17 +632,17 @@ Portfolio Analyser
     var arrb = JSON.parse("{{pltdict|escapejs}}");
 
 
-    const labelsb = [];
+    const labels_opt = [];
     for(let i=0;i<arrb['1'].length;i++){
         const date = moment(arrb['1'][i]).format('YYYY-MM-DD');
-        labelsb.push(date.toString());
+        labels_opt.push(date.toString());
     }
 
     var ctxa = document.getElementById("opt_plot").getContext('2d');
     var chart = new Chart(ctxa, {
         type: 'line',
         data: { 
-            labels: labelsb,
+            labels: labels_opt,
             datasets: [{
                 label: 'Your Performance',
                 data: arrb['2'],
@@ -743,8 +743,8 @@ Portfolio Analyser
 
     const labelsb = [];
     for(let i=0;i<arrb['D'].length;i++){
-        const date = moment(arrb['D'][i]).format('YYYY-MM-DD');
-        labelsb.push(date.toString());
+        const date_i = moment(arrb['D'][i]).format('YYYY-MM-DD');
+        labelsb.push(date_i.toString());
     }
 
     var ctxa = document.getElementById("monte_plot").getContext('2d');
