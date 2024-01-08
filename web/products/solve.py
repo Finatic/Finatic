@@ -82,38 +82,8 @@ def analyze(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
     # -------------------------------------------------------------------------------
 
     # Maximum Drawdown (PLOT)
-
     window = 252
-
-    # ORIGINAL PORTFOLIO
-    Roll_Max_c = cumret['orig_value'].rolling(window, min_periods=1).max()
-    Daily_Drawdown_c = cumret['orig_value'] / Roll_Max_c - 1.0
-
-    Max_Daily_Drawdown_c = Daily_Drawdown_c.rolling(
-        window, min_periods=1).min()
-    max_Drawdown_c = min(Daily_Drawdown_c)
-    # to plot -->> Daily_Drawdown_c  && Max_Daily_Drawdown_c
-    # print('Maximum Drawdown of Original Portfolio', max_Drawdown_c*100, '%')
-
-    # OPTIMIZED PORTFOLIO
-    Roll_Max_o = cumret['opt_value'].rolling(window, min_periods=1).max()
-    Daily_Drawdown_o = cumret['opt_value'] / Roll_Max_o - 1.0
-
-    Max_Daily_Drawdown_o = Daily_Drawdown_o.rolling(
-        window, min_periods=1).min()
-    max_Drawdown_o = min(Daily_Drawdown_o)
-    # to plot -->> Daily_Drawdown_o  && Max_Daily_Drawdown_o
-    # print('Maximum Drawdown of Optimized Portfolio', max_Drawdown_o*100, '%')
-
-    # BENCHMARK
-    Roll_Max_b = cumret['benchmark'].rolling(window, min_periods=1).max()
-    Daily_Drawdown_b = cumret['benchmark'] / Roll_Max_b - 1.0
-
-    Max_Daily_Drawdown_b = Daily_Drawdown_b.rolling(
-        window, min_periods=1).min()
-    max_Drawdown_b = min(Daily_Drawdown_b)
-    # to plot -->> Daily_Drawdown_b  && Max_Daily_Drawdown_b
-    # print('Maximum Drawdown of Benchmark', max_Drawdown_b*100, '%')
+    maxd_b, maxd_c, maxd_o = performance.portfolio_drawdown(window)
 
     # ----------------------------------------------------------------------------------
     # Efficient Frontier(PLOT)
@@ -271,6 +241,9 @@ def analyze(data, ticker_symbols, buy_prices, quantities, risk_free_rate=0.03):
         'optmax': round(high2, 2),
         'optmed': round(median2, 2),
         'optlow': round(low2, 2),
+        'maxd_c': maxd_c,
+        'maxd_b': maxd_b,
+        'maxd_o': maxd_o
     }
 
     return context

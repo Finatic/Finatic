@@ -162,3 +162,42 @@ class Performance:
         mnlyret = {'1': mnrind, '2': mnrval}
 
         return json.dumps(mnlyret)
+    
+    def portfolio_drawdown(self, window):
+        # window = 252
+        cumret = self.cumret
+        Roll_Max_c = cumret['orig_value'].rolling(window, min_periods=1).max()
+        Daily_Drawdown_c = cumret['orig_value'] / Roll_Max_c - 1.0
+
+        Max_Daily_Drawdown_c = Daily_Drawdown_c.rolling(
+            window, min_periods=1).min().to_numpy().tolist()
+        max_Drawdown_c = min(Daily_Drawdown_c)
+        Daily_Drawdown_c = Daily_Drawdown_c.to_numpy().tolist()
+        # to plot -->> Daily_Drawdown_c  && Max_Daily_Drawdown_c
+        # print('Maximum Drawdown of Original Portfolio', max_Drawdown_c*100, '%')
+
+        # OPTIMIZED PORTFOLIO
+        Roll_Max_o = cumret['opt_value'].rolling(window, min_periods=1).max()
+        Daily_Drawdown_o = cumret['opt_value'] / Roll_Max_o - 1.0
+
+        Max_Daily_Drawdown_o = Daily_Drawdown_o.rolling(
+            window, min_periods=1).min().to_numpy().tolist()
+        max_Drawdown_o = min(Daily_Drawdown_o)
+        Daily_Drawdown_o = Daily_Drawdown_o.to_numpy().tolist()
+        # to plot -->> Daily_Drawdown_o  && Max_Daily_Drawdown_o
+        # print('Maximum Drawdown of Optimized Portfolio', max_Drawdown_o*100, '%')
+
+        # BENCHMARK
+        Roll_Max_b = cumret['benchmark'].rolling(window, min_periods=1).max()
+        Daily_Drawdown_b = cumret['benchmark'] / Roll_Max_b - 1.0
+
+        Max_Daily_Drawdown_b = Daily_Drawdown_b.rolling(
+            window, min_periods=1).min().to_numpy().tolist()
+        max_Drawdown_b = min(Daily_Drawdown_b)
+        Daily_Drawdown_b = Daily_Drawdown_b.to_numpy().tolist()
+
+        maxd_c = {'1':max_Drawdown_c*100, '2':Max_Daily_Drawdown_c, '3':Daily_Drawdown_c}
+        maxd_o = {'1':max_Drawdown_o*100, '2':Max_Daily_Drawdown_o, '3':Daily_Drawdown_o}
+        maxd_b = {'1':max_Drawdown_b*100, '2':Max_Daily_Drawdown_b, '3':Daily_Drawdown_b}
+
+        return maxd_b, maxd_c, maxd_o

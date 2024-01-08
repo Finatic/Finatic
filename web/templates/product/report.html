@@ -167,6 +167,7 @@ Portfolio Analyser
                         <p>Annual variance = {{percent_var1}}</p>
                         <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
                             {{sharpe_ratio1}}</a>
+                        <p>Max Drawdown = {{maxd_c.1}}</p>
                     </div>
                     <div class="col" style="height: 400;">
                         <h6> Optimized Portfolio Statistics--></h6>
@@ -175,6 +176,7 @@ Portfolio Analyser
                         <p>Annual variance = {{percent_var2}}</p>
                         <a href="#" title="Return to Risk Ratio">Sharpe Ratio(rf @ {{ risk_free_rate }}%) =
                             {{sharpe_ratio2}}</a>
+                        <p>Max Drawdown = {{maxd_o.1}}</p>
                     </div>
                 </div>
                 <br>
@@ -619,7 +621,7 @@ Portfolio Analyser
             },
             title: {
                 display: true,
-                text: 'Historical Portfolio Performance if 100Rs invested in 2015'
+                text: 'Historical Portfolio Performance if 100Rs invested 5 years ago'
             }
         }
     });
@@ -706,7 +708,7 @@ Portfolio Analyser
             },
             title: {
                 display: true,
-                text:  'Performance if 100Rs invested in 2015'
+                text:  'Performance if 100Rs invested 5 years ago'
             },
             tooltips: {
                 mode: "nearest",
@@ -815,7 +817,7 @@ Portfolio Analyser
             },
             title: {
                 display: true,
-                text:  'Performance if 100Rs invested in 2015'
+                text:  'Performance if 100Rs invested 5 years ago'
             },
             tooltips: {
                 mode: "nearest",
