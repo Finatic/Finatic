@@ -1,0 +1,14 @@
+{
+  "environments": {
+    "production": {
+      "buildpacks": [
+        {
+          "url": "heroku/python"
+        }
+      ],
+      "scripts": {
+        "postdeploy": "cd web && python manage.py migrate"
+      }
+    }
+  }
+}
